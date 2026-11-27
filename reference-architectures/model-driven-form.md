@@ -2,6 +2,55 @@
 
 **Class:** Microsoft reference architecture. **Status:** The `Xrm.Copilot` Agent API used in the reference is **preview**, not intended for production. **Intent:** Offer the user advice about the record they are editing, without giving an agent control of the form.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Request an agent recommendation from a model-driven form - architecture
+    accDescr: Keep the preview API off the form's critical path. A suggestion can be applied only to the same record and input version, and only by the user.
+    subgraph group0["Power Apps form"]
+        U["App user"]
+        C["Embedded PCF control"]
+    end
+    subgraph group2["Advisory path"]
+        API["Xrm.Copilot Agent API -<br/>preview"]
+        A["Copilot Studio event<br/>topic"]
+    end
+    subgraph group4["Record authority"]
+        D["Dataverse"]
+    end
+    U -->|"Request recommendation"| C
+    C -->|"Named event with<br/>limited context"| API
+    API -->|"Invoke matching topic"| A
+    A -->|"Asynchronous<br/>recommendation via API"| C
+    U -->|"Normal validated form<br/>save"| D
+```
+
+**Review decision:** Keep the preview API off the form's critical path. A suggestion can be applied only to the same record and input version, and only by the user.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Request an agent recommendation from a model-driven form - technical flow
+    autonumber
+    participant U as Form user
+    participant C as PCF control
+    participant A as Agent API and topic
+    participant D as Dataverse
+    U->>C: Request suggestion for current<br/>record
+    C->>A: Send allowed fields and event name
+    A-->>C: Return proposed change<br/>asynchronously
+    alt Record and inputs still match
+        C-->>U: Display suggestion without saving
+        opt User accepts and saves
+            U->>D: Submit through ordinary form<br/>validation
+        end
+    else User switched records or edited inputs
+        C->>C: Discard stale result and keep form<br/>usable
+    end
+```
+
 ## Components and flow
 
 1. A Power Apps component framework (PCF) control captures a small set of authorized fields on the current form, for example a case category and selected service. On request it raises a named event with `Xrm.Copilot.executeEvent()`.

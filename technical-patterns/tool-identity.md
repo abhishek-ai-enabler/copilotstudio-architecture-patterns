@@ -2,6 +2,58 @@
 
 **Class:** Synthesized technical pattern. **Intent:** Ensure “show my cases” runs with the caller's permissions, not those of the person who built the agent.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Carry the user's authority to a downstream tool - architecture
+    accDescr: Agent sign-in and downstream authorization are different checks. Approve a private tool only if the service receives the intended identity and enforces record access.
+    subgraph group0["Channel"]
+        U["Signed-in user"]
+        A["Copilot Studio agent"]
+    end
+    subgraph group2["Connection boundary"]
+        C["User-authenticated tool"]
+        I["Connection sign-in and<br/>consent"]
+    end
+    subgraph group4["System of record"]
+        S["Case service"]
+    end
+    U -->|"Request my cases"| A
+    A -->|"Invoke private lookup"| C
+    C -->|"Request connection if<br/>needed"| I
+    C -->|"Present authorized user<br/>connection"| S
+    S -->|"Return permitted fields<br/>via tool"| A
+```
+
+**Review decision:** Agent sign-in and downstream authorization are different checks. Approve a private tool only if the service receives the intended identity and enforces record access.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Carry the user's authority to a downstream tool - technical flow
+    autonumber
+    participant U as User
+    participant A as Agent
+    participant C as User tool connection
+    participant S as Case service
+    U->>A: Show my cases
+    A->>C: Resolve service connection for this<br/>user
+    opt No valid connection
+        C->>U: Present sign-in or consent card
+    end
+    alt User connection valid
+        C->>S: Query cases with user authority
+        S-->>C: Return permitted records only
+        C-->>A: Return scoped result
+    else Consent declined or revoked
+        A-->>U: Stop, do not use author credentials
+    end
+```
+
+## Design notes
+
 **Flow:** Authenticate the user to the agent in a supported channel. Configure the private tool for **User authentication**. On invocation Copilot Studio finds the user's service connection or presents a connection card. The service authorizes the operation and record; the agent returns only permitted fields. Inspect the actual connection for each flow step as well.
 
 **Choose it when** the underlying data or action is personal, role-scoped or auditable per user. Agent-author credentials can fit a tightly scoped, low-risk shared lookup (for example, published office hours). They are not a substitute for missing delegation on a private record system.

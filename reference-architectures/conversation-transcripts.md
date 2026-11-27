@@ -2,6 +2,57 @@
 
 **Class:** Microsoft reference architecture. **Intent:** Discover repeated unanswered questions without giving every dashboard reader access to raw conversations.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Extract service-quality signals from conversation transcripts - architecture
+    accDescr: Approve capture and retention for raw transcripts separately from derived summaries. Dashboard readers usually need trends, not access to either text store.
+    subgraph group0["Restricted processing"]
+        D["Dataverse transcripts"]
+        F["Power Automate"]
+        A["AI Builder"]
+    end
+    subgraph group3["Agent channel"]
+        B["Copilot Studio"]
+    end
+    subgraph group4["Quality reporting"]
+        X["Dataverse derived<br/>attributes"]
+        R["Power BI"]
+        H["Service owner"]
+    end
+    B -->|"Record where capture is<br/>permitted"| D
+    D -->|"New transcript record"| F
+    F -->|"Minimized text for<br/>extraction"| A
+    A -->|"Structured<br/>classifications"| F
+    F -->|"Validated output by key<br/>and version"| X
+    X -->|"Aggregate metrics"| R
+    R -->|"Trends and coverage<br/>gaps"| H
+```
+
+**Review decision:** Approve capture and retention for raw transcripts separately from derived summaries. Dashboard readers usually need trends, not access to either text store.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Extract service-quality signals from conversation transcripts - technical flow
+    autonumber
+    participant D as Transcript store
+    participant F as Analysis flow
+    participant A as AI Builder
+    participant X as Derived store
+    D->>F: Notify with transcript key
+    F->>D: Read permitted record
+    F->>A: Submit minimized content
+    A-->>F: Return classification and summary
+    alt Complete record and valid schema
+        F->>X: Upsert attributes by transcript and<br/>version
+    else Incomplete or invalid output
+        F->>F: Set aside for review, exclude from<br/>classified counts
+    end
+```
+
 ## Components and flow
 
 1. Where transcript capture is enabled and permitted, Copilot Studio records conversations in Dataverse's `ConversationTranscript` table. A Power Automate flow processes new transcript records outside the user conversation.

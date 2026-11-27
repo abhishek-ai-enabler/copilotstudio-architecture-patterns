@@ -12,6 +12,8 @@
 
 Classification describes the **source**, not Microsoft's endorsement of the wording or design additions here. Each file is an original design note with a flow, selection criteria, trust boundary, failure case and sources. The first 24 files are exhaustive **for the named baseline sections and date**; the rest extend coverage, not the completeness claim. Lifecycle overviews are navigation resources, not additional reference architectures. No entry implies that a feature is generally available, licensed or supported in every channel.
 
+**Reading the diagrams:** Each entry opens with two original diagrams. **Architecture** groups the actors and systems by responsibility; labeled arrows show what crosses between them. The groups are logical boundaries, not claims about network isolation. **Technical flow** follows a representative request or lifecycle event from top to bottom. Numbered arrows show calls and responses; `alt` marks alternative outcomes and `opt` marks an optional step. The **Review decision** between the diagrams names the choice an architecture board should settle. For example, compare [hub-owned handoff](decision-patterns/hub-front-handoff.md#architecture) with [agent-owned handoff](decision-patterns/bot-front-handoff.md#architecture) to see who controls the session after escalation.
+
 ## Microsoft reference architectures
 
 | Microsoft Learn source | Pattern file | Decision the design addresses |

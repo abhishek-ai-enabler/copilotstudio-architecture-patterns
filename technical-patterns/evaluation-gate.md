@@ -2,6 +2,57 @@
 
 **Class:** Synthesized technical pattern. **Intent:** Catch a regression in what the agent *does*, even when the response still sounds plausible.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Gate changes on expected answers and observable actions - architecture
+    accDescr: Decide which failures block release regardless of the average score. Check actions against backend receipts, not an agent's claim that an operation succeeded.
+    subgraph group0["Evaluation inputs"]
+        O["Service owner"]
+        F["Versioned fixtures and<br/>personas"]
+    end
+    subgraph group2["Isolated test"]
+        R["Evaluation runner"]
+        A["Candidate and baseline<br/>agents"]
+        B["Test backend receipts"]
+    end
+    subgraph group5["Release authority"]
+        G["Release gate"]
+    end
+    O -->|"Define expected facts<br/>and actions"| F
+    F -->|"Supply questions and<br/>identities"| R
+    R -->|"Exercise same cases on<br/>both releases"| A
+    A -->|"Execute allowed test<br/>operations"| B
+    B -->|"Compare observed<br/>effects"| R
+    R -->|"Submit scores and<br/>blocking failures"| G
+```
+
+**Review decision:** Decide which failures block release regardless of the average score. Check actions against backend receipts, not an agent's claim that an operation succeeded.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Gate changes on expected answers and observable actions - technical flow
+    autonumber
+    participant O as Service owner
+    participant R as Evaluation runner
+    participant A as Candidate
+    participant B as Test backend
+    O->>R: Provide mandatory pass cases and<br/>fixtures
+    R->>A: Run requests with scoped test<br/>personas
+    A->>B: Attempt permitted or prohibited<br/>actions
+    B-->>R: Return receipts or observed absence<br/>of writes
+    alt Facts, authorization and actions match expectations
+        R-->>O: Report candidate evidence for<br/>release
+    else Disclosure or unauthorized write
+        R-->>O: Block release and identify failing<br/>case
+    end
+```
+
+## Design notes
+
 **Flow:** The service owner defines an output contract and a versioned pack of questions, identities, test data and expected outcomes. Include successful, ambiguous, denied and unavailable cases. Run the pack against a candidate and the previous release. Check facts against source records, citations against permitted documents, and actions against test-system receipts. Human reviewers judge ambiguity and usefulness rather than delegating every verdict to another model.
 
 **Choose it when** changing instructions, tools, grounding, harness or model could alter behavior. An exact numeric check suits a governed measure; a rubric suits a summary. Repeated trials expose inconsistent routing that a single pass can miss.

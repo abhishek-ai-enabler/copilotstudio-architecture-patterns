@@ -2,6 +2,68 @@
 
 **Class:** Microsoft solution idea. **Intent:** Give guest-services staff a Teams entry point and process eligible email requests without duplicating integrations to a ticketing system that lacks a suitable API.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Assisted and email-driven refunds on a shared legacy workflow - architecture
+    accDescr: Both agents must share one refund identity check and one case key. An uncertain desktop result must be reconciled in the ledger before another payment attempt.
+    subgraph group0["Entry paths"]
+        T["Employee in Teams"]
+        E["Outlook email trigger"]
+    end
+    subgraph group2["Case processing"]
+        A["Assisted or autonomous<br/>agent"]
+        D["Dataverse refund cases"]
+        F["Shared cloud flow"]
+    end
+    subgraph group5["Legacy finance"]
+        R["Desktop flow on managed<br/>VM"]
+        L["Legacy ticket ledger"]
+        H["Refund reviewer"]
+    end
+    T -->|"Staff request"| A
+    E -->|"Untrusted email request"| A
+    A -->|"Locate or create refund<br/>case"| D
+    D -->|"Case ready for<br/>validation"| F
+    F -->|"Exception or approval<br/>required"| H
+    F -->|"Authorized refund only"| R
+    R -->|"Post and obtain receipt"| L
+```
+
+**Review decision:** Both agents must share one refund identity check and one case key. An uncertain desktop result must be reconciled in the ledger before another payment attempt.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Assisted and email-driven refunds on a shared legacy workflow - technical flow
+    autonumber
+    participant A as Intake agent
+    participant F as Shared flow
+    participant H as Reviewer
+    participant R as Desktop worker
+    participant L as Legacy ledger
+    A->>F: Submit ticket and case key
+    F->>F: Verify eligibility and existing<br/>outcome
+    opt Exception requires approval
+        F->>H: Request review of specific refund
+        H-->>F: Return recorded decision
+    end
+    alt Approved and not previously paid
+        F->>R: Issue refund
+        R->>L: Submit to ticket system
+        alt Receipt available
+            L-->>R: Return refund reference
+            R-->>F: Record confirmed payout
+        else Desktop disconnected
+            F->>L: Reconcile prior submission before<br/>retry
+        end
+    else Ineligible, declined or already paid
+        F-->>A: Return existing status without a<br/>payout
+    end
+```
+
 ## Components and flow
 
 1. The assisted agent gathers a request from an employee; the autonomous agent receives an Outlook event. Normalize both into the same Dataverse refund case, retaining origin, ticket reference and status.

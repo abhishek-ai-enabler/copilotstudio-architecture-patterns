@@ -2,6 +2,51 @@
 
 **Class:** Microsoft decision-guide pattern (Fabric option 1 of 4). **Intent:** Establish the simplest baseline for asking questions of a semantic model. **No Copilot Studio agent is in the request path.**
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Fabric 1: Publish a Fabric data agent directly - architecture
+    accDescr: Start here to test the data layer alone. If this path returns the wrong period or exposes the wrong region, adding a Copilot Studio orchestrator will not fix it.
+    subgraph group0["User experience"]
+        U["Analyst in Teams or<br/>Microsoft Copilot"]
+    end
+    subgraph group1["Fabric"]
+        A["Published Fabric data<br/>agent"]
+        M["Governed semantic model"]
+    end
+    subgraph group3["Validation"]
+        R["Reference Power BI<br/>report"]
+    end
+    U -->|"Business question"| A
+    A -->|"Generate and execute<br/>scoped query"| M
+    M -->|"Same approved measures"| R
+    A -->|"Fabric-generated answer"| U
+```
+
+**Review decision:** Start here to test the data layer alone. If this path returns the wrong period or exposes the wrong region, adding a Copilot Studio orchestrator will not fix it.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Fabric 1: Publish a Fabric data agent directly - technical flow
+    autonumber
+    participant U as Analyst
+    participant A as Fabric data agent
+    participant M as Semantic model
+    U->>A: Ask for regional sales last quarter
+    A->>M: Resolve measure and query permitted<br/>scope
+    alt Model returns usable result
+        M-->>A: Return measure for permitted region
+        A-->>U: Return figure or small table
+    else Measure or evidence is unavailable
+        A-->>U: Identify the gap without estimating<br/>a figure
+    end
+```
+
+## Design notes
+
 **Flow:** User in a supported Microsoft Copilot or Teams experience → published Fabric data agent → semantic model → answer. The Fabric data agent interprets the request, constructs the query and presents the result. Give it business terms and known examples; leave measure definitions in the model.
 
 **Choose it when** an analyst needs a figure or small table and the data team owns the experience. It also isolates the data layer for comparison with the other three options. Don't add a second agent unless you need more control over the conversation or answer format. The direct option offers less control over a fixed narrative.

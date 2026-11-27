@@ -2,6 +2,61 @@
 
 **Class:** Microsoft solution idea. **Intent:** Give investigators a reproducible reason an invoice was flagged and a place to record their decision. An alert is not a finding of fraud.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Detect spend anomalies in Fabric and investigate them in chat - architecture
+    accDescr: Approve anomaly detection as a read-and-investigate path. Freezing a payment is a separate finance decision, not a side effect of a high detector score.
+    subgraph group0["Source and analytics"]
+        E["ERP"]
+        L["Fabric Lakehouse"]
+        K["Eventhouse KQL<br/>detectors"]
+    end
+    subgraph group3["Investigation"]
+        F["Agent flow"]
+        T["Restricted Teams queue"]
+        A["Copilot Studio<br/>investigation agent"]
+        D["Fabric data agent"]
+    end
+    subgraph group7["Decision owner"]
+        H["Finance investigator"]
+    end
+    E -->|"Batch or eventstream<br/>ingestion"| L
+    L -->|"Transaction inputs and<br/>policy rules"| K
+    K -->|"New detection with<br/>evidence keys"| F
+    F -->|"Alert or investigation<br/>task"| T
+    H -->|"Follow-up question"| A
+    A -->|"Scoped data question"| D
+    D -->|"Retrieve detection<br/>evidence"| K
+    T -->|"Assign finding for<br/>review"| H
+```
+
+**Review decision:** Approve anomaly detection as a read-and-investigate path. Freezing a payment is a separate finance decision, not a side effect of a high detector score.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Detect spend anomalies in Fabric and investigate them in chat - technical flow
+    autonumber
+    participant E as ERP ingestion
+    participant K as Detector
+    participant F as Alert flow
+    participant H as Investigator
+    participant A as Investigation agent
+    E->>K: Supply current batch via Fabric
+    K->>F: Emit versioned detector finding
+    alt Finding not already notified
+        F->>H: Send restricted alert with<br/>transaction keys
+        H->>A: Request supporting evidence
+        A-->>H: Return scoped source records via<br/>data agent
+        H->>F: Record dismissal or escalation
+    else Replayed finding
+        F->>F: Match prior investigation instead of<br/>notifying twice
+    end
+```
+
 ## Components and flow
 
 1. Batch pipelines or eventstreams bring ERP invoices, vendors and policy reference data into Fabric. Store transactions in a Lakehouse; run versioned KQL detection functions in Eventhouse for duplicate, unusual-activity or threshold checks.

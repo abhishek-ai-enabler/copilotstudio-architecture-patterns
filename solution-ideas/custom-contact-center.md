@@ -2,6 +2,61 @@
 
 **Class:** Microsoft solution idea. **Intent:** Preserve an existing contact center's queues, voice/chat channels and customer database while adding self-service and employee assistance.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Add Copilot Studio to an existing third-party contact center - architecture
+    accDescr: Keep queue ownership with the existing contact center. Approve public and staff knowledge paths separately; the adapter must not turn a customer session into an employee session.
+    subgraph group0["Contact center"]
+        U["Customer chat or voice"]
+        Q["Third-party CCaaS and<br/>queue"]
+        H["Representative"]
+    end
+    subgraph group3["Agent integration"]
+        B["Session adapter"]
+        A["Copilot Studio"]
+        E["Employee portal"]
+    end
+    subgraph group6["Data scopes"]
+        K["Public service guidance"]
+        I["Staff-only search"]
+        D["Customer database"]
+    end
+    U -->|"Contact request"| Q
+    Q -->|"Mapped customer session"| B
+    B -->|"Permitted context"| A
+    E -->|"Authenticated staff<br/>session"| A
+    A -->|"Customer-facing<br/>retrieval"| K
+    A -->|"Employee-scoped<br/>retrieval only"| I
+    A -->|"Verified customer<br/>lookup"| D
+    Q -->|"Human takeover"| H
+```
+
+**Review decision:** Keep queue ownership with the existing contact center. Approve public and staff knowledge paths separately; the adapter must not turn a customer session into an employee session.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Add Copilot Studio to an existing third-party contact center - technical flow
+    autonumber
+    participant U as Customer
+    participant Q as Contact center
+    participant B as Adapter
+    participant A as Agent
+    U->>Q: Start service conversation
+    Q->>B: Route mapped session to bot
+    B->>A: Send customer-scoped context
+    alt Public question is resolved
+        A-->>B: Return approved guidance
+        B-->>Q: Relay to same customer session
+    else Transfer requested or integration fails
+        Q->>Q: Keep original session and route to<br/>staffed queue
+        Q->>B: Stop automated replies after<br/>takeover
+    end
+```
+
 ## Components and flow
 
 1. The contact-center-as-a-service platform owns the customer session. Its integration passes the permitted context into the agent experience. Separately, employees can consult an agent in their own portal.

@@ -2,6 +2,62 @@
 
 **Class:** Microsoft reference architecture. **Intent:** Reuse one submission, assessment and licensing process across business areas without exposing internal deliberations to applicants.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Regulatory applications with separate applicant and assessor workspaces - architecture
+    accDescr: Keep public guidance, applicant evidence and internal assessments in separate access scopes. Only server-side verification should move a draft into assessment.
+    subgraph group0["Applicant-facing"]
+        P["Power Pages"]
+        A["Portal guidance agent"]
+        K["Published guidance and<br/>license fields"]
+    end
+    subgraph group3["Case processing"]
+        F["Power Automate<br/>validation"]
+        D["Dataverse application<br/>and details"]
+        E["Applicant evidence<br/>folder"]
+    end
+    subgraph group6["Assessor-only"]
+        H["Model-driven assessment<br/>app"]
+        I["Internal SharePoint<br/>folder"]
+    end
+    P -->|"Ask about requirements"| A
+    A -->|"Search public material"| K
+    P -->|"Save applicant-owned<br/>draft"| D
+    P -->|"Upload evidence"| E
+    P -->|"Request submission"| F
+    F -->|"Verify then assign to<br/>team"| D
+    H -->|"Read and assess<br/>assigned case"| D
+    H -->|"Maintain private<br/>assessment documents"| I
+```
+
+**Review decision:** Keep public guidance, applicant evidence and internal assessments in separate access scopes. Only server-side verification should move a draft into assessment.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Regulatory applications with separate applicant and assessor workspaces - technical flow
+    autonumber
+    participant U as Applicant
+    participant P as Power Pages
+    participant F as Validation flow
+    participant D as Dataverse
+    participant H as Assessor
+    U->>P: Submit saved application
+    P->>F: Verify required fields and evidence
+    F->>D: Read case and type-specific<br/>requirements
+    alt Verification passes
+        F->>D: Mark submitted and assign team
+        D->>H: Surface assigned application
+        P-->>U: Show submission reference
+    else Evidence is incomplete
+        F-->>P: Return missing requirements
+        P-->>U: Keep draft editable
+    end
+```
+
 ## Components and flow
 
 1. An authenticated Power Pages applicant starts a Dataverse application. The common record holds owner, type and status; a linked type-specific detail record holds the fields that vary. The applicant saves a draft and uploads evidence to the portal-facing SharePoint location.
