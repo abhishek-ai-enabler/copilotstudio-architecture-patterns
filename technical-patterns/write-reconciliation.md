@@ -7,13 +7,17 @@
 ```mermaid
 flowchart LR
     accTitle: Resolve a lost receipt at the order system
-    U["Requester"] -->|"Approved request ID"| A["Copilot Studio agent"]
-    A -->|"Submit or check status"| C["Authenticated order tool"]
-    C -->|"Same business key and payload"| S["Order system with unique request key"]
-    S -->|"Durable receipt or pending status"| C
-    C -->|"Caller-scoped result"| A
+    U["Requester"] -->|"Check status or explicitly submit"| A["Copilot Studio agent"]
+    A -->|"Check or reconcile"| Q["Read-status operation"]
+    A -->|"Explicit submission only"| C["Submit operation"]
+    Q -->|"Read by caller and request key"| S["Order system with unique request key"]
+    C -->|"Verify approval, bind key and payload"| S
+    S -->|"Receipt, pending, not found or unknown"| Q
+    S -->|"Committed receipt or rejection"| C
+    Q -->|"Caller-scoped status; never creates"| A
+    C -->|"Receipt, rejection or uncertain outcome"| A
     A -->|"Confirmed, pending or needs review"| U
-    C -.->|"Unknown past deadline"| H["Operations reconciliation queue"]
+    A -.->|"Unresolved past deadline"| H["Operations reconciliation queue"]
 ```
 
 **Review decision:** Which system guarantees one effect per business request and can return its receipt? A flow run ID identifies an attempt; it cannot prove the downstream write happened once.
@@ -33,18 +37,27 @@ sequenceDiagram
     participant A as Service desk agent
     participant B as Order tool
     participant S as Order system
-    U->>A: Check my approved replacement
-    A->>B: Submit authorized request by stable ID
-    B->>S: Create once with request key and payload
-    alt Receipt returned
-        S-->>B: Existing or new receipt for this request
-        B-->>A: Confirmed receipt
-        A-->>U: Show confirmed order
-    else Response missing after submission
-        B->>S: Look up the same key as the authorized caller
-        S-->>B: Receipt, pending, or unknown
-        B-->>A: Report observed status without a new submission
-        A-->>U: Show receipt or request ID for follow-up
+    alt Status inquiry only
+        U->>A: Check my replacement
+        A->>B: Read status for this request ID
+        B->>S: Look up caller-scoped key without creating
+        S-->>B: Receipt, pending, not found or unknown
+        B-->>A: Observed status only
+        A-->>U: Show status without submitting
+    else Explicit submission of approved order
+        U->>A: Submit my approved replacement
+        A->>B: Submit approved request ID
+        B->>S: Verify authority and create once by key and payload
+        alt Receipt or rejection returned
+            S-->>B: Receipt or rejection
+            B-->>A: Verified outcome
+            A-->>U: Show receipt or rejection
+        else Response missing after submission
+            B->>S: Read status using the same caller and key
+            S-->>B: Receipt, pending, not found or unknown
+            B-->>A: Status without a second submission
+            A-->>U: Show receipt or tracking reference for follow-up
+        end
     end
 ```
 
@@ -65,6 +78,7 @@ sequenceDiagram
 
 - **Use when:** Retries could create duplicate refunds, orders or postings. For a service with no unique external key, idempotent operation or authoritative lookup, do not promise exactly-once behavior: hold ambiguous calls for review. A local “sent” flag cannot close the gap between a remote commit and a lost acknowledgment.
 - **Trust:** The backend derives or verifies the key from the approved immutable business request and tenant; it does not trust a model-generated UUID on each turn. Reuse of a key with changed amount, recipient or payload is a conflict, not a replay. Recheck authorization on lookups and never treat possession of a request ID as authority.
-- **Test:** Drop the response *after* the backend commits. Submit the same approved operation concurrently and again from a new conversation: the caller should see one business receipt. Repeat with a changed payload and a different tenant; neither may get that receipt. If a not-found response can lag the write, wait or escalate; replay only when the downstream idempotency guarantee still applies.
+- **Acceptance tests:** Ask “check my replacement” with an authorized request ID for which no order exists. Assert a status lookup, **zero submit calls**, and no new order. Return “not found” only when the lookup is authoritative; otherwise say “not verified.” If intent is ambiguous, ask which operation the caller wants and do not submit.
+- **Lost-reply test:** Drop the response *after* the backend commits. Repeat the same explicitly requested and approved operation concurrently and from a new conversation: the caller should see one business receipt. A changed payload or a different tenant must not get that receipt. If a not-found response can lag the write, wait or escalate. A missing receipt is never an instruction to submit.
 
 **Sources:** [Azure Architecture Center: Asynchronous Request-Reply, including idempotency keys](https://learn.microsoft.com/en-us/azure/architecture/patterns/asynchronous-request-reply) · [Retry pattern and idempotency](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry) · [Studio tool credentials](https://learn.microsoft.com/en-us/microsoft-copilot-studio/configure-enduser-authentication).

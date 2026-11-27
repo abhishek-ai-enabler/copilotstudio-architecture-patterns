@@ -4,8 +4,9 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from tools.validate_solution import OBSERVED, ROOT, RULES, review
+from tools.validate_solution import GROUPS, OBSERVED, PATTERN_RISKS, RISKS, ROOT, RULES, review
 
 
 class SolutionReview(unittest.TestCase):
@@ -50,6 +51,43 @@ class SolutionReview(unittest.TestCase):
         self.packet["risks"]["retrieval"] = False
         with self.assertRaisesRegex(ValueError, "requires risks.retrieval"):
             review(self.packet)
+
+    def test_all_catalog_entries_have_reviewed_risks(self):
+        catalog = {p.relative_to(ROOT).as_posix()
+                   for group in GROUPS for p in (ROOT / group).glob("*.md")}
+        self.assertEqual(PATTERN_RISKS.keys(), catalog)
+        for path, risks in PATTERN_RISKS.items():
+            self.assertTrue(set(risks) <= set(RISKS), path)
+        with patch.dict(PATTERN_RISKS, clear=True), self.assertRaisesRegex(ValueError, "classification missing"):
+            review(self.packet)
+
+    def test_sap_cannot_skip_receipt_or_oversight(self):
+        self.packet["patterns"] = ["reference-architectures/sap-order-acknowledgments.md"]
+        self.packet["scope"] = "Read the current PO, submit the SAP confirmation and report its receipt."
+        self.packet["risks"] = dict.fromkeys(RISKS, False)
+        with self.assertRaises(ValueError) as error:
+            review(self.packet)
+        for risk in ("retrieval", "writes", "autonomous", "consequential"):
+            self.assertIn(f"requires risks.{risk}=true", str(error.exception))
+            self.packet["risks"][risk] = True
+        result = review(self.packet)
+        self.assertEqual(result["outcome"], "incomplete")
+        self.assertEqual({f["gate"] for f in result["findings"]}, {"trigger", "receipt", "oversight"})
+
+    def test_read_only_evidence_does_not_require_a_receipt(self):
+        self.packet["patterns"] = ["technical-patterns/change-window-evidence.md"]
+        self.packet["scope"] = "Read policy, inventory and availability to propose a window. Do not book it."
+        result = review(self.packet)
+        self.assertEqual(result["outcome"], "ready-for-human-review")
+        self.assertNotIn("receipt", result["required"])
+        self.assertIn("grounding", result["required"])
+
+    def test_multiple_patterns_require_the_union_of_risks(self):
+        self.packet["patterns"].append("technical-patterns/write-reconciliation.md")
+        with self.assertRaisesRegex(ValueError, "requires risks.writes"):
+            review(self.packet)
+        self.packet["risks"]["writes"] = True
+        self.assertEqual([f["gate"] for f in review(self.packet)["findings"]], ["receipt"])
 
     def test_unmapped_architecture_needs_explanation(self):
         self.packet["patterns"] = []

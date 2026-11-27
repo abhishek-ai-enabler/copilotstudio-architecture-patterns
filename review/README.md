@@ -7,14 +7,15 @@ Use this review before approving a design or renewing approval for an existing A
 1. **Scope the decision.** Name the owner, users, business outcome, supported channel and version. Identify what the system must not do. For an existing solution, review what is deployed, not the original slide deck.
 2. **Trace one success and one failure.** Follow the sequence arrows: what data crosses each boundary, under whose identity, with which authority? Map those choices to [catalog paths](../CATALOG.md). If none fit, set `patterns` to `[]` and record `unmapped_reason`. Never select a Microsoft pattern just to make a review pass.
 3. **Select the risks and attach evidence.** Declare every risk `true` or `false`. A reviewer challenges each `false` against the data-flow diagram, not just the tool descriptions. Record a named owner, an artifact reference and a concrete finding for each applicable gate. Design evidence can be a versioned ADR or acceptance test plan; observed evidence should identify the environment, measurement window, build and actual outcome.
-4. **Run locally.** From the repository root, with Python 3.9+:
+4. **Run locally.** Use an approved private workspace for real evidence. If local review packets are permitted, this example uses a Git-ignored directory from the repository root (Python 3.9+, POSIX shell):
 
    ```sh
-   python3 tools/validate_solution.py --init proposed > my-review.json
-   python3 tools/validate_solution.py my-review.json
+   (umask 077; set -C; mkdir -p .private-reviews && python3 tools/validate_solution.py --init proposed > .private-reviews/my-review.json)
+   # Edit the packet, then run:
+   python3 tools/validate_solution.py .private-reviews/my-review.json
    ```
 
-   Use `--init existing` for an operating solution. Fill in the scope and risks, then run with `checks: {}` to get the required gates, questions and related patterns. Copy the check shape from the [proposed example](examples/proposed.json). Keep real packets and evidence in your approved **private** system; the validator does not read evidence URLs, inspect tenants or call a model. Do not upload transcripts, credentials or sensitive architecture to this public repository.
+   The initialization command refuses to overwrite an existing packet. Use `--init existing` for an operating solution. Fill in the scope and risks, then run with `checks: {}` to get the required gates, questions and related patterns. Copy the check shape from the [proposed example](examples/proposed.json). Git ignore rules prevent accidental staging, **not** deliberate publication or access by other software. Never force-add real packets or upload transcripts, credentials or sensitive architecture here. The validator does not read evidence URLs, inspect tenants or call a model.
 5. **Record the human decision.** An architect and the accountable business owner inspect the referenced evidence. Record the solution/version, decision (approve scope / request changes / reject), rationale, outstanding actions, owner, due date, evidence snapshot and re-review trigger. An approval for a design is **not** go-live approval. Re-run after a new model, data source, permission, channel, write tool, material cost change or incident.
 
 ## What is checked
@@ -31,7 +32,9 @@ Use this review before approving a design or renewing approval for an existing A
 | Owns trained or fine-tuned model artifacts | `lineage` | Dataset rights and splits, evaluation and model version lineage, serving/training skew, drift alert, rollback version. See [model lifecycle guidance](https://learn.microsoft.com/en-us/azure/machine-learning/concept-model-management-and-deployment?view=azureml-api-2) or the equivalent for your stack. |
 | Already operating | `runtime` | Deployed version, representative observation window, business receipts, incident history and rollback evidence. Existing reviews also require `basis: "observed"` for quality, identity, operations, cost and applicable risk gates. |
 
-These are catalog rules inspired by Microsoft's [fit, operability and trust pillars](https://learn.microsoft.com/en-us/agents/architecture/), not official Microsoft pass/fail criteria. Some selected patterns imply a risk: a write-reconciliation design cannot declare `writes: false`, for example. This catches contradictions, not undisclosed risks. For a regulated or safety-critical workload, route remaining domain and legal obligations to qualified reviewers.
+These are catalog rules inspired by Microsoft's [fit, operability and trust pillars](https://learn.microsoft.com/en-us/agents/architecture/), not official Microsoft pass/fail criteria. Each entry has a [minimum risk classification](../tools/validate_solution.py) for its documented design. Selecting multiple entries combines their minimums; a `false` declaration that contradicts one makes the packet invalid. You must still declare deployment-specific risks: the validator does not infer them from prose, product names or credentials.
+
+For example, the [SAP acknowledgment design](../reference-architectures/sap-order-acknowledgments.md) reads purchase orders as matching evidence, starts on a Dataverse event and can post a financial confirmation. It requires `grounding`, `trigger`, `receipt` and `oversight`. In contrast, the [change-window brief](../technical-patterns/change-window-evidence.md) retrieves evidence but cannot book a meeting or deploy a change; it does not inherently require a receipt gate. If you reuse just a read-only part of a transactional architecture, select the narrower matching pattern and explain the excluded write in `scope`. For regulated or safety-critical workloads, route domain and legal obligations to qualified reviewers.
 
 ## Interpret the result
 

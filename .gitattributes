@@ -1,0 +1,10 @@
+# The renderer parses Markdown and hashes its script and lockfile as checked out.
+*.md text eol=lf
+tools/diagrams/*.mjs text eol=lf
+tools/diagrams/*.json text eol=lf
+tools/diagrams/platforms.txt text eol=lf
+assets/flows/manifest.json text eol=lf
+assets/platforms/products.json text eol=lf
+# Hash the original artwork bytes, never a line-ending conversion.
+assets/platforms/*.svg -text
+assets/flows/*.png binary

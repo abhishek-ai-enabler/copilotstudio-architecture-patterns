@@ -11,11 +11,12 @@ flowchart TB
     A -->|"Approved policy scope"| K["Knowledge source<br/>change policy"]
     K -->|"Versioned citation"| A
     A -->|"Service ID and window"| B["Read-only evidence service"]
+    M["Owner-verified service inventory"] -->|"Expected resource IDs and scope version"| B
     B -->|"Scoped inventory query"| R["Azure Resource Graph"]
     B -->|"Free/busy request"| G["Microsoft Graph"]
     R -->|"Visible inventory"| B
     G -->|"Calendar availability"| B
-    B -->|"Facts with scope and time"| A
+    B -->|"Facts, checked coverage and time"| A
     A -->|"Draft or missing evidence"| U
     U -.->|"Separate submission"| H["Change approval system"]
 ```
@@ -41,12 +42,14 @@ sequenceDiagram
     U->>A: Request windows for one service and date range
     A->>A: Retrieve the applicable policy and its citation
     A->>B: Supply approved service key, range and time zone
-    B->>R: Read visible inventory in allowed subscriptions
-    R-->>B: Scoped results or incomplete coverage
+    B->>B: Load expected resource IDs from approved inventory
+    B->>R: Query expected scope and read all pages
+    R-->>B: Visible resource rows or query error
+    B->>B: Compare visible IDs with expected inventory
     B->>G: Request free/busy for the approved review group
     G-->>B: Time slots or unavailable calendars
-    B-->>A: Return separate results, scopes and lookup times
-    alt All required facts present and policy applies
+    B-->>A: Return facts, coverage verdict and lookup times
+    alt Inventory verified, calendar available and policy applies
         A-->>U: Propose windows with evidence for review
     else Source failed, missing permission or scope mismatch
         A-->>U: Identify the missing check without declaring a safe window
@@ -69,8 +72,8 @@ sequenceDiagram
 
 ## Design notes
 
-- **Design the evidence contract first.** Return the policy URL/version, inventory scope and observation time, calendar time zone and slot, and a completeness flag for each source. Map service IDs to known subscriptions and review groups in trusted configuration. Use a fixed inventory query and a bounded time range. If the only need is meeting availability, use a calendar tool alone.
+- **Define what “covered” means.** The service owner supplies a versioned inventory of the required resource IDs and subscriptions, independent of the querying principal's view. The evidence service reads every page of a fixed query and compares IDs, not counts. Mark coverage **verified for that inventory version** only if it is current and every required ID was observed. Mark a known gap **incomplete**; mark coverage **unknown** if the baseline is missing, stale or not known to be exhaustive, or the query did not finish. An HTTP success, an empty page or one visible resource per subscription does not establish coverage. Return the verdict, permitted scope, inventory version and observation time alongside the policy citation and time-zoned free/busy result.
 - **Trust boundary:** Call the Azure Resource Graph `Resources` API with Azure RBAC read access and Microsoft Graph `getSchedule` with an independently authorized, delegated work-account connection (`Calendars.ReadBasic` is the documented least privilege). A middle tier needs tokens for the correct audiences. Return only free/busy intervals, not event subjects; do not treat a partially visible subscription as a complete service inventory.
-- **Failure handling and acceptance:** Azure Resource Graph is eventually consistent. If an authoritative last-minute configuration check is mandatory, require it in the change system. Test a hidden subscription, missing free/busy data and a daylight-saving transition. Each must produce a qualified proposal or no proposal, never a false approval. The agent has no tool to deploy a change or send a meeting invitation.
+- **Failure handling and acceptance:** Resource Graph can silently omit resources the principal cannot read. Test a successful response with one required subscription hidden, a missing resource within a visible subscription, and a stale inventory baseline. Also test missing free/busy data and an ambiguous daylight-saving transition. Withhold the window if any required fact cannot be verified; explain the gap without disclosing inaccessible resource identifiers. Resource Graph is eventually consistent: if an authoritative last-minute check is mandatory, require it in the change system. The agent cannot deploy a change or send an invitation.
 
 **Sources:** [Azure Resource Graph Resources REST API](https://learn.microsoft.com/en-us/rest/api/azureresourcegraph/resourcegraph/resources/resources?view=rest-azureresourcegraph-resourcegraph-2024-04-01) · [Resource Graph permissions and consistency](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview) · [Microsoft Graph calendar getSchedule](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule?view=graph-rest-1.0).

@@ -24,17 +24,71 @@ RULES = {
 }
 RISKS = ("retrieval", "writes", "external", "autonomous", "consequential", "custom_model")
 OBSERVED = {"quality", "operations", "cost", "identity", "grounding", "receipt", "egress", "trigger", "oversight", "lineage", "runtime"}
-# Only intrinsic risks: using a connector, for example, does not imply a write.
+# Minimum risks for the documented design, not everything its products could do.
+# () is a reviewed entry with no extra mandatory gate, not a missing classification.
 PATTERN_RISKS = {
-    "technical-patterns/write-reconciliation.md": {"writes"},
-    "technical-patterns/event-worker.md": {"autonomous"},
-    "technical-patterns/partner-iq-provider.md": {"external"},
-    "technical-patterns/web-iq-research.md": {"retrieval", "external"},
-    "technical-patterns/custom-retrieval.md": {"retrieval"},
-    "technical-patterns/azure-search-hybrid-rag.md": {"retrieval"},
-    "technical-patterns/foundry-iq-knowledge-base.md": {"retrieval"},
-    "technical-patterns/search-index-lifecycle.md": {"retrieval"},
-    "technical-patterns/m365-retrieval-api.md": {"retrieval"},
+    "reference-architectures/conversation-transcripts.md": ("writes", "autonomous"),
+    "reference-architectures/fabric-analytics.md": ("retrieval",),
+    "reference-architectures/hr-specialists.md": ("retrieval", "writes", "consequential"),
+    "reference-architectures/meeting-migration.md": ("writes",),
+    "reference-architectures/model-driven-form.md": (),  # Recommends; user owns the save.
+    "reference-architectures/multilingual-it-service.md": ("retrieval", "writes"),
+    "reference-architectures/regulatory-applications.md": ("retrieval", "writes", "consequential"),
+    "reference-architectures/sap-order-acknowledgments.md": ("retrieval", "writes", "autonomous", "consequential"),
+    "reference-architectures/student-recruitment.md": ("retrieval", "writes", "autonomous"),
+    "solution-ideas/bug-intake.md": ("retrieval", "writes", "autonomous", "external"),
+    "solution-ideas/cardiology-intake.md": ("writes", "autonomous", "consequential"),
+    "solution-ideas/custom-contact-center.md": ("retrieval", "external"),
+    "solution-ideas/customer-support.md": ("retrieval", "writes"),
+    "solution-ideas/donor-management.md": ("writes", "consequential"),
+    "solution-ideas/new-hire-onboarding.md": ("writes",),  # HR trigger is optional.
+    "solution-ideas/patient-support.md": ("retrieval", "writes", "consequential"),
+    "solution-ideas/rental-search-checkout.md": ("retrieval", "writes", "external", "consequential", "autonomous"),
+    "solution-ideas/spend-anomalies.md": ("retrieval", "writes", "autonomous", "consequential"),
+    "solution-ideas/ticket-refunds.md": ("writes", "autonomous", "consequential"),
+    "solution-ideas/travel-concierge.md": ("retrieval",),
+    "decision-patterns/bot-front-handoff.md": ("writes",),  # Opens a mapped live session.
+    "decision-patterns/classic-topics.md": ("writes",),  # Confirmed badge request.
+    "decision-patterns/copilot-reasoning-loop.md": ("retrieval",),
+    "decision-patterns/fabric-connected.md": ("retrieval",),
+    "decision-patterns/fabric-copilot-harness.md": ("retrieval",),
+    "decision-patterns/fabric-direct.md": ("retrieval",),
+    "decision-patterns/fabric-standard-harness.md": ("retrieval",),
+    "decision-patterns/generative-planning.md": ("retrieval",),
+    "decision-patterns/hub-front-handoff.md": ("writes",),  # Transfers ownership in the hub.
+    "technical-patterns/apim-rest-to-mcp.md": ("retrieval", "external"),  # Carrier API.
+    "technical-patterns/approval-workflow.md": ("writes", "consequential"),
+    "technical-patterns/azure-search-hybrid-rag.md": ("retrieval",),
+    "technical-patterns/change-window-evidence.md": ("retrieval",),
+    "technical-patterns/child-agent.md": ("writes",),  # Includes confirmed asset returns.
+    "technical-patterns/connected-agent.md": ("retrieval",),
+    "technical-patterns/connector-action.md": ("retrieval",),  # Shipment status only.
+    "technical-patterns/custom-retrieval.md": ("retrieval",),
+    "technical-patterns/customer-voice-chat.md": ("retrieval",),
+    "technical-patterns/direct-rest-tool.md": ("retrieval",),
+    "technical-patterns/evaluation-gate.md": (),  # Test fixtures, not a production operation.
+    "technical-patterns/event-worker.md": ("writes", "autonomous"),
+    "technical-patterns/fabric-iq-ontology.md": ("retrieval",),
+    "technical-patterns/foundry-agent-specialist.md": ("retrieval",),
+    "technical-patterns/foundry-iq-knowledge-base.md": ("retrieval",),
+    "technical-patterns/m365-retrieval-api.md": ("retrieval",),
+    "technical-patterns/mcp-tools.md": (),  # Tool discovery doesn't specify the operation.
+    "technical-patterns/operational-monitoring.md": (),  # Observes the workload's outcomes.
+    "technical-patterns/partner-iq-provider.md": ("retrieval", "external"),
+    "technical-patterns/public-knowledge.md": ("retrieval", "external"),
+    "technical-patterns/remote-a2a-specialist.md": ("retrieval", "external"),
+    "technical-patterns/search-index-lifecycle.md": ("retrieval",),
+    "technical-patterns/secured-web-client.md": (),
+    "technical-patterns/semantic-model-contract.md": ("retrieval",),
+    "technical-patterns/sharepoint-grounding.md": ("retrieval",),
+    "technical-patterns/skill-package.md": ("retrieval",),  # Reads the report behind the draft.
+    "technical-patterns/solution-promotion.md": (),
+    "technical-patterns/synchronous-agent-flow.md": ("writes",),
+    "technical-patterns/tool-identity.md": ("retrieval",),
+    "technical-patterns/web-iq-research.md": ("retrieval", "external"),
+    "technical-patterns/work-iq-context.md": ("retrieval",),
+    "technical-patterns/write-reconciliation.md": ("writes",),
+    "technical-patterns/zoned-governance.md": (),
 }
 
 
@@ -84,9 +138,11 @@ def review(packet):
     risks, checks = packet["risks"], packet["checks"]
     exact_fields(risks, RISKS, "risks")
     require(all(type(v) is bool for v in risks.values()), "set each risk explicitly to true or false")
-    for path in patterns:
-        for risk in sorted(PATTERN_RISKS.get(path, set())):
-            require(risks[risk], f"{path} requires risks.{risk}=true")
+    unclassified = set(patterns) - PATTERN_RISKS.keys()
+    require(not unclassified, f"catalog risk classification missing: {sorted(unclassified)}")
+    conflicts = [f"{path} requires risks.{risk}=true"
+                 for path in patterns for risk in PATTERN_RISKS[path] if not risks[risk]]
+    require(not conflicts, "; ".join(conflicts))
     required = {k for k, (t, _, _) in RULES.items()
                 if t is None or risks.get(t) or (t == "existing" and packet["stage"] == "existing")}
     require(isinstance(checks, dict), "checks must be an object")
