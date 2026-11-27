@@ -77,7 +77,7 @@ sequenceDiagram
 
 **Not the right component:** One agent serving both customers and employees. A customer session must not reach staff-only search.
 
-**Copilot Credits drivers (high):** Customer conversations are billed per answer and agent action, and voice bills per minute (10, 35 or 75 credits by tier). The employee agent can be included for licensed Microsoft 365 Copilot staff who use their own identity. Model the two agents separately. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (high):** Count digital answers and agent actions for customer chat. Apply standard voice-minute rates only if Copilot Studio supplies the voice workload; those minutes already include core answers and agent actions. If the third-party platform handles telephony and sends text to the agent, budget its charges separately. Estimate employee-assist usage separately because licensed staff may qualify for inclusion. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Components and flow
 

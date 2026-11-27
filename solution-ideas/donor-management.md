@@ -74,7 +74,7 @@ sequenceDiagram
 
 **Not the right component:** Treating an extracted consent flag as authorization for outreach.
 
-**Copilot Credits drivers (medium):** Extraction bills content processing per page. Staff turns are included for licensed Microsoft 365 Copilot users with their own identity. Approvals in Power Automate cloud flows use Power Automate licensing. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** Estimate the extraction prompt by its model and token usage; use page counts only if it is replaced with a document-processing model. Power Automate licenses the approval flow, not the extraction. Eligible interactive standard-harness staff turns may be included. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Components and flow
 

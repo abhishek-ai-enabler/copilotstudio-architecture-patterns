@@ -58,17 +58,17 @@ sequenceDiagram
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. On the Microsoft Copilot harness, workflow connector actions use the invoking user's connections. A connected agent's author-authenticated tools still use the author's credentials.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Use delegated connections in a channel that supports user sign-in. On the Microsoft Copilot harness, a workflow invoked with **When an agent calls the flow** uses the invoking user's connections for connector actions. Do not extrapolate this to a scheduled run or an [agent with its own account](../COMPONENTS.md#agent-account-frontier).
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
 | [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Agent sign-in | Authenticates the user to the agent. | All harnesses. |
-| [Connector tool](../COMPONENTS.md#connector-tools): User authentication | Presents a connection card if needed. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): User authentication | Prompt for the caller's connection where the channel supports it; otherwise withhold the private operation. | CC speech: voice verification is not delegated sign-in. |
 | [Agent flow](../COMPONENTS.md#agent-flows): Per-step connections | Inspect which connection each step uses. | Copilot: workflow. |
 
 **Not the right component:** Maker credentials for per-user records.
 
-**Copilot Credits drivers (low):** Identity choice affects inclusion. Microsoft 365 Copilot inclusion applies only when the agent operates with a licensed user's authenticated identity. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (low):** Delegated identity is necessary, but not sufficient, for standard-harness employee inclusion. Signing in does not make a Copilot-harness interaction free or convert an autonomous run into an interactive one. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 

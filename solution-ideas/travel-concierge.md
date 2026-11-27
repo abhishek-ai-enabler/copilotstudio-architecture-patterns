@@ -61,7 +61,7 @@ sequenceDiagram
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness on a website, with a switch to authenticated lookup. The Microsoft Copilot harness adds no value for short lookups and adds usage-based cost.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness on a website, with a switch to authenticated lookup. This design needs one verified reservation read, not a reasoning loop; compare another harness only if the itinerary task becomes more complex.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |

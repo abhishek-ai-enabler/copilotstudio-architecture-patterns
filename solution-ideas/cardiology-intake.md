@@ -68,13 +68,13 @@ sequenceDiagram
 | --- | --- | --- |
 | [Topics](../COMPONENTS.md#topics-and-system-topics): Administrative intake topic | Collects administrative details and opens the case. It asks no clinical questions and gives no clinical advice. | Copilot: workflow tool. |
 | [Connector tool](../COMPONENTS.md#connector-tools): Dataverse case | Creates the case and links original documents. | All harnesses. |
-| [Prompt tool](../COMPONENTS.md#prompt-tools): AI Builder document extraction | Prepares draft fields for the clinician to verify. | Copilot workflow: extract node. |
+| AI Builder in the intake process: optional document processing | Drafts fields for clinician verification. If the team uses a [prompt](../COMPONENTS.md#prompt-tools) instead, estimate its own meter. | Copilot workflow: extract node. |
 | [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Review routing and scheduling | Places the case in the restricted review queue, and books only after a recorded clinician decision. | Copilot: workflow. |
 | [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Qualified clinician decision | Releases the scheduling step for the verified case. | Copilot: approvals node; the decision remains clinical. |
 
 **Not the right component:** Any AI step that assigns urgency or releases a booking.
 
-**Copilot Credits drivers (medium):** Extraction bills content processing at 8 per page (Copilot Credits in Copilot Studio; AI Builder credits first in Power Automate). Intake answers bill per answer for unlicensed users. Scheduling in a Power Automate cloud flow uses Power Automate licensing. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** Count intake answers separately from optional extraction. If billed in Copilot Credits, document processing costs 8 per page; a generative extraction prompt uses model units instead. Power Automate uses its own flow licensing, and AI Builder steps can draw on AI Builder credits before Copilot Credits. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Components and flow
 

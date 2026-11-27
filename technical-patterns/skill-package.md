@@ -52,7 +52,7 @@ sequenceDiagram
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Microsoft Copilot harness or Customer Conversation harness. The standard harness has no skills. Use a topic or prompt tool.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Microsoft Copilot harness for the versioned `SKILL.md` package shown. On Customer Conversation, [author a Generative or Topic skill](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-create-customer-conversation) rather than assuming the same upload path. On standard, use a topic or prompt tool for this procedure.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
@@ -64,7 +64,7 @@ sequenceDiagram
 
 **Not the right component:** Credentials or permission grants in a skill.
 
-**Copilot Credits drivers (medium):** Progressive loading keeps the skill body out of context until relevant, which is cheaper than long instructions. Large reference files still add tokens when loaded. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** Progressive loading avoids sending the procedure on unrelated requests. When the skill is selected, its guidance and loaded references add context; measure the effect with representative requests. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 

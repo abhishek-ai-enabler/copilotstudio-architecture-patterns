@@ -67,7 +67,7 @@ sequenceDiagram
 
 **Not the right component:** Generated knowledge answers for a required disclosure. Keep that wording in a **Message** node.
 
-**Copilot Credits drivers (low):** Authored messages are classic answers (1 credit). Knowledge fallback answers are generative answers (2). Topic transitions on the activity map are agent actions (5), and agent flow actions are 13 per 100. This mode has the lowest consumption among the orchestration options. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (low):** For billable digital traffic, count classic answers (1 credit), generative fallback answers (2), metered agent actions (5) and agent-flow units (13 per 100). A short authored path can cost less than repeated planning, but a long questionnaire can accumulate more answers. Compare credits per completed request. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 

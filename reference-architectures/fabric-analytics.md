@@ -67,7 +67,8 @@ sequenceDiagram
 | [Connector tool](../COMPONENTS.md#connector-tools): Power BI: Run a query against a dataset | Governed measures compute every figure under the analyst's identity. | Std: same action. |
 | [Agent sandbox](../COMPONENTS.md#code-interpreter-and-agent-sandbox): Agent sandbox | Produces a table or workbook for the analyst to reconcile. *(Optional.)* | Std: code interpreter on a prompt. |
 | [Memory](../COMPONENTS.md#memory): Analyst preferences | Recalls preferred layout and default comparison period, which the agent confirms before querying. *(Optional.)* | Std: no memory. |
-| [Workflow](../COMPONENTS.md#workflows): Redistribution approval | Analyst approval before anything is shared. *(Optional.)* | Std: Power Automate approval. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Analyst sign-off | An analyst reconciles the figures and approves the version to be shared. | Required with either harness. |
+| [Workflow](../COMPONENTS.md#workflows): Record sign-off | Optionally automate the approval record and release only the reviewed version. The review itself is not optional. | Std: Power Automate approval. |
 | [Channel](../COMPONENTS.md#channels): Teams or Microsoft 365 | Analyst workspace. | Both harnesses. |
 
 **Not the right component:** Commentary that invents a cause, or a sandbox calculation that replaces a governed measure.

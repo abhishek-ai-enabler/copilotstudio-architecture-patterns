@@ -12,6 +12,7 @@ flowchart TB
         S["Supplier mailbox or EDI"]
         F["Power Automate"]
         D["Dataverse<br/>acknowledgments"]
+        T["Dataverse-triggered<br/>cloud flow"]
     end
     subgraph group3["Validation"]
         A["Copilot Studio<br/>orchestrator"]
@@ -24,12 +25,17 @@ flowchart TB
     end
     S -->|"Incoming acknowledgment"| F
     F -->|"Capture original and<br/>status"| D
-    D -->|"Trigger on saved<br/>acknowledgment"| A
+    D -->|"New acknowledgment"| T
+    T -->|"Start with stored key"| A
     A -->|"Normalize supplier<br/>lines"| E
+    E -->|"Extracted fields"| A
     A -->|"Read current purchase<br/>order"| P
+    P -->|"Order lines and version"| A
     A -->|"Compare normalized<br/>lines and SAP data"| M
+    M -->|"Candidate match or<br/>differences"| A
     A -->|"Confirm only validated<br/>match"| P
     A -->|"Route disputed lines"| H
+    A -->|"Record receipt, exception<br/>or pending reconciliation"| D
 ```
 
 **Review decision:** Agree the tolerance rules and which SAP operation can run unattended. A supplier document or an extraction result must never authorize its own exception.
@@ -40,7 +46,8 @@ flowchart TB
 sequenceDiagram
     accTitle: Match supplier acknowledgments to SAP purchase orders - technical flow
     autonumber
-    participant F as Intake flow
+    participant F as Dataverse-triggered cloud flow
+    participant D as Dataverse
     participant A as Orchestrator
     participant M as Extraction and matching
     participant P as SAP
@@ -51,15 +58,21 @@ sequenceDiagram
     A->>P: Read current purchase order
     P-->>A: Return authoritative lines
     A->>M: Compare lines using approved tolerances
-    M-->>A: Return match decision and differences
-    alt All lines match
+    M-->>A: Return candidate match and differences
+    A->>A: Validate fields, rule version and current PO
+    alt Validation passes
         A->>P: Request confirmation once
         alt SAP acknowledges
             P-->>A: Return confirmation reference
+            A->>D: Save confirmed status and receipt
         else Confirmation outcome unknown
-            A->>P: Check existing confirmation before<br/>any replay
+            A->>D: Mark pending reconciliation
+            A->>P: Look up confirmation before any replay
+            P-->>A: Return confirmed, absent or unresolved
+            A->>D: Record lookup result for reconciliation
         end
     else Disputed or unmapped line
+        A->>D: Open exception with rule and order version
         A->>H: Send differences for review, no SAP<br/>write
     end
 ```
@@ -71,15 +84,15 @@ sequenceDiagram
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
 | [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Mailbox or EDI capture | Stores the original acknowledgment in Dataverse with its status. | Copilot: workflow trigger. |
-| [Trigger](../COMPONENTS.md#triggers-and-autonomous-agents): Dataverse-triggered start | Starts the orchestrator autonomously for each new acknowledgment. | Copilot: workflow trigger and agent node, or agent trigger (preview). |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Dataverse row trigger | A second cloud flow starts the orchestrator with the saved key. Do not also subscribe an agent trigger to the same row. | Copilot: a workflow trigger followed by an agent node can replace this start. |
 | [Child agent](../COMPONENTS.md#child-agents-and-sub-agents): Extraction and matching agents | Normalize lines and compare them with the purchase order under tolerance rules. | Copilot: workflow extract node and agent node. |
 | [Connector tool](../COMPONENTS.md#connector-tools): SAP connector | Reads the purchase order and runs the confirmation operation only after checks pass. | All harnesses. |
 | [Agent flow](../COMPONENTS.md#agent-flows): Confirmation and exception flow | Confirms in SAP or creates a Dataverse exception. | Copilot: workflow. |
-| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Teams notification to a procurement specialist | Presents mismatched values with a source link. | Copilot: approvals or request-for-information node. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Dataverse exception and Teams notification | Notify the assigned specialist; hold the write until the authorized decision is recorded against the current order version. A delivered message is not an approval. | Copilot: use an approval for release; a request for information only collects evidence. |
 
 **Not the right component:** Letting the extracted document or the extraction agent authorize an exception.
 
-**Copilot Credits drivers (high):** Autonomous runs are billed even when staff hold Microsoft 365 Copilot licenses. Each acknowledgment incurs a trigger (agent action), extraction (content processing at 8 per page, or prompt usage), agent hops and agent flow actions. Deduplicate before triggering and route only unclear lines to AI. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (high):** Budget Power Automate licensing for intake and the Dataverse trigger, not a second Copilot agent-trigger fee for the same event. The autonomous agent's metered actions and agent flows are not included under an employee license. Count pages only if using content processing; for prompt-based extraction use the prompt's meter. Deduplicate before starting the agent. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Components and flow
 

@@ -13,13 +13,14 @@ The harness, not the channel, decides how an agent is billed.
 | **Standard harness** agents | A rate per billed event: answers, agent actions, grounding, AI tools and agent flow actions | After the agent is published | Employee-facing use by an authenticated, licensed user is included, with exceptions (see section 3) |
 | **Microsoft Copilot harness** agents, workflows and apps | Usage-based: LLM tokens, tools (including knowledge and MCP) and the harness itself | **While building**: describe-to-create, preview, testing and evaluations all consume credits | Not included, except a Copilot node's execution inside a workflow for a licensed user |
 | **Customer Conversation harness** | Usage-based, varying by conversation complexity and modality (digital, GenAI voice or premium voice) | While building | Customer-facing; plan for every conversation to be billed |
-| **Agent flows** (standard) and **workflows** (Copilot) | 0.13 credits per action (13 per 100 actions); AI nodes add usage-based charges | Per run | Agent flows called through **When an agent calls the flow** by a licensed user's interactive session are included |
-| **Power Automate cloud and desktop flows** | Power Automate licensing | Not applicable | Not Copilot Credits, and not subject to Copilot Studio enforcement |
+| **Agent flows** (standard) | 0.13 credits per action, including each trigger execution; AI tools are metered separately | Billable executions, including unsuccessful polling checks that start no run | Qualifying interactive **When an agent calls the flow** runs include the flow actions; scheduled and autonomous runs do not qualify |
+| **Workflows** (Copilot) | 0.13 credits per action, plus AI-node usage | Describe-to-design, node tests and runs can incur charges; manual canvas editing does not | A licensed user's Copilot-node execution can be included, not its 0.13-credit workflow action |
+| **Power Automate cloud and desktop flows** | Power Automate licenses the automation | Not a Copilot Studio flow-action charge | An embedded AI Builder prompt or model is separate: in Power Automate it can use Copilot Credits when AI Builder capacity is unavailable or exhausted |
 
 ```mermaid
 flowchart TB
     accTitle: Where Copilot Credits accrue in one request
-    accDescr: A request enters an agent. On the standard harness, credits accrue per answer type, agent action, tenant graph grounding, AI tool and agent flow action. On the Microsoft Copilot or Customer Conversation harness, credits accrue for tokens, tools and the harness itself, and workflows add 0.13 credits per action plus AI node usage. Power Automate cloud flows are licensed separately.
+    accDescr: Standard digital interactions use feature meters. Standard voice minutes include core answers and agent actions. The Microsoft Copilot harness meters model, tool and runtime usage; the Customer Conversation harness estimates by modality and complexity. A separate Power Automate flow has its own licensing.
 
     REQ["User turn, event<br/>or schedule"]
 
@@ -30,9 +31,10 @@ flowchart TB
         S4["AI tools: prompts,<br/>content processing"]
         S5["Agent flow actions<br/>13 per 100"]
         S6["Reasoning model:<br/>+10 per 1,000<br/>billed tokens"]
+        S7["Voice minute includes<br/>core answers and actions"]
     end
 
-    subgraph UB["Copilot and Customer Conversation: usage-based"]
+    subgraph UB["Microsoft Copilot: usage-based"]
         U1["Model tokens<br/>instructions, context,<br/>tool results, output"]
         U2["Tools and knowledge<br/>including MCP"]
         U3["Harness runtime<br/>and sandbox"]
@@ -40,9 +42,11 @@ flowchart TB
     end
 
     PA["Power Automate<br/>cloud flow:<br/>Power Automate license"]
+    CC["Customer Conversation:<br/>modality and complexity"]
 
     REQ --> STD
     REQ --> UB
+    REQ --> CC
     S5 -.->|"may call"| PA
     U4 -.->|"may call"| PA
 ```
@@ -56,8 +60,8 @@ flowchart TB
 | Agent action | 5 | Steps on the activity map, such as triggers, deep reasoning and topic transitions; computer use is billed at this rate |
 | Tenant graph grounding for messages | 10 | Retrieval-augmented generation over Microsoft Graph, including connector content |
 | Agent flow actions | 13 per 100 actions | Each action, and each agent flow trigger execution |
-| Text and generative AI tools, basic | 1 per 10 responses (0.1 per 1,000 tokens) | Prompt tool on a basic model |
-| Text and generative AI tools, standard | 15 per 10 responses (1.5 per 1,000 tokens) | Prompt tool on a standard model |
+| Text and generative AI tools, basic | 0.1 per 1,000 tokens for token-metered prompts | Prompt tool on a basic model |
+| Text and generative AI tools, standard | 1.5 per 1,000 tokens for token-metered prompts | Prompt tool on a standard model |
 | Text and generative AI tools, premium | 10 per 1,000 tokens | Prompt tool on a premium model, or a reasoning model |
 | Content processing tools | 8 per page | Document extraction |
 | Voice: classic orchestration | 10 per minute | Includes core agent activity |
@@ -66,7 +70,7 @@ flowchart TB
 
 **Reasoning models** add a second meter. The feature rate always applies. If a reasoning model orchestrates the agent (including its child agents), the premium rate also applies to billed tokens. Billed tokens include input, output and reasoning tokens, plus input written to the prompt cache. Tokens read from the prompt cache are not billed. A single message can therefore consume many credits when instructions are long, retrieval is broad or the conversation is long.
 
-Prompt tools are measured in the units in [Licensing and Copilot Credits](https://learn.microsoft.com/en-us/ai-builder/message-management#copilot-credit-consumption-rates): tokens, characters, images or pages.
+Use the [AI Builder capability rate table](https://learn.microsoft.com/en-us/ai-builder/message-management#copilot-credit-consumption-rates) to choose the unit: tokens, characters, images or pages. For a token-metered prompt, count input and output tokens, not responses. A two-page PDF sent to a prompt is not necessarily two content-processing units. For standard voice, the minute rate already includes classic answers, generative answers and agent actions; do not add those same events again. Other features and downstream services need their own estimate.
 
 Source: [Billing rates and management](https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management), [Licensing for the standard harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing).
 
@@ -76,7 +80,7 @@ Employee-facing use of a standard-harness agent is included in the Microsoft 365
 
 - **Computer use** is not included.
 - **Autonomous runs** are charged. If an event trigger or a Power Automate flow starts the agent, the agent flows it calls consume credits even if users are licensed.
-- **Agent flows** are included only when they start through **When an agent calls the flow** during a licensed user's interaction.
+- **Agent flow actions** are included only when the flow starts through **When an agent calls the flow** during the licensed user's interaction. This exemption is for the flow-action meter; check the treatment of any embedded AI tool separately. Microsoft also specifies fair-use limits for the employee inclusion.
 - **Customer-facing and anonymous** conversations are not employee use.
 - **Microsoft Copilot and Customer Conversation harness** usage is billed usage-based. For a licensed user, a Copilot node's execution inside a workflow is covered, but the node's 0.13-credit action charge still applies.
 
@@ -84,7 +88,7 @@ Source: [Billing rates and management](https://learn.microsoft.com/en-us/microso
 
 ## 4. Usage-based billing on the Copilot and Customer Conversation harnesses
 
-These harnesses charge for what the work consumes, not a fixed amount per message. The main cost drivers are:
+Neither harness has a fixed price per chat message. For Customer Conversation, benchmark digital, GenAI voice and premium voice separately by conversation complexity. For the Microsoft Copilot harness and its workflows, the main cost drivers are:
 
 | Driver | Why it matters | Design lever |
 | --- | --- | --- |
@@ -108,7 +112,7 @@ Source: [Overview of usage-based billing](https://learn.microsoft.com/en-us/micr
 4. **Add the lifecycle.** Include build, test, evaluation and re-evaluation after each release, plus retries and failures.
 5. **Re-benchmark** when the model, instructions, knowledge scope or tools change.
 
-**Illustrative standard-harness estimate.** These are assumed numbers, not a price. A public support agent averages three generative answers, one topic transition and an eight-action agent flow per conversation:
+**Illustrative standard-harness estimate.** Suppose a public *digital* support conversation produces three billed generative answers, one billed agent action and eight billed flow units (one agent-flow trigger execution plus seven actions). Assume no other metered events:
 
 `(3 × 2) + (1 × 5) + (8 × 0.13) = 12.04 credits per conversation`
 
@@ -131,7 +135,7 @@ Classify each environment as **exploration and prototyping**, **test and validat
 
 Enforcement behavior to design for:
 
-- **Standard harness:** Enforcement starts when the tenant reaches 125% of prepaid capacity. Blocked agents stop responding, including mid-conversation. Environments on pay-as-you-go are not blocked by running out of prepaid credits.
+- **Standard harness:** The tenant threshold is 125% of prepaid capacity; it is not a blanket outage for every environment. An environment with remaining allocated capacity can still use it, and one with pay-as-you-go can bill overage. An enforced agent can stop mid-conversation. Pay-as-you-go does not override an explicit stop or a blocking agent limit.
 - **Usage-based harnesses:** When an environment has no credits, both end users and makers are blocked. Makers cannot author with natural language, preview, test or create evaluations.
 - **Agent flows:** Agent flow enforcement is separate. New agent flow runs are rejected while the agent remains available, and runs already in progress complete. Standard-harness agent flow test runs from test chat or the designer do not consume agent flow capacity. Copilot workflow node tests and test runs do consume credits.
 - **Limits:** An agent's monthly limit does not stop the agent flows it calls, and limits are not applied instantly, so set thresholds with margin. Azure budgets send alerts but do not stop consumption.
@@ -166,7 +170,7 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Add Copilot Studio to an existing third-party contact center](solution-ideas/custom-contact-center.md) | Std | High | Customer volume and voice minutes |
 | [Analyst-reviewed reporting over a Fabric semantic model](reference-architectures/fabric-analytics.md) | Copilot | High | Reasoning tokens, retries and file outputs |
 | [Assisted and email-driven refunds on a shared legacy workflow](solution-ideas/ticket-refunds.md) | Std | High | Autonomous email runs; computer use if adopted |
-| [Design distinct voice and chat paths for one customer service](technical-patterns/customer-voice-chat.md) | CC | High | Voice minutes and conversation complexity |
+| [Design distinct voice and chat paths for one customer service](technical-patterns/customer-voice-chat.md) | CC | High | Conversation modality and complexity |
 | [Fabric 4: Query the model from the Microsoft Copilot harness](decision-patterns/fabric-copilot-harness.md) | Copilot | High | Reasoning-loop tokens and query retries |
 | [Match supplier acknowledgments to SAP purchase orders](reference-architectures/sap-order-acknowledgments.md) | Std | High | Autonomous volume, document pages and agent hops |
 | [Microsoft Copilot harness: reason, act and inspect results](decision-patterns/copilot-reasoning-loop.md) | Copilot | High | Reasoning-loop tokens, tool results and evaluations |
@@ -179,7 +183,7 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Detect spend anomalies in Fabric and investigate them in chat](solution-ideas/spend-anomalies.md) | Std | Medium | Scheduled flow actions and investigation turns |
 | [Donor inquiry intake, approvals and finance reconciliation](solution-ideas/donor-management.md) | Std | Medium | Document extraction and staff turns |
 | [Extract service-quality signals from conversation transcripts](reference-architectures/conversation-transcripts.md) | Std + Power Automate | Medium | Extraction per transcript |
-| [Fabric 2: Delegate analytics to a connected Fabric data agent](decision-patterns/fabric-connected.md) | Std or Copilot | Medium | Outer agent turns plus Fabric capacity |
+| [Fabric 2: Delegate analytics to a connected Fabric data agent](decision-patterns/fabric-connected.md) | Std | Medium | Outer agent turns plus Fabric capacity |
 | [Fabric 3: Query the model directly from the standard harness](decision-patterns/fabric-standard-harness.md) | Std | Medium | Generative answers, agent actions and schema tokens |
 | [Gate changes on expected answers and observable actions](technical-patterns/evaluation-gate.md) | Any | Medium | Evaluation runs per release |
 | [Group one specialist task inside a parent agent](technical-patterns/child-agent.md) | Std | Medium | Extra planning step per delegated task |
@@ -187,7 +191,7 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Handoff 2: Copilot Studio in front (Bot-in-the-Loop)](decision-patterns/bot-front-handoff.md) | Std | Medium | Self-service turns before handoff, plus any relayed turns |
 | [Let a workflow own approvals and an agent own the draft](technical-patterns/approval-workflow.md) | Copilot or Std | Medium | Workflow actions plus one AI node |
 | [Multilingual IT self-service across identity providers](reference-architectures/multilingual-it-service.md) | Std | Medium | Grounded answers and ITSM tool steps |
-| [Package reusable procedures as skills](technical-patterns/skill-package.md) | Copilot or CC | Medium | Skill content when loaded |
+| [Package reusable procedures as skills](technical-patterns/skill-package.md) | Copilot | Medium | Skill content when loaded |
 | [Patient portal for administrative support](solution-ideas/patient-support.md) | Std | Medium | Public and authenticated patient turns |
 | [Permission-trimmed answers from SharePoint](technical-patterns/sharepoint-grounding.md) | Std or Copilot | Medium | Grounded answers; tenant graph if enabled |
 | [Preview and migrate an organizer's meetings in place](reference-architectures/meeting-migration.md) | Std | Medium | Agent flow actions per meeting |
@@ -211,6 +215,6 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Return a typed result from an agent flow](technical-patterns/synchronous-agent-flow.md) | Std | Low | Agent flow actions |
 | [Share a governed metric contract between agents and reports](technical-patterns/semantic-model-contract.md) | Any | Low | Fewer retries |
 | [Standard harness: classic topic routing](decision-patterns/classic-topics.md) | Std | Low | Classic answers, topic transitions and a short agent flow |
-| [Fabric 1: Publish a Fabric data agent directly](decision-patterns/fabric-direct.md) | Fabric only | None | Fabric capacity only |
+| [Fabric 1: Publish a Fabric data agent directly](decision-patterns/fabric-direct.md) | Fabric only | None | No Studio agent; budget Fabric capacity and channel licensing separately |
 
 <!-- credit-profile:end -->

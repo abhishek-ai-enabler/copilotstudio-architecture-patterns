@@ -68,13 +68,13 @@ sequenceDiagram
 | [Channel](../COMPONENTS.md#channels): Power Pages | Hosts the agent in the patient portal. | Validate per harness. |
 | [Knowledge](../COMPONENTS.md#knowledge-sources): Approved patient-service information | Answers general administrative questions. | All harnesses. |
 | [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Portal authentication or verified proxy | Required before any personal appointment access. | All harnesses. |
-| [Agent flow](../COMPONENTS.md#agent-flows): Appointment change flow | Submits the requested change and sends the confirmation. | Copilot: workflow. |
-| [Topics](../COMPONENTS.md#topics-and-system-topics): Clinical-request routing topic | Recognizes clinical questions and directs them to the staffed pathway without assessing them. | Copilot: instructions plus hook; validate first. |
+| [Power Automate cloud flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Appointment change | Submit the verified request to scheduling. Confirm only on a booking receipt. | If implemented as an agent flow instead, budget its trigger and actions. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Staffed-service routing | Offer the staffed pathway without assessing the patient. Keep that contact accessible in the portal even if routing fails. | Copilot: expose the staffed route directly; a lifecycle hook is not an intent trigger. |
 | [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Staffed clinical pathway | Qualified clinicians own clinical questions and decisions. | All harnesses. |
 
 **Not the right component:** Any generative step that interprets symptoms or prioritizes clinical requests.
 
-**Copilot Credits drivers (medium):** Patient conversations are not covered by Microsoft 365 Copilot licenses. Answers bill at 1 or 2 and agent flow actions at 13 per 100. Feedback analytics with AI Builder outside the conversation are billed separately. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** Patient conversations do not qualify for employee inclusion. Budget standard-harness answers and agent actions, Power Automate licensing for scheduling, and AI Builder usage for any feedback analysis. Do not count the cloud flow as a Copilot Studio agent flow as well. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Components and flow
 

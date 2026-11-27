@@ -53,11 +53,10 @@ sequenceDiagram
 | --- | --- | --- |
 | [Channel](../COMPONENTS.md#channels): Microsoft Copilot or Teams through Fabric publishing | Delivers the data agent without a Copilot Studio agent in the request path. | Options 2 to 4 add a Copilot Studio channel. |
 | [Evaluation](../COMPONENTS.md#evaluation): Reconciliation against the reference report | Prove the data layer returns the right period and region before you add an orchestrator. | Copilot Studio evaluations apply once an agent is added. |
-| [Connected agent](../COMPONENTS.md#connected-agents): Future connected agent | The same validated data agent can become option 2's specialist. *(Optional.)* | Std or Copilot connected agents. |
 
 **Not the right component:** Adding a Copilot Studio agent to fix wrong figures. Fix the semantic model or data agent first.
 
-**Copilot Credits drivers (none):** No Copilot Studio Copilot Credits are consumed in the request path. The Fabric data agent requires a paid Fabric capacity (F2 or higher, or Power BI Premium P1 with Fabric enabled) and draws on that capacity. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (none):** There is no Copilot Studio agent to meter in this design. That is not a zero-cost estimate: budget paid F2+ or Fabric-enabled Power BI Premium P1+ capacity and check the [Microsoft Copilot publishing and user-license prerequisites](https://learn.microsoft.com/en-us/fabric/data-science/data-agent-microsoft-365-copilot). See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 

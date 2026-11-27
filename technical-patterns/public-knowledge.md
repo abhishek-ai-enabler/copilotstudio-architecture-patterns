@@ -53,7 +53,7 @@ sequenceDiagram
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration on a public website. The Microsoft Copilot harness also lists public website knowledge, but it adds cost without benefit for short answers.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration on a public website. Both harnesses support public website knowledge; start with standard for short cited answers and benchmark the Copilot harness only if the task needs iterative reasoning.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |

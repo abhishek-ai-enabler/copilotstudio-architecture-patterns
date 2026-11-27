@@ -53,19 +53,19 @@ sequenceDiagram
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** A Microsoft Copilot harness workflow, or a Standard harness agent flow with a Power Automate approval. On the standard harness, use an agent flow, a prompt tool for the draft and a Power Automate approval.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** A Microsoft Copilot harness workflow owns the approval. On standard, have the interactive agent flow create a pending case and return its reference; let a separate Power Automate cloud flow wait for the review. Do not keep a synchronous agent call open while a person decides.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
 | [Workflow](../COMPONENTS.md#workflows): Expense exception workflow | Owns the sequence from intake to posting. | Std: agent flow. |
 | [Workflow nodes](../COMPONENTS.md#workflow-nodes): Inline agent node | Proposes a reason category and cites supporting fields. | Std: prompt tool. |
 | [Workflow nodes](../COMPONENTS.md#workflow-nodes): Condition and lookup | Validate fields and look up the designated reviewer outside the model. | Std: flow condition and connector. |
-| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Approvals or request-for-information node | Records the reviewer's decision for the exact version and amount. | Std: Power Automate approval. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Approval | Require the assigned reviewer's approval of the exact version and amount. A request-for-information node can collect missing evidence, but its response does not release posting. | Std: Power Automate approval. |
 | [Connector tool](../COMPONENTS.md#connector-tools): Posting connector | Posts only after a recorded approval. | All harnesses. |
 
 **Not the right component:** Letting the inline agent choose the approver or post the transaction.
 
-**Copilot Credits drivers (medium):** Each workflow action costs 0.13 credits, and the inline agent adds usage-based charges. Its instructions are resent on every turn. Failed runs still pay for completed steps, so validate early. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** On Copilot, each executed workflow action costs 0.13 credits; the inline agent adds usage charges. Failed runs still bill completed steps. On standard, estimate the agent-flow trigger and actions separately from the prompt and the Power Automate approval process. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 

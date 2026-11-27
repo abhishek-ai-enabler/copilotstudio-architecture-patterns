@@ -67,7 +67,7 @@ sequenceDiagram
 
 **Not the right component:** An escalation message that implies a person is connected when the queue has not accepted the session.
 
-**Copilot Credits drivers (medium):** The agent is billed per answer and agent action until transfer. After transfer, representative work falls under the hub's licensing. Customer traffic is not covered by Microsoft 365 Copilot licenses, and voice bots bill per minute (10, 35 or 75 credits by voice tier on the standard harness). See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** For digital customer traffic, count billable answers and agent actions up to transfer. If standard-harness voice is used, its 10, 35 or 75 credits per minute already include those core events. After takeover, budget representative work under the hub's licensing. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 

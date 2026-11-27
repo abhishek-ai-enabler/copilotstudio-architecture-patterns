@@ -35,7 +35,8 @@ flowchart TB
     subgraph Harness["Harness runtime"]
         OR["Orchestrator<br/>classic, generative<br/>or reasoning loop"]
         CTX["Instructions, skills,<br/>memory and variables"]
-        TOP["Topics or hooks<br/>authored paths"]
+        TOP["Standard topics<br/>authored paths"]
+        HK["Copilot hooks<br/>lifecycle events"]
     end
 
     subgraph Capabilities["Capabilities the orchestrator calls"]
@@ -61,6 +62,8 @@ flowchart TB
     TR -->|"event payload"| OR
     CTX -->|"context"| OR
     OR -->|"select path"| TOP
+    OR -.->|"session, tool or error event"| HK
+    HK -->|"run bound workflow"| FL
     OR -->|"retrieve"| KN
     OR -->|"invoke"| TL
     OR -->|"delegate"| AG
@@ -94,7 +97,7 @@ flowchart TB
     A6["A reusable procedure<br/>or know-how"]
     A7["Work without<br/>a user present"]
 
-    R1["Topic and nodes<br/>or Copilot hook<br/>and workflow"]
+    R1["Standard topic, Copilot<br/>workflow tool or CC<br/>Topic skill"]
     R2["Knowledge source<br/>or custom retrieval"]
     R3["Connector, MCP<br/>or REST tool"]
     R4["Agent flow<br/>or workflow<br/>with human node"]
@@ -145,10 +148,10 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 
 ### Knowledge sources
 
-- **Availability:** Std, Copilot and CC support public websites, files, SharePoint, Microsoft Graph connectors and Dataverse. Azure AI Search is listed for Std but not Copilot. In CC voice channels, sources that require end-user sign-in are unavailable.
+- **Availability:** Std and Copilot list websites, files, SharePoint, Graph connectors and Dataverse; only Std lists Azure AI Search. Use the [CC source list](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/knowledge-sources-overview-customer-conversation) separately. CC chat can use sign-in-dependent sources such as SharePoint; CC speech cannot.
 - **Use for:** Cited answers from approved, owned content. On the Copilot harness, retrieval can load whole files into the sandbox and cache them for follow-up questions.
 - **Avoid:** Treating a retrieved document as a ledger of live status. Use a tool for live records.
-- **Source:** [Microsoft Copilot harness components](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/microsoft-copilot-harness-overview), [Feature comparison](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview#comparison-of-features-standard-vs-github-copilot-harnesses).
+- **Source:** [Microsoft Copilot harness components](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/microsoft-copilot-harness-overview), [feature comparison](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview#comparison-of-features-standard-vs-microsoft-copilot-harnesses).
 
 ### Connector tools
 
@@ -159,7 +162,7 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 
 ### REST API tool (preview)
 
-- **Availability:** Std, preview.
+- **Availability:** Std and [CC](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/tools-available-customer-conversation) list direct REST API tools (preview). On Copilot, use a connector or MCP tool.
 - **Use for:** Prototyping a small set of operations from an OpenAPI description before you invest in a connector.
 - **Avoid:** Production reuse across agents. Promote proven operations to a custom connector.
 - **Source:** see [Prototype an agent-local REST tool](technical-patterns/direct-rest-tool.md).
@@ -173,7 +176,7 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 
 ### Prompt tools
 
-- **Availability:** Std, including the optional code interpreter. Copilot lists prompts as not supported; use a skill or a workflow agent node instead.
+- **Availability:** Std supports prompt tools and optional code interpreter. [CC lists AI Builder prompts](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/tools-available-customer-conversation). Copilot does not list prompt tools; use a skill or a workflow agent node instead.
 - **Use for:** A reusable model instruction with typed inputs and outputs, such as extraction or classification inside a topic.
 - **Avoid:** Calculating governed figures. Let the system of record or semantic model compute them.
 - **Source:** [Prompt node](https://learn.microsoft.com/en-us/microsoft-copilot-studio/nlu-prompt-node), [Code interpreter](https://learn.microsoft.com/en-us/microsoft-copilot-studio/code-interpreter-for-prompts).
@@ -194,7 +197,7 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 
 ### Power Automate cloud and desktop flows
 
-- **Availability:** Outside the harness. They use Power Automate licensing, not Copilot Credits.
+- **Availability:** Outside the harness. The flow itself uses Power Automate licensing. An AI Builder action inside it can still consume credits; see [billing by workload](COPILOT-CREDITS.md#1-find-which-billing-model-applies).
 - **Use for:** Existing enterprise automation, record-triggered intake, scheduled processing and desktop automation on a managed machine.
 - **Avoid:** Assuming that a cloud flow's licensing covers the agent flow it calls.
 - **Source:** [Licensing for the standard harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing).
@@ -235,13 +238,13 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 ### Skills
 
 - **Availability:** Copilot and CC (Generative and Topic skills). Std uses topics or prompt tools instead.
-- **Use for:** A folder with `SKILL.md` and optional `scripts/`, `references/` and `assets/` that packages a reusable procedure. Its name and description are always loaded, the body loads when relevant, and resources load when needed.
-- **Avoid:** Enforcing order (use a workflow), storing credentials, or granting access. A skill guides behavior; it is not a tool or a permission.
+- **Use for:** On Copilot, package a reusable procedure in `SKILL.md` with optional scripts, references and assets. On CC, author a **Generative** skill for Markdown guidance or a **Topic** skill for a deterministic sequence; the [CC authoring steps](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-create-customer-conversation) differ from package upload.
+- **Avoid:** Relying on generative instructions to enforce order. Use a workflow or a CC Topic skill for a fixed sequence. Neither kind of skill grants access.
 - **Source:** [Skills overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-overview), [When to use skills](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/skills-when-to-use).
 
 ### Memory
 
-- **Availability:** Copilot and CC. Rolling out; preview in some regions.
+- **Availability:** The Copilot [memory guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/memory-overview) documents per-user memory and its regional rollout. The [CC overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview-customer-conversation) also lists memory; do not assume the same identity, retention or end-user controls for an anonymous chat or phone call.
 - **Use for:** Per-user preferences, corrections, ongoing goals and references to where information lives. Users can view and delete their memories.
 - **Avoid:** Using memory as a source of authority, permission, approval or current status. Memory can be stale, and Microsoft's agents verify it before acting.
 - **Source:** [Memory overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/memory-overview).
@@ -269,14 +272,14 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 
 ### Connected agents
 
-- **Availability:** Std, Copilot and CC. Targets include Copilot Studio agents in the same environment, Microsoft Foundry agents, Agent2Agent (A2A) agents, Microsoft 365 Agents SDK agents and, in preview, Fabric data agents.
+- **Availability:** Match the **target type** to the host harness. Std and Copilot list same-environment Copilot Studio agents, Foundry, A2A and Microsoft 365 Agents SDK agents. The [Fabric data agent connection (preview)](https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-fabric-data-agent) is documented for Std. The [CC connection guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/add-agent-connected-customer-conversation) documents a Foundry agent with an Activity endpoint. These target lists are not interchangeable.
 - **Use for:** A specialist with an independent owner, release or reuse across front doors. On the Copilot harness, sharing the parent agent lets it invoke a connected Copilot Studio agent for those users. The connected agent's tool connections still govern data access.
-- **Avoid:** Connected agents for small tasks. Avoid author-authenticated tools behind a connected agent when results must be trimmed to the caller.
+- **Avoid:** Designing a chain of specialists on Copilot: connected-agent delegation is one level deep. Avoid author-authenticated tools when results must be trimmed to the caller.
 - **Source:** [Connected agents overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/authoring-add-other-agents), [Add a connected Copilot Studio agent](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/add-agent-connected).
 
 ### Authentication and tool credentials
 
-- **Availability:** Entra ID and no authentication in all harnesses. Manual or custom authentication is listed for Std only. Tools choose user or maker credentials.
+- **Availability:** Std and Copilot list Entra ID and anonymous access; only Std lists manual authentication in that comparison. On CC, [agent sign-in and voice verification](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/settings-details-security-customer-conversation#configure-security) are separate settings. Verifying a phone caller does not give the call a delegated Entra session.
 - **Use for:** Separating *who is chatting* (agent sign-in) from *whose authority a tool uses* (the connection).
 - **Avoid:** Treating channel tokens, booking references or event payloads as proof of identity.
 - **Source:** [Configure user authentication](https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication).
@@ -286,7 +289,7 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 - **Availability:** Std and Copilot both list Microsoft 365, Teams and website. SharePoint, WhatsApp and Dynamics 365 Contact Center are listed for Std only. CC deploys to speech and chat.
 - **Use for:** Matching the channel to the identity it can carry and the UI it can render.
 - **Avoid:** Choosing a harness before you confirm that the required channel is listed for it.
-- **Source:** [Feature comparison](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview#comparison-of-features-standard-vs-github-copilot-harnesses).
+- **Source:** [Feature comparison](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview#comparison-of-features-standard-vs-microsoft-copilot-harnesses).
 
 ### Escalation and handoff
 
@@ -358,14 +361,14 @@ The matrix shows the primary components used in each pattern's recommended build
 
 <!-- component-matrix:start -->
 
-Legend: ● core to the pattern, ○ optional. Harness: Std = standard, Copilot = Microsoft Copilot, CC = Customer Conversation.
+Harness: **Std** = standard, **Copilot** = Microsoft Copilot, **CC** = Customer Conversation. A blank means the category isn't needed for the build shown. A component available only in a different harness is an alternative, not a feature of the recommended harness.
 
 ### Reference architectures
 
 | Pattern | Harness | Topics or hooks | Knowledge | Tools | Flows or workflows | Triggers | Skills | Memory | Agents | Human gate or handoff |
 | --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | [Extract service-quality signals from conversation transcripts](reference-architectures/conversation-transcripts.md) | Std + Power Automate |  |  | ● | ● |  |  |  |  |  |
-| [Analyst-reviewed reporting over a Fabric semantic model](reference-architectures/fabric-analytics.md) | Copilot |  |  | ● | ○ |  | ● | ○ |  |  |
+| [Analyst-reviewed reporting over a Fabric semantic model](reference-architectures/fabric-analytics.md) | Copilot |  |  | ● | ○ |  | ● | ○ |  | ● |
 | [Route HR requests to domain-specific agents](reference-architectures/hr-specialists.md) | Std |  | ● | ● | ● |  |  |  | ● | ● |
 | [Preview and migrate an organizer's meetings in place](reference-architectures/meeting-migration.md) | Std | ● |  |  | ● |  |  |  |  |  |
 | [Request an agent recommendation from a model-driven form](reference-architectures/model-driven-form.md) | Std | ● |  | ○ |  |  |  |  |  |  |
@@ -397,9 +400,9 @@ Legend: ● core to the pattern, ○ optional. Harness: Std = standard, Copilot 
 | [Handoff 2: Copilot Studio in front (Bot-in-the-Loop)](decision-patterns/bot-front-handoff.md) | Std | ● |  |  |  |  |  |  |  |  |
 | [Standard harness: classic topic routing](decision-patterns/classic-topics.md) | Std | ● | ○ |  | ● |  |  |  |  |  |
 | [Microsoft Copilot harness: reason, act and inspect results](decision-patterns/copilot-reasoning-loop.md) | Copilot |  |  | ● | ● |  | ● | ○ |  | ● |
-| [Fabric 2: Delegate analytics to a connected Fabric data agent](decision-patterns/fabric-connected.md) | Std or Copilot |  |  |  |  |  |  |  | ● |  |
+| [Fabric 2: Delegate analytics to a connected Fabric data agent](decision-patterns/fabric-connected.md) | Std |  |  |  |  |  |  |  | ● |  |
 | [Fabric 4: Query the model from the Microsoft Copilot harness](decision-patterns/fabric-copilot-harness.md) | Copilot | ○ |  | ● |  |  | ● |  |  |  |
-| [Fabric 1: Publish a Fabric data agent directly](decision-patterns/fabric-direct.md) | Fabric only |  |  |  |  |  |  |  | ○ |  |
+| [Fabric 1: Publish a Fabric data agent directly](decision-patterns/fabric-direct.md) | Fabric only |  |  |  |  |  |  |  |  |  |
 | [Fabric 3: Query the model directly from the standard harness](decision-patterns/fabric-standard-harness.md) | Std | ○ |  | ● |  |  |  |  |  |  |
 | [Standard harness: generative orchestration over topics, tools and knowledge](decision-patterns/generative-planning.md) | Std | ● | ● | ● |  |  |  |  | ○ |  |
 | [Handoff 1: Engagement hub in front (Bot-as-an-Agent)](decision-patterns/hub-front-handoff.md) | Std | ● |  |  |  |  |  |  |  | ● |
@@ -413,7 +416,7 @@ Legend: ● core to the pattern, ○ optional. Harness: Std = standard, Copilot 
 | [Delegate to an independently published specialist](technical-patterns/connected-agent.md) | Std or Copilot |  |  | ● |  |  |  |  | ● |  |
 | [Expose a narrow business operation through a connector](technical-patterns/connector-action.md) | Any |  |  | ● |  |  |  |  |  |  |
 | [Bring authorized search results to a generative answers node](technical-patterns/custom-retrieval.md) | Std | ● | ○ |  |  |  |  |  |  |  |
-| [Design distinct voice and chat paths for one customer service](technical-patterns/customer-voice-chat.md) | CC | ● | ● | ● |  |  |  |  | ● | ● |
+| [Design distinct voice and chat paths for one customer service](technical-patterns/customer-voice-chat.md) | CC |  | ● | ● |  |  | ○ |  | ● | ● |
 | [Prototype an agent-local REST tool from OpenAPI](technical-patterns/direct-rest-tool.md) | Std |  |  | ● |  |  |  |  |  |  |
 | [Gate changes on expected answers and observable actions](technical-patterns/evaluation-gate.md) | Any |  |  |  |  |  |  |  |  |  |
 | [Start a bounded agent task from a business event](technical-patterns/event-worker.md) | Std | ○ |  | ● | ● | ● |  |  |  |  |
@@ -423,7 +426,7 @@ Legend: ● core to the pattern, ○ optional. Harness: Std = standard, Copilot 
 | [Embed a web client without exposing channel credentials](technical-patterns/secured-web-client.md) | Std |  |  | ● |  |  |  |  |  |  |
 | [Share a governed metric contract between agents and reports](technical-patterns/semantic-model-contract.md) | Any |  |  | ● |  |  | ● |  |  |  |
 | [Permission-trimmed answers from SharePoint](technical-patterns/sharepoint-grounding.md) | Std or Copilot | ○ | ● |  |  |  |  |  |  |  |
-| [Package reusable procedures as skills](technical-patterns/skill-package.md) | Copilot or CC |  |  | ● |  |  | ● | ○ |  |  |
+| [Package reusable procedures as skills](technical-patterns/skill-package.md) | Copilot |  |  | ● |  |  | ● | ○ |  |  |
 | [Promote one tested solution with environment-specific bindings](technical-patterns/solution-promotion.md) | Any |  |  |  |  |  |  |  |  |  |
 | [Return a typed result from an agent flow](technical-patterns/synchronous-agent-flow.md) | Std |  |  | ● | ● |  |  |  |  |  |
 | [Carry the user's authority to a downstream tool](technical-patterns/tool-identity.md) | Any |  |  | ● | ● |  |  |  |  |  |

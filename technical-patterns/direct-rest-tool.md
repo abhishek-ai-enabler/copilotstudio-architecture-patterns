@@ -52,7 +52,7 @@ sequenceDiagram
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness (preview). Promote proven operations to a custom connector, which works in every harness.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness with the **preview REST API tool**; it is the tool, not the harness, that is in preview. Customer Conversation also lists REST tools. On the Microsoft Copilot harness, use a connector or MCP tool.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |

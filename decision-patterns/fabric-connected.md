@@ -53,19 +53,19 @@ sequenceDiagram
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness with generative orchestration, or Microsoft Copilot harness. Either harness can connect a Fabric data agent. The connection to a Fabric data agent is preview. On the Microsoft Copilot harness, connected agents are the only multi-agent composition.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness with generative orchestration. Microsoft's Fabric connection guide documents this preview for the standard harness. The Microsoft Copilot harness supports other connected-agent types; that does not establish support for this Fabric target. For a documented Copilot-harness path, compare [option 4](fabric-copilot-harness.md), where the agent writes DAX itself.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
-| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration or reasoning loop | Recognizes a data question and routes it to the data specialist. | Both harnesses. |
-| [Connected agent](../COMPONENTS.md#connected-agents): Fabric data agent (preview) | Owns query construction against the semantic model and returns scoped values. | Both harnesses. |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Recognizes a data question and routes it to the specialist. | Option 4 uses a reasoning loop instead of delegating the query. |
+| [Connected agent](../COMPONENTS.md#connected-agents): Fabric data agent (preview) | Owns query construction against the semantic model and returns scoped values. | No equivalent Fabric target is listed in the [Copilot connected-agent guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/authoring-add-other-agents). |
 | [Instructions](../COMPONENTS.md#instructions): Delegation rules | Send metric, period and filters, not the whole conversation, and keep each result tied to its scope. | Both harnesses. |
 | [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): End-user identity across both hops | Fabric must evaluate the end user's data permissions, not the maker's. | Confirm per harness and channel. |
 | [Channel](../COMPONENTS.md#channels): Teams or Microsoft 365 | The outer agent owns the conversation and the answer format. | Both harnesses list these channels. |
 
 **Not the right component:** A prompt or sandbox step that recomputes totals Fabric already returned.
 
-**Copilot Credits drivers (medium):** On the Copilot Studio side, each turn uses generative answers and agent actions on the standard harness, or usage-based tokens on the Copilot harness. The Fabric data agent requires a paid Fabric capacity (F2 or higher) and draws on that capacity, not on Copilot Studio rates. Two hops add latency and two meters. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** Count the outer agent's billable answers and actions, subject to the standard employee-use inclusion. Budget the data layer separately: [Fabric requires paid F2+ or Fabric-enabled P1+ capacity](https://learn.microsoft.com/en-us/fabric/data-science/concept-data-agent). One comparison may call the specialist several times. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 

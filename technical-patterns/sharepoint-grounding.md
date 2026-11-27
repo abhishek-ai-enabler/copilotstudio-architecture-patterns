@@ -57,7 +57,7 @@ sequenceDiagram
 
 **Not the right component:** Repeating a permitted citation to a user without access.
 
-**Copilot Credits drivers (medium):** Licensed employees using their own identity are included. Otherwise, generative answers bill 2, and tenant graph grounding bills 10 per message where it is enabled. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+**Copilot Credits drivers (medium):** On standard, qualifying licensed employee interactions are included. For metered use, count 2 per generative answer and 10 for tenant graph grounding only when that feature is used. On the Microsoft Copilot harness, knowledge retrieval, model and runtime usage are metered even for a licensed employee. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
 
 ## Design notes
 
