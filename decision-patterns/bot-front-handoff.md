@@ -55,6 +55,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration, with a custom relay built on Azure Bot Service. The Microsoft Copilot harness does not list the Dynamics 365 Contact Center channel. If you can replace the custom bridge with a supported escalation path, evaluate the Customer Conversation harness and its **Escalate** tool.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Escalate system topic | Recognizes a request for a person and collects the reason before the bridge is called. | Customer Conversation: **Escalate** tool. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Message, Condition, tool call | Hands the conversation to the relay and tells the customer the actual state: waiting, live or ended. | Copilot: a workflow tool that calls the bridge. |
+| [Variables](../COMPONENTS.md#variables-and-conversation-state): Global correlation variables | Hold the hub session ID and handoff state for this conversation. The bridge keeps the durable mapping. | Persist state outside the agent in every harness. |
+| [Channel](../COMPONENTS.md#channels): Custom canvas through Azure Bot Service | Keeps the customer in the agent canvas while the bridge relays both directions. | Confirm that the channel is listed for the target harness. |
+| [Monitor and analytics](../COMPONENTS.md#monitor-and-analytics): Transcripts and Application Insights | Correlate both session IDs when you investigate a dropped or duplicated message. *(Optional.)* | Copilot and Customer Conversation: **Monitor** tab. |
+
+**Not the right component:** A child or connected agent for the human leg. A representative is not an agent tool, and the relay needs its own session state.
+
+**Copilot Credits drivers (medium):** Self-service turns before escalation are billed as generative answers, classic answers and agent actions. Check whether your relay routes representative messages through the agent; if it does, each relayed turn can add billed events. Customer-facing traffic is not covered by Microsoft 365 Copilot licenses. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** The customer chats with Copilot Studio. Escalation invokes a custom skill/bridge through Azure Bot Service. The bridge opens a corresponding conversation via the hub's APIs and relays messages in both directions. Keep a mapping of the two session IDs and an explicit state: automated, waiting, live or ended.

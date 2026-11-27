@@ -65,6 +65,22 @@ sequenceDiagram
     A-->>U: Show per-meeting outcome
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness in Teams, with agent flows for Microsoft Graph calendar operations. On the Microsoft Copilot harness, the migration becomes a workflow with a request-for-information or approval node for the organizer's selection.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Entra ID sign-in, delegated connections | Limit the inspection to the signed-in organizer's own meetings. | All harnesses. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Preview and confirm topic | Shows proposed changes and collects the organizer's selection. | Copilot: workflow human input node. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Adaptive card, Question, Condition | Present recurring series and rooms, then confirm per event. | Copilot: Adaptive Card node. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Migration flow | Converts supported events in place through Microsoft Graph and records per-event status. | Copilot: workflow with connector actions. |
+| [Variables](../COMPONENTS.md#variables-and-conversation-state): Selection and event identifiers | Track the exact events and versions approved. | Copilot: workflow variables. |
+
+**Not the right component:** Cancel-and-reinvite automation, or an operator connection with standing access to every calendar.
+
+**Copilot Credits drivers (medium):** Agent flow actions scale with the number of meetings (13 per 100 actions). They are included when a licensed Microsoft 365 Copilot organizer starts the flow interactively through **When an agent calls the flow**. Unlicensed organizers and any scheduled batch runs are billed. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. An organizer signs into the Copilot Studio agent in Teams. Delegated access lets the migration automation inspect eligible meetings. Show the proposed changes, including recurring series and room bookings, before requesting a selection.

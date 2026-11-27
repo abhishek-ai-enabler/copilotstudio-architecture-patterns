@@ -52,6 +52,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration. On the Microsoft Copilot harness, the reasoning loop plans across tools and workflows. Use it when the request needs iterative evidence, not just two known tasks.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Selects topics, tools, knowledge and agents from their descriptions and fills missing inputs. | Copilot: reasoning loop. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Authored topics with distinct descriptions | Own any fixed confirmation sequence that the planner must not improvise. | Copilot: workflow tool. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Warranty documents | Return cited warranty text. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Repair status tool with user authentication | Returns live repair status for the signed-in customer. | All harnesses. |
+| [Connected agent](../COMPONENTS.md#connected-agents): Eligible specialist agents | Handle a subdomain that another team owns. *(Optional.)* | Copilot: connected agents. |
+
+**Not the right component:** Relying on the planner to enforce a confirmation or authorization step. Put it in a topic or flow.
+
+**Copilot Credits drivers (medium):** A combined request can bill several events in one turn: a generative answer (2) per grounded response and an agent action (5) for each planned step on the activity map. Clear tool descriptions avoid wasted steps. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** A planner selects from descriptions of tools, knowledge, topics and eligible agents, gathers missing inputs and combines their outputs. For “find the warranty and check my repair,” keep the cited warranty text distinct from the repair system's live status. Use an authored topic or flow for any fixed confirmation sequence.

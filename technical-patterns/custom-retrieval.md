@@ -49,6 +49,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness: a topic with a generative answers node using custom data. The Microsoft Copilot harness does not list Azure AI Search knowledge or this node. Expose the search service as an MCP server or tool.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Retrieval topic | Owns the call sequence. | Copilot: tool. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): HTTP request or agent flow | Calls the authorized search service. | Copilot: workflow or MCP. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Generative answers node (custom data) | Grounds on `Content`, `Title` and `ContentLocation`. The documented node uses the first three records. | Copilot: no equivalent node. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Caller identity to search | The search service filters results before the agent sees them. | All harnesses. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Native Azure AI Search knowledge | Simpler alternative when entitlements fit. *(Optional.)* | Not listed for Copilot. |
+
+**Not the right component:** Filtering unauthorized excerpts after retrieval.
+
+**Copilot Credits drivers (medium):** Each answer bills a generative answer (2). Topic transitions and tool steps bill as agent actions, and an agent flow adds actions at 13 per 100. Return three small excerpts. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** A standard-harness topic calls an approved search endpoint using an HTTP request or Power Automate flow. The service authorizes the caller, ranks permitted matches and returns small excerpts. Map them into a table for the generative answers node's **Classic data / Custom data** option: `Content`, plus `Title` and `ContentLocation` for usable citations. The documented node uses only the first three records.

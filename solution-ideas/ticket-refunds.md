@@ -68,6 +68,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness: an assisted Teams agent and an autonomous email agent share one cloud flow and a desktop flow. Computer use is an alternative to the desktop flow on the standard harness and is listed as planned for the Microsoft Copilot harness.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Assisted refund intake | Gathers a request from an employee in Teams. | Copilot: workflow tool. |
+| [Trigger](../COMPONENTS.md#triggers-and-autonomous-agents): Outlook event | Starts the autonomous agent for emailed requests. | Copilot: workflow or agent trigger (preview). |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Shared validation cloud flow | Validates against the sale and policy for both entry paths. | Copilot: shared workflow. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Refund reviewer | Reviews ambiguous, high-value or unauthorized cases. | Copilot: approvals node. |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Desktop flow on a managed VM | Performs the legacy refund and records a receipt. | Std alternative: computer use. |
+
+**Not the right component:** Telling a requester that a refund completed before the legacy receipt is on the case.
+
+**Copilot Credits drivers (high):** The email agent's runs are billed even when staff are licensed. Cloud and desktop flows use Power Automate licensing. If computer use replaces the desktop flow, each step bills as an agent action (5) and is not included in Microsoft 365 Copilot licenses. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. The assisted agent gathers a request from an employee; the autonomous agent receives an Outlook event. Normalize both into the same Dataverse refund case, retaining origin, ticket reference and status.

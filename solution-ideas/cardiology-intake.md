@@ -60,6 +60,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness front-desk intake agent, with Power Apps, AI Builder and Power Automate around it. A Microsoft Copilot harness workflow with an extract node and a request-for-information node could coordinate the paperwork, but the clinician's decision must stay in the organization's clinical process.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Administrative intake topic | Collects administrative details and opens the case. It asks no clinical questions and gives no clinical advice. | Copilot: workflow tool. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Dataverse case | Creates the case and links original documents. | All harnesses. |
+| [Prompt tool](../COMPONENTS.md#prompt-tools): AI Builder document extraction | Prepares draft fields for the clinician to verify. | Copilot workflow: extract node. |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Review routing and scheduling | Places the case in the restricted review queue, and books only after a recorded clinician decision. | Copilot: workflow. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Qualified clinician decision | Releases the scheduling step for the verified case. | Copilot: approvals node; the decision remains clinical. |
+
+**Not the right component:** Any AI step that assigns urgency or releases a booking.
+
+**Copilot Credits drivers (medium):** Extraction bills content processing at 8 per page (Copilot Credits in Copilot Studio; AI Builder credits first in Power Automate). Intake answers bill per answer for unlicensed users. Scheduling in a Power Automate cloud flow uses Power Automate licensing. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. A front-desk Copilot Studio agent opens a Dataverse case. Staff or a patient submits documents through an approved Power Apps intake experience. Keep the original tied to the verified case.

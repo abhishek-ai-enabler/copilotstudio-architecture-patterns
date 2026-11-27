@@ -59,6 +59,23 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness embedded in Power Pages, limited to administrative requests. Validate the portal embedding and authentication before you use another harness. Clinical requests always go to a staffed pathway.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Channel](../COMPONENTS.md#channels): Power Pages | Hosts the agent in the patient portal. | Validate per harness. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Approved patient-service information | Answers general administrative questions. | All harnesses. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Portal authentication or verified proxy | Required before any personal appointment access. | All harnesses. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Appointment change flow | Submits the requested change and sends the confirmation. | Copilot: workflow. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Clinical-request routing topic | Recognizes clinical questions and directs them to the staffed pathway without assessing them. | Copilot: instructions plus hook; validate first. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Staffed clinical pathway | Qualified clinicians own clinical questions and decisions. | All harnesses. |
+
+**Not the right component:** Any generative step that interprets symptoms or prioritizes clinical requests.
+
+**Copilot Credits drivers (medium):** Patient conversations are not covered by Microsoft 365 Copilot licenses. Answers bill at 1 or 2 and agent flow actions at 13 per 100. Feedback analytics with AI Builder outside the conversation are billed separately. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. A Copilot Studio agent in Power Pages answers general questions from approved patient-service information. For a personal appointment, the portal authenticates the patient or verifies an authorized proxy.

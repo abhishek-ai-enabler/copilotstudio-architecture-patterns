@@ -52,6 +52,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration. Option 4 moves the schema into a skill and lets the Microsoft Copilot harness correct a failed query.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Resolves metric and period, then calls the query tool once per question. | Copilot: reasoning loop with retries. |
+| [Instructions](../COMPONENTS.md#instructions): Schema and measure instructions | List exact measure names, the date table and units for the agent to cite. | Copilot: model-specific skill. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Power BI: Run a query against a dataset | Runs a read-only DAX `EVALUATE` query and returns rows only. | Copilot: same connector action. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Question node | Asks for a missing period or measure instead of choosing one silently. *(Optional.)* | Copilot: instructions ask for missing scope. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): User authentication on the connector | Applies the user's row-level security in the semantic model. | All harnesses. |
+
+**Not the right component:** A prompt tool or code interpreter that recalculates totals or time intelligence the model already defines.
+
+**Copilot Credits drivers (medium):** Each answer is a generative answer (2), and planner steps on the activity map are agent actions (5). A reasoning model adds 10 credits per 1,000 billed tokens, and long schema instructions raise that token count. Employee use by licensed Microsoft 365 Copilot users with their own identity is included. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** The agent resolves the user's metric and period, constructs a read-only DAX `EVALUATE` query and calls the Power BI connector's *Run a query against a dataset* action. Feed only the returned rows into an answer with explicit units. The semantic model owns totals and time intelligence; a prompt must not recreate them.

@@ -58,6 +58,23 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration in Teams with additional languages enabled. The Microsoft Copilot harness controls response language through instructions. Validate the ITSM connector and the live-chat bridge before you move.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Entra ID | Identifies the employee for every ticket operation. | All harnesses. |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Separates how-to guidance, catalog requests and incident status. | Copilot: reasoning loop. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): SharePoint guides and ITSM knowledge | Grounds cited guidance in the conversation language. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): ITSM connector | Reads catalog items and creates or updates incidents. ITSM enforces ownership. | All harnesses. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Incident confirmation topic | Shows the description before submission and keeps IDs untranslated. | Copilot: workflow tool. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Optional Microsoft 365 Agents SDK bridge | Live chat with a summary and two-way translation. *(Optional.)* | Confirm support per harness. |
+
+**Not the right component:** A service connection that lets any employee read any ticket.
+
+**Copilot Credits drivers (medium):** Employee use by licensed Microsoft 365 Copilot users with their own identity is included. Otherwise, answers bill at 1 or 2 and tool steps bill as agent actions. Translation in the bridge is billed by that bridge's service. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Entra ID identifies the employee in Teams. Copilot Studio detects the conversation language and distinguishes “how do I request a laptop?” from “where is my request?”

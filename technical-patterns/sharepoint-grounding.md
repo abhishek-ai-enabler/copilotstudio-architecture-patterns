@@ -44,6 +44,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, or Microsoft Copilot harness for whole-file analysis. The Microsoft Copilot harness fetches whole files into the sandbox for deeper analysis.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): SharePoint sites | Retrieve permitted policy under the user's access. | All harnesses. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Entra ID | Required for permission trimming. | All harnesses. |
+| [Channel](../COMPONENTS.md#channels): Teams or Microsoft 365 | Employee experience. | SharePoint channel is Std only. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Question node | Asks which country or group applies. *(Optional.)* | Copilot: instructions. |
+
+**Not the right component:** Repeating a permitted citation to a user without access.
+
+**Copilot Credits drivers (medium):** Licensed employees using their own identity are included. Otherwise, generative answers bill 2, and tenant graph grounding bills 10 per message where it is enabled. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** An authenticated user asks a question → Copilot Studio retrieves from configured SharePoint sites under the user's access → the agent summarizes the retrieved policy and links to it. Scope sources to published, owned content. Ask which country or employee group applies when several policies are plausible.

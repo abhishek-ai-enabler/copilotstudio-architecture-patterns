@@ -50,6 +50,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness that queries Fabric. Standard harness agents read the contract from instructions; Microsoft Copilot harness agents read it from a skill.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Instructions](../COMPONENTS.md#instructions): Measure names and calendar | For standard harness agents. | Copilot: skill. |
+| [Skill](../COMPONENTS.md#skills): Model contract skill | For Microsoft Copilot harness agents. | Std: instructions. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Power BI query action | Queries the governed model. | All harnesses. |
+| [Evaluation](../COMPONENTS.md#evaluation): Reconciliation tests | Compare agent and report for the same identity and filters. | All harnesses. |
+
+**Not the right component:** Teaching agents a calculation the model should own.
+
+**Copilot Credits drivers (low):** A clear contract reduces retries and schema tokens. Run reconciliation tests in a limited test environment. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Data owners publish a semantic model with facts, dimensions, a marked date table and approved measures. Document exact names, business calendar, units and missing-value behavior. Point both the reference report and the query-generating component at that model. When scenario codes change, update model logic rather than teaching every agent a new calculation.

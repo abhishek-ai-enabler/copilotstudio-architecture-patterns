@@ -62,6 +62,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness: a scheduled agent flow for alerts, plus an investigation agent with a connected Fabric data agent. On the Microsoft Copilot harness, use a scheduled workflow for alerts and a connected data agent for investigation.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Agent flow](../COMPONENTS.md#agent-flows): Scheduled detection retrieval | Retrieves new detections, posts restricted Teams alerts and optionally creates Planner tasks. | Copilot: scheduled workflow. |
+| [Connected agent](../COMPONENTS.md#connected-agents): Fabric data agent (preview) | Queries the Lakehouse and Eventhouse for evidence behind an alert. | Copilot: connected agent. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Teams and Planner | Delivers alerts and investigation tasks. | All harnesses. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Investigator decision | Classifies, dismisses or escalates the alert. A payment hold is a separate finance operation. | Copilot: approvals node. |
+
+**Not the right component:** An agent tool that freezes payments on a detector score.
+
+**Copilot Credits drivers (medium):** Scheduled agent flow runs are not the interactive **When an agent calls the flow** case, so plan for billed actions (13 per 100). Investigator turns are included for licensed users with their own identity. The data agent draws on Fabric capacity. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Batch pipelines or eventstreams bring ERP invoices, vendors and policy reference data into Fabric. Store transactions in a Lakehouse; run versioned KQL detection functions in Eventhouse for duplicate, unusual-activity or threshold checks.

@@ -68,6 +68,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness in Power Pages for discovery. Checkout and payment stay outside the agent. Discovery has no need for the Microsoft Copilot harness; payment must never be an agent tool in any harness.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Channel](../COMPONENTS.md#channels): Power Pages | Hosts discovery beside the portal's normal search. | Validate per harness. |
+| [Prompt tool](../COMPONENTS.md#prompt-tools): AI Builder filter extraction | Turns the customer's description into listing filters. | Copilot: skill. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Dataverse listing query | Returns matching listings. | All harnesses. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Adaptive card | Shows listing cards that link to canonical listing pages. | Copilot: response formatting. |
+
+**Not the right component:** A payment, hold or reservation tool in the agent. Checkout belongs to the Payments API.
+
+**Copilot Credits drivers (medium):** Each search bills a prompt (AI tools rate) plus a generative answer for anonymous visitors. Cache common filters and keep listing cards compact. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. In Power Pages, Copilot Studio and AI Builder turn the customer's terms into listing filters. Query Dataverse and return cards linking to canonical listings; the portal's normal search remains available.

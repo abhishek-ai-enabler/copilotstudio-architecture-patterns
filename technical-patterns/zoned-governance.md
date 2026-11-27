@@ -47,6 +47,20 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. Usage-based harnesses consume credits during building, so exploration zones need a credit boundary.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Environments and DLP per zone | Contain experimentation. | All harnesses. |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Credit allocation and agent limits | Exploration: prepaid with no tenant draw. Production: funded owner. | All harnesses. |
+| [Solutions and ALM](../COMPONENTS.md#solutions-and-alm): Managed promotion | Gates mission-critical delivery. | All harnesses. |
+
+**Not the right component:** Assuming DLP grants record-level permission.
+
+**Copilot Credits drivers (low):** Classify environments as exploration, test and validation, or funded production. Pay-as-you-go is for continuity, and Azure budgets alert but do not stop usage. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Inventory the proposed audience, data sources, autonomy and write permissions. Assign an owner and a risk zone: personal/read-only exploration, partnered departmental development, or professionally managed mission-critical delivery. In Power Platform, apply environment roles and data policies to the relevant zones; review connector combinations, endpoints, authentication and intended channels before sharing.

@@ -55,6 +55,21 @@ sequenceDiagram
     P-->>U: Present outcome
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration. The Microsoft Copilot harness has no child agents: use a skill for a procedure or a connected agent for a separate owner. The Customer Conversation harness uses sub-agents.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Routes the bounded task to the child by description. | Copilot: reasoning loop. |
+| [Child agent](../COMPONENTS.md#child-agents-and-sub-agents): Equipment-return child | Holds the task's instructions, tools and knowledge in the parent's release. | Copilot: skill or connected agent; Customer Conversation: sub-agent. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Return guidance | Scoped to the child. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Asset service | Records the return. | All harnesses. |
+
+**Not the right component:** A child agent as a security boundary. It shares the parent's lifecycle and identity configuration.
+
+**Copilot Credits drivers (medium):** Child invocations and their tool steps appear as agent actions. With a reasoning model, the premium token meter includes the child's tokens. Distinct descriptions avoid duplicate planning steps. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** On the standard harness with generative orchestration, the parent recognizes a bounded task such as equipment return and invokes its child agent. The child gathers the return identifier, consults return guidance, calls the appropriate tool and finishes that task. Give parent and child distinct descriptions so a direct tool and a child do not compete for the same intent.

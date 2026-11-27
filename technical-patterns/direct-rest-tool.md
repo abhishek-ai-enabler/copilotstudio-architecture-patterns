@@ -50,6 +50,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness (preview). Promote proven operations to a custom connector, which works in every harness.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [REST API tool](../COMPONENTS.md#rest-api-tool-preview): OpenAPI operations | Prototype the selected read-only operations. | Copilot: connector or MCP. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Configured authentication scheme | Use a test credential against a test service. | All harnesses. |
+| [Evaluation](../COMPONENTS.md#evaluation): Prototype tests | Define what an empty result means. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Custom connector | The production target for reuse and release controls. *(Optional.)* | All harnesses. |
+
+**Not the right component:** Production reuse of an agent-local preview tool.
+
+**Copilot Credits drivers (low):** Each tool step bills as an agent action. Prototype in an exploration environment with a credit limit. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Give the agent a reviewed OpenAPI description for an approved service, configure the authentication scheme and select only the needed operations. For an availability prototype, accept a product ID and location, then present the returned quantity and snapshot time. Define what an empty result means.

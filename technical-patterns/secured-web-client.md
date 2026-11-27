@@ -54,6 +54,20 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, secured Direct Line web channel. Validate the custom web channel and authentication options before you choose another harness.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Channel](../COMPONENTS.md#channels): Secured Direct Line | A server-side broker exchanges the secret for a short-lived token. | Validate per harness. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Agent sign-in and tool connections | Configure them separately. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): User-authenticated tools | Carry the customer's identity to business APIs. | All harnesses. |
+
+**Not the right component:** The Direct Line secret in the browser.
+
+**Copilot Credits drivers (low):** The channel pattern adds no consumption. Web traffic is billed per event unless the user is a licensed employee acting with their own identity. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** The application signs in the user. For a secured Direct Line channel, a server-side component authorizes the session and obtains a short-lived channel token. The browser uses that token to exchange messages through the chat canvas. Configure agent sign-in and downstream tool connections separately; a custom canvas may also need to handle connection-card popups and continuation.

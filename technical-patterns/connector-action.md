@@ -53,6 +53,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. MCP servers and workflows are alternatives when the API owner maintains a catalog or several calls must run in order.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Connector tool](../COMPONENTS.md#connector-tools): Prebuilt or custom connector | Exposes one named operation, such as **read shipment status**. | All harnesses. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Connection authentication | Choose user or maker credentials deliberately. | All harnesses. |
+| [Instructions](../COMPONENTS.md#instructions): Distinct tool description | Keeps a read operation separate from a change request. | All harnesses. |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): DLP connector policy | Controls which connectors the environment may combine. | All harnesses. |
+
+**Not the right component:** One connector operation that exposes the API's full read-write surface.
+
+**Copilot Credits drivers (low):** On the standard harness, the tool step appears as an agent action. On usage-based harnesses, the tool and its response size consume credits. Return bounded fields. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Start with a supported prebuilt Power Platform connector. If none meets the need, define a custom connector around an owned REST API. Expose a specific operation such as “read shipment status,” with required identifiers, a bounded response and a description distinct from “request shipment change.” Return the system's status and timestamp, not its full raw object.

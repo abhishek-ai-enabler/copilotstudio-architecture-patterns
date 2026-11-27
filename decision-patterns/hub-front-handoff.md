@@ -53,6 +53,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, connected to Dynamics 365 Contact Center or another engagement hub through a channel adapter. The Microsoft Copilot harness does not list the Dynamics 365 Contact Center channel. The Customer Conversation harness is designed for contact-center voice and chat with escalation.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Channel](../COMPONENTS.md#channels): Dynamics 365 Contact Center or hub adapter | The hub owns the customer session and canvas; the agent receives turns through the adapter. | Customer Conversation: speech and chat deployment. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Escalate system topic | Decides when to hand over and gathers context for the representative. | Customer Conversation: **Escalate** tool. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Transfer conversation | Raises the configured transfer event. Without this node and a working hub, nothing transfers. | Customer Conversation: **Escalate** tool. |
+| [Variables](../COMPONENTS.md#variables-and-conversation-state): Context variables | Pass the summary, intent and verification state to the hub. | Customer Conversation: escalation context. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Hub queue and representative | Takeover ends bot replies, and the hub reports acceptance or failure. | All harnesses. |
+
+**Not the right component:** An escalation message that implies a person is connected when the queue has not accepted the session.
+
+**Copilot Credits drivers (medium):** The agent is billed per answer and agent action until transfer. After transfer, representative work falls under the hub's licensing. Customer traffic is not covered by Microsoft 365 Copilot licenses, and voice bots bill per minute (10, 35 or 75 credits by voice tier on the standard harness). See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** The customer opens the engagement hub's chat canvas. The hub maps that conversation through an adapter to Copilot Studio. On the configured transfer event the hub takes control, queues the conversation and assigns a representative. The customer stays in the same canvas. An Escalate topic without a working transfer node and hub is not a live transfer.

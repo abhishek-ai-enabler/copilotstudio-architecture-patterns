@@ -51,6 +51,20 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration on a public website. The Microsoft Copilot harness also lists public website knowledge, but it adds cost without benefit for short answers.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Public website sources | Bing grounding within the configured URL scope. | All harnesses. |
+| [Channel](../COMPONENTS.md#channels): Website | Anonymous visitors. | Std and Copilot. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Account-request topic | Sends private requests to a separately authenticated service. | Copilot: instructions. |
+
+**Not the right component:** Bringing private data into the public agent.
+
+**Copilot Credits drivers (medium):** Anonymous visitors aren't covered by Microsoft 365 Copilot licenses. Each grounded answer bills 2 credits. Authored answers for top questions cost 1. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Configure a standard-harness agent with narrow, approved public website sources. The public website knowledge integration uses Bing grounding within the configured URL scope. Return the source page alongside the answer; send account-specific requests to a separately authenticated service.

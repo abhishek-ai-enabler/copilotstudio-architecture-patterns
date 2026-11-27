@@ -60,6 +60,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness engagement agent, with Power Automate ingestion, AI Builder and approvals. On the Microsoft Copilot harness, a workflow with an extract node, an approvals node and the SAP connector can replace the flow chain.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Outlook and document ingestion | Creates the Dataverse case from permitted inputs. | Copilot: workflow trigger. |
+| [Prompt tool](../COMPONENTS.md#prompt-tools): AI Builder extraction | Drafts amount and donor reference, with a source link. | Copilot workflow: extract node. |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Proposes a follow-up task or asks for clarification. | Copilot: reasoning loop. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Power Automate approval | Routes financial changes to an authorized reviewer. | Copilot: approvals node. |
+| [Connector tool](../COMPONENTS.md#connector-tools): SAP Finance | Reconciles only after approval, and records the receipt. | All harnesses. |
+
+**Not the right component:** Treating an extracted consent flag as authorization for outreach.
+
+**Copilot Credits drivers (medium):** Extraction bills content processing per page. Staff turns are included for licensed Microsoft 365 Copilot users with their own identity. Approvals in Power Automate cloud flows use Power Automate licensing. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Ingest permitted Outlook messages and SharePoint or OneDrive documents into a Dataverse case. AI Builder extracts draft fields such as amount and donor reference; retain a link to the source for review.

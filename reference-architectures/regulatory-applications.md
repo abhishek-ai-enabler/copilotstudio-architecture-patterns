@@ -62,6 +62,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness embedded in Power Pages, answering public guidance only. Validate the Power Pages embedding and channel before you use the Microsoft Copilot harness.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Channel](../COMPONENTS.md#channels): Power Pages website | Provides the applicant-facing guidance agent. | Copilot lists a website channel; validate the portal embedding. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Published guidance and public license fields | Help applicants find the right application. The agent does not decide eligibility. | All harnesses. |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Server-side submission validation | Verifies requirements and starts the fee process. It is triggered by Dataverse, not by the agent. | Copilot: event workflow (billed per action). |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Separate access scopes | Keep applicant evidence and assessor documents in separate locations and security roles. | All harnesses. |
+
+**Not the right component:** An agent tool that reads internal assessments or moves a draft into assessment.
+
+**Copilot Credits drivers (medium):** Public applicants are not covered by Microsoft 365 Copilot licenses, so each generative answer bills 2 credits. Validation in a Power Automate cloud flow uses Power Automate licensing. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. An authenticated Power Pages applicant starts a Dataverse application. The common record holds owner, type and status; a linked type-specific detail record holds the fields that vary. The applicant saves a draft and uploads evidence to the portal-facing SharePoint location.

@@ -45,6 +45,20 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** No Copilot Studio harness. The Fabric data agent is published directly to Microsoft Copilot or Teams. Add a Copilot Studio harness later through option 2 (connected agent), option 3 (standard) or option 4 (Microsoft Copilot).
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Channel](../COMPONENTS.md#channels): Microsoft Copilot or Teams through Fabric publishing | Delivers the data agent without a Copilot Studio agent in the request path. | Options 2 to 4 add a Copilot Studio channel. |
+| [Evaluation](../COMPONENTS.md#evaluation): Reconciliation against the reference report | Prove the data layer returns the right period and region before you add an orchestrator. | Copilot Studio evaluations apply once an agent is added. |
+| [Connected agent](../COMPONENTS.md#connected-agents): Future connected agent | The same validated data agent can become option 2's specialist. *(Optional.)* | Std or Copilot connected agents. |
+
+**Not the right component:** Adding a Copilot Studio agent to fix wrong figures. Fix the semantic model or data agent first.
+
+**Copilot Credits drivers (none):** No Copilot Studio Copilot Credits are consumed in the request path. The Fabric data agent requires a paid Fabric capacity (F2 or higher, or Power BI Premium P1 with Fabric enabled) and draws on that capacity. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** User in a supported Microsoft Copilot or Teams experience → published Fabric data agent → semantic model → answer. The Fabric data agent interprets the request, constructs the query and presents the result. Give it business terms and known examples; leave measure definitions in the model.

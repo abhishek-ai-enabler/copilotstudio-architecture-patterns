@@ -56,6 +56,23 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Customer Conversation harness. On the standard harness, voice bills per minute: 10 credits (classic), 35 (GenAI) or 75 (premium GenAI).
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Instructions](../COMPONENTS.md#instructions): Primary agent with Speech and Chat tabs | Holds modality-specific guidance. | Std: separate topics per modality. |
+| [Sub-agents](../COMPONENTS.md#child-agents-and-sub-agents): Service specialists | Handle focused intents, each with an escalation path. | Std: child agents. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Public service knowledge | Sources that need end-user credentials work in chat only. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Biometric Authentication and private operations | Verify the caller before a private action. | Std: authentication topic and tools. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Escalate tool | Transfers to Teams Phone, email or a live representative. | Std: **Transfer conversation**. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Events: Conversation Start, End of Conversation, On Error | Built-in responses for common moments. | Std: system topics. |
+
+**Not the right component:** A shared employee connection for callers who cannot sign in.
+
+**Copilot Credits drivers (high):** Usage-based, and it varies by complexity and modality. GenAI and premium voice cost more than digital chat. Benchmark light, medium and heavy conversations per modality. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** A Customer Assist Agent on the Customer Conversation harness receives a call or chat. Shared domain guidance defines the service; modality-specific instructions govern what the customer hears or sees. Route focused intents to a specialist, verify the customer before private actions, and escalate to a staffed destination supported in that modality.

@@ -51,6 +51,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. Usage-based harnesses consume credits during test-environment evaluation.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Solutions and ALM](../COMPONENTS.md#solutions-and-alm): Solutions and source control | Package one versioned artifact. | All harnesses. |
+| [Solutions and ALM](../COMPONENTS.md#solutions-and-alm): Environment variables and connection references | Bind settings per environment. | All harnesses. |
+| [Evaluation](../COMPONENTS.md#evaluation): Test-environment evaluation | Gate promotion. | All harnesses. |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Environment capacity | Allocate test and production credits separately. | All harnesses. |
+
+**Not the right component:** Re-authoring the agent in production.
+
+**Copilot Credits drivers (low):** Promotion itself is not billed. Testing and evaluations are billed on usage-based harnesses. Allocate time-bound test capacity. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Build the agent and supported dependencies in a development solution, track the definition in source control and produce a versioned release. Import the candidate into test with its own environment variables, connection references and test identities. Run evaluations and channel smoke tests. Promote the same approved artifact to production, bind its settings and verify the published channel.

@@ -62,6 +62,23 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, integrated with the third-party contact center through an adapter, plus a separate employee-assist agent. Azure AI Search knowledge is not listed for the Microsoft Copilot harness. The Customer Conversation harness is the contact-center alternative where its channels fit.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Channel](../COMPONENTS.md#channels): Contact center integration adapter | The contact center owns the session and passes permitted context. | Customer Conversation: speech and chat. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Public service guidance | Answers customer questions. | All harnesses. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Azure AI Search for staff procedures | Restricted path in the employee agent only. | Copilot: not listed; use MCP or a search tool. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Customer database lookup | Returns live transactions after verification. | All harnesses. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Return to the contact center with a correlation ID | Gives control back to the queue for unresolved cases. | Customer Conversation: **Escalate** tool. |
+| [Monitor and analytics](../COMPONENTS.md#monitor-and-analytics): Restricted transcript retention | Retains transcripts for analysis only where authorized. *(Optional.)* | All harnesses. |
+
+**Not the right component:** One agent serving both customers and employees. A customer session must not reach staff-only search.
+
+**Copilot Credits drivers (high):** Customer conversations are billed per answer and agent action, and voice bills per minute (10, 35 or 75 credits by tier). The employee agent can be included for licensed Microsoft 365 Copilot staff who use their own identity. Model the two agents separately. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. The contact-center-as-a-service platform owns the customer session. Its integration passes the permitted context into the agent experience. Separately, employees can consult an agent in their own portal.

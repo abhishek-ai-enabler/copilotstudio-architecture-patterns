@@ -59,6 +59,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness on a website, with a switch to authenticated lookup. The Microsoft Copilot harness adds no value for short lookups and adds usage-based cost.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Travel, fare and rescheduling documents | Return cited policy with its effective date. | All harnesses. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Website sign-in | Required before any itinerary or balance lookup. | All harnesses. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Authenticated lookup topic | Marks where the public conversation becomes a private lookup. | Copilot: workflow tool. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Dataverse and SQL reservations | Return the permitted booking, currency and lookup time. | All harnesses. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Travel representative | Handles exceptions and transactions outside the agent's scope. | All harnesses. |
+
+**Not the right component:** A booking reference as proof of ownership.
+
+**Copilot Credits drivers (medium):** Travelers are not covered by Microsoft 365 Copilot licenses. Answers bill at 1 or 2 and lookup steps at 5 each. Authored topics for frequent questions reduce generative answers. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Copilot Studio clarifies the destination, operator or fare type. Retrieve the applicable travel, airport or rescheduling document and show its source and effective date.

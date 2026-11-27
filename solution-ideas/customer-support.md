@@ -55,6 +55,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration, with the Dynamics 365 Contact Center channel. The Dynamics 365 Contact Center channel is listed for the standard harness only. The Customer Conversation harness is the alternative for voice and chat with escalation.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Approved SharePoint and Dataverse content | Provides cited product guidance. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Ticket creation | Opens a tracked follow-up when no transfer is available. | All harnesses. |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Escalate system topic | Handles explicit requests for a person, failed tickets and unresolved issues. | Customer Conversation: **Escalate** tool. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Transfer conversation | Hands the session to the configured engagement hub. | Customer Conversation: **Escalate** tool. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): Dynamics 365 workstream and queue | Routes to a representative, who verifies the customer. | All harnesses. |
+
+**Not the right component:** A default escalation message presented as a live transfer.
+
+**Copilot Credits drivers (medium):** Customer traffic is billed: answers at 1 or 2 and agent actions at 5 until transfer. Representative time is licensed in Dynamics 365. Cited answers that resolve the issue reduce both transfers and credits. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Copilot Studio separates product guidance from case-specific requests. Use approved SharePoint/Dataverse knowledge for a cited answer, or collect enough information for a follow-up ticket.

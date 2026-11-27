@@ -56,6 +56,20 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. On the Microsoft Copilot harness, workflow connector actions use the invoking user's connections. A connected agent's author-authenticated tools still use the author's credentials.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Agent sign-in | Authenticates the user to the agent. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): User authentication | Presents a connection card if needed. | All harnesses. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Per-step connections | Inspect which connection each step uses. | Copilot: workflow. |
+
+**Not the right component:** Maker credentials for per-user records.
+
+**Copilot Credits drivers (low):** Identity choice affects inclusion. Microsoft 365 Copilot inclusion applies only when the agent operates with a licensed user's authenticated identity. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Authenticate the user to the agent in a supported channel. Configure the private tool for **User authentication**. On invocation Copilot Studio finds the user's service connection or presents a connection card. The service authorizes the operation and record; the agent returns only permitted fields. Inspect the actual connection for each flow step as well.

@@ -49,6 +49,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness or Microsoft Copilot harness. On the Microsoft Copilot harness, sharing the parent agent lets it invoke a connected Copilot Studio agent for those users. On the standard harness, you may need to share the specialist separately.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Connected agent](../COMPONENTS.md#connected-agents): Published learning specialist | Handles the course query in its own release. | All harnesses. |
+| [Instructions](../COMPONENTS.md#instructions): Delegation description | Pass a bounded task, not the whole conversation. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Learning service in the specialist | Queries the catalog and enrollment API. | All harnesses. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): User authentication on specialist tools | Trims results to the caller. | Copilot: author-authenticated tools return data through the parent. |
+| [Solutions and ALM](../COMPONENTS.md#solutions-and-alm): Independent solution | Gives the specialist its own release cycle. | All harnesses. |
+
+**Not the right component:** A connected agent for a small task the parent can do directly.
+
+**Copilot Credits drivers (medium):** Both agents incur billed events: the parent's routing and the specialist's answers and tools. On the Microsoft Copilot harness, both consume usage-based credits. Delegate only where independent ownership pays for the extra hop. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** A standard-harness parent routes a bounded request to an existing, published Copilot Studio agent in the same environment that permits connections. For example, pass “check availability for course X” to the learning specialist, not an entire HR conversation. The specialist queries the learning system and returns the status; the parent presents the result.

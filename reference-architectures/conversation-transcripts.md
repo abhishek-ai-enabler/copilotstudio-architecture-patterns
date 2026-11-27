@@ -54,6 +54,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any agent that writes transcripts, plus processing outside the conversation with Power Automate and AI Builder. A scheduled Copilot Studio workflow with an extract or classification node is an alternative. It is billed per action plus AI node usage.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Monitor and analytics](../COMPONENTS.md#monitor-and-analytics): Conversation transcripts in Dataverse | Capture raw conversations only where it is enabled and permitted. | Copilot and Customer Conversation: **Monitor** tab for sessions. |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Record-triggered cloud flow | Processes new transcripts outside the user conversation. | Copilot: scheduled or event workflow. |
+| [Prompt tool](../COMPONENTS.md#prompt-tools): AI Builder prompt | Extracts topic, escalation indicator and summary into a validated schema. | Copilot workflow: extract or classification node. |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Environment security and retention | Separate raw transcript access from derived attributes and dashboards. | All harnesses. |
+
+**Not the right component:** A conversational agent that reads raw transcripts on demand for dashboard users.
+
+**Copilot Credits drivers (medium):** Source conversations are billed as usual. A cloud flow runs on Power Automate licensing. AI Builder usage in Power Automate uses AI Builder credits first, and Copilot Credits otherwise. Batch, sample and minimize text before extraction. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Where transcript capture is enabled and permitted, Copilot Studio records conversations in Dataverse's `ConversationTranscript` table. A Power Automate flow processes new transcript records outside the user conversation.

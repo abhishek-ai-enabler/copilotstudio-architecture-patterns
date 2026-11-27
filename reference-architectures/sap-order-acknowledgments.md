@@ -64,6 +64,23 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness: a flow-triggered orchestrator with extraction and matching agents. On the Microsoft Copilot harness, model the process as a workflow: connector trigger, extract node, published-agent node for matching, condition, SAP connector and a human input node for exceptions.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Power Automate flow](../COMPONENTS.md#power-automate-cloud-and-desktop-flows): Mailbox or EDI capture | Stores the original acknowledgment in Dataverse with its status. | Copilot: workflow trigger. |
+| [Trigger](../COMPONENTS.md#triggers-and-autonomous-agents): Dataverse-triggered start | Starts the orchestrator autonomously for each new acknowledgment. | Copilot: workflow trigger and agent node, or agent trigger (preview). |
+| [Child agent](../COMPONENTS.md#child-agents-and-sub-agents): Extraction and matching agents | Normalize lines and compare them with the purchase order under tolerance rules. | Copilot: workflow extract node and agent node. |
+| [Connector tool](../COMPONENTS.md#connector-tools): SAP connector | Reads the purchase order and runs the confirmation operation only after checks pass. | All harnesses. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Confirmation and exception flow | Confirms in SAP or creates a Dataverse exception. | Copilot: workflow. |
+| [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Teams notification to a procurement specialist | Presents mismatched values with a source link. | Copilot: approvals or request-for-information node. |
+
+**Not the right component:** Letting the extracted document or the extraction agent authorize an exception.
+
+**Copilot Credits drivers (high):** Autonomous runs are billed even when staff hold Microsoft 365 Copilot licenses. Each acknowledgment incurs a trigger (agent action), extraction (content processing at 8 per page, or prompt usage), agent hops and agent flow actions. Deduplicate before triggering and route only unclear lines to AI. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. A Power Automate flow captures a mailbox or EDI acknowledgment in Dataverse. Keep the original, its supplier reference and processing status together.

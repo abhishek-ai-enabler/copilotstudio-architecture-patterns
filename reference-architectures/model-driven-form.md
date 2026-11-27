@@ -52,6 +52,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, with an event-triggered topic called through the preview `Xrm.Copilot` Agent API. This guide found no documented `Xrm.Copilot` path for the Microsoft Copilot harness. Stay on the standard harness for this design.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Topics](../COMPONENTS.md#topics-and-system-topics): Event-triggered topic | Receives the named event raised by `Xrm.Copilot.executeEvent()` and returns a structured suggestion. | Not documented for Copilot. |
+| [Topic nodes](../COMPONENTS.md#topic-nodes): Parse value, Condition, Set variable | Validate the event payload and shape the response. | Not documented for Copilot. |
+| [Prompt tool](../COMPONENTS.md#prompt-tools): Suggestion prompt | Proposes a value from the authorized fields only. *(Optional.)* | Copilot: skill or workflow agent node. |
+| [Channel](../COMPONENTS.md#channels): Embedded in a model-driven app (preview API) | Keeps the advisory path off the form's save path. | Not documented for Copilot. |
+
+**Not the right component:** Any tool that writes to Dataverse. The user applies an accepted change through normal form validation.
+
+**Copilot Credits drivers (low):** Each request triggers billed events (an agent action for the event, plus any prompt-tool usage at the AI tools rate). Employee use by licensed Microsoft 365 Copilot users with their own identity is included. Raise events on user request, not on every field change. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. A Power Apps component framework (PCF) control captures a small set of authorized fields on the current form, for example a case category and selected service. On request it raises a named event with `Xrm.Copilot.executeEvent()`.

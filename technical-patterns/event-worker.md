@@ -50,6 +50,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness with an event trigger and generative orchestration. On the Microsoft Copilot harness, use an agent trigger (preview) or a workflow trigger and agent node. A post-tool-use hook can write audit records.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Trigger](../COMPONENTS.md#triggers-and-autonomous-agents): Connector event trigger | Sends the new request's payload. Documented triggers use maker credentials. | Copilot: agent trigger (preview) or workflow trigger. |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Retrieves current state, classifies the request and proposes a queue. | Copilot: reasoning loop. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Read current record | Uses the record key rather than trusting the payload. | All harnesses. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Deterministic routing worker | Commits the routing change idempotently. | Copilot: workflow. |
+| [Hook](../COMPONENTS.md#hooks-preview): Post tool use | Writes audit records consistently. *(Optional.)* | Copilot only. |
+
+**Not the right component:** Treating instructions in the event body as commands.
+
+**Copilot Credits drivers (high):** Every event bills a trigger (agent action) plus orchestration, even for licensed users, and agent flows called by an autonomous agent are billed. Filter upstream, deduplicate and set agent limits. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** A configured connector event sends a payload to a published agent with generative orchestration. For example, on creation of a new equipment request, use the record key to retrieve current state, classify the request and propose the responsible queue. Persist event ID, processing status and outcome; a deterministic worker should handle any committed routing change.

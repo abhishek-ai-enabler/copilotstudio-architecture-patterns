@@ -54,6 +54,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness staff agent. Most of the solution is Dataverse, dataflows and Customer Insights - Journeys. The Microsoft Copilot harness adds value only if recruiters need multi-file preparation, such as an event briefing pack.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Dataverse touchpoints | Summarizes authorized activity under the recruiter's security role. | All harnesses. |
+| [Prompt tool](../COMPONENTS.md#prompt-tools): Follow-up draft | Drafts a message that the recruiter edits and sends. *(Optional.)* | Copilot: skill. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Entra ID with Dataverse security roles | Restricts the people and touchpoints a recruiter can see. | All harnesses. |
+| [Channel](../COMPONENTS.md#channels): Teams or Dynamics 365 | Recruiter workspace. | Validate per harness. |
+
+**Not the right component:** An agent that merges contact identities. Keep that decision in a governed data process.
+
+**Copilot Credits drivers (low):** Employee use by licensed Microsoft 365 Copilot users with their own identity is included. Otherwise, each summary is a generative answer and drafts use the AI tools rate. Dataflows and Customer Insights - Journeys are licensed separately. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Scheduled dataflows import programs and enrollments from the student information system. In Dataverse, distinguish a person from their contact addresses, and a promoted program from the academic programs it represents.

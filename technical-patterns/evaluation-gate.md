@@ -52,6 +52,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. On usage-based harnesses, generating and running evaluations consumes credits. Budget them as release cost.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Evaluation](../COMPONENTS.md#evaluation): Versioned test sets | Cover successful, ambiguous, denied and unavailable cases. | All harnesses. |
+| [Solutions and ALM](../COMPONENTS.md#solutions-and-alm): Candidate and baseline releases | Compare the same pack across versions. | All harnesses. |
+| [Monitor and analytics](../COMPONENTS.md#monitor-and-analytics): Activity trace and test receipts | Check actions against backend receipts. | Copilot: reasoning trace. |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Isolated test environment | Keeps test data and capacity separate. | All harnesses. |
+
+**Not the right component:** Using a model's judgment as the only verdict on actions.
+
+**Copilot Credits drivers (medium):** On the Copilot harness, evaluations are billed. On the standard harness, agent flow test runs from test chat don't consume agent flow capacity, but published test traffic does. Size packs to risk. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** The service owner defines an output contract and a versioned pack of questions, identities, test data and expected outcomes. Include successful, ambiguous, denied and unavailable cases. Run the pack against a candidate and the previous release. Check facts against source records, citations against permitted documents, and actions against test-system receipts. Human reviewers judge ambiguity and usefulness rather than delegating every verdict to another model.

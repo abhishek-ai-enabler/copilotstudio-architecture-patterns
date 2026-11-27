@@ -56,6 +56,24 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Microsoft Copilot harness with a DAX skill, as in the reference. The Standard harness is the simpler alternative (Fabric option 3). Compare this harness with the four [Fabric integration options](../CATALOG.md#fabric-integration-options).
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Reasoning loop | Resolves period, measure and comparison, then queries and inspects results. | Std: generative orchestration. |
+| [Skill](../COMPONENTS.md#skills): DAX query skill | Holds the model schema and tested query patterns. | Std: instructions. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Power BI: Run a query against a dataset | Governed measures compute every figure under the analyst's identity. | Std: same action. |
+| [Agent sandbox](../COMPONENTS.md#code-interpreter-and-agent-sandbox): Agent sandbox | Produces a table or workbook for the analyst to reconcile. *(Optional.)* | Std: code interpreter on a prompt. |
+| [Memory](../COMPONENTS.md#memory): Analyst preferences | Recalls preferred layout and default comparison period, which the agent confirms before querying. *(Optional.)* | Std: no memory. |
+| [Workflow](../COMPONENTS.md#workflows): Redistribution approval | Analyst approval before anything is shared. *(Optional.)* | Std: Power Automate approval. |
+| [Channel](../COMPONENTS.md#channels): Teams or Microsoft 365 | Analyst workspace. | Both harnesses. |
+
+**Not the right component:** Commentary that invents a cause, or a sandbox calculation that replaces a governed measure.
+
+**Copilot Credits drivers (high):** Usage-based from build time and not covered by Microsoft 365 Copilot licenses. File generation and query retries add tokens and harness work. Benchmark a typical variance request, then multiply by analyst volume. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. The Copilot Studio agent resolves the reporting period, measure, comparison and organizational unit. It asks for missing scope rather than silently choosing a calendar or currency.

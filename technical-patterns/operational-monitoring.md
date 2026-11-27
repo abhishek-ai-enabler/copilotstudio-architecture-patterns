@@ -52,6 +52,20 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. Copilot and Customer Conversation agents show sessions, runs and consumed credits on the **Monitor** tab.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Monitor and analytics](../COMPONENTS.md#monitor-and-analytics): Analytics and Application Insights | Conversation trends and agent events on the standard harness. | Copilot: **Monitor** tab and reasoning trace. |
+| [Monitor and analytics](../COMPONENTS.md#monitor-and-analytics): Business receipts | Measure task completion. | All harnesses. |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Admin center capacity reports | Track credit consumption per agent and environment. | All harnesses. |
+
+**Not the right component:** Treating response rate as service health.
+
+**Copilot Credits drivers (low):** Monitoring adds no Copilot Credits itself. Compare consumption with completed outcomes to find wasted turns. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** Define a business outcome such as “case created and reference returned.” Use Copilot Studio analytics for conversation trends, downstream receipts for task completion, and the admin center for capacity. On the standard harness, Application Insights can capture agent events. Correlate outcome, latency and error category with release and channel using a non-sensitive request identifier.

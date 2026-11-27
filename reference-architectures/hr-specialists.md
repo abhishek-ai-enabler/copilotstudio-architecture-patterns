@@ -64,6 +64,23 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration with child or connected specialist agents. On the Microsoft Copilot harness, specialists become connected agents and transactions become workflows.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Generative orchestration | Distinguishes personal, leave, manager, learning and policy requests, and asks when a request crosses domains. | Copilot: reasoning loop. |
+| [Connected agent](../COMPONENTS.md#connected-agents): Domain specialists | Use connected agents where another team owns a specialist; use child agents for tasks in the same release. | Copilot: connected agents only. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): Microsoft Graph connector for ITSM articles | Grounds policy answers with citations. | Both harnesses list Graph connectors. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Custom connectors to HCM and the learning system | Read and update records with user authentication. | All harnesses. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Transaction flows | Perform updates and return a system receipt. | Copilot: workflows. |
+| [Escalation and handoff](../COMPONENTS.md#escalation-and-handoff): HR case in ITSM | Routes sensitive or unresolved requests to a case rather than passing the conversation between agents. | All harnesses. |
+
+**Not the right component:** One unrestricted tool or a shared maker connection for manager-only operations.
+
+**Copilot Credits drivers (medium):** Employee use is included for licensed Microsoft 365 Copilot users with their own identity. Otherwise, Graph-connector grounding can bill as tenant graph grounding (10 per message), answers bill at 1 or 2, specialist hops bill as agent actions and agent flow actions bill at 13 per 100. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. Entra ID signs in the user. A Copilot Studio orchestrator distinguishes personal data, time off, manager actions, learning and HR policy. It asks which task the user wants if a request crosses domains.

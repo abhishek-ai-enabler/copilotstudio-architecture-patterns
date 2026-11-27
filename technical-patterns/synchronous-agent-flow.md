@@ -55,6 +55,21 @@ sequenceDiagram
     A-->>U: Show case ID, job ID or pending<br/>status
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness agent flow. On the Microsoft Copilot harness, use a workflow with the same trigger and response nodes. Connector actions run with the invoking user's connections.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Agent flow](../COMPONENTS.md#agent-flows): When an agent calls the flow | Typed inputs. | Copilot: workflow. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Respond to the agent | Returns `status`, `caseId` and `message` within 100 seconds. | Copilot: workflow. |
+| [Connector tool](../COMPONENTS.md#connector-tools): System-of-record actions | Validate, then create the case. | All harnesses. |
+| [Variables](../COMPONENTS.md#variables-and-conversation-state): Typed outputs | Keep the conversation's view of the operation explicit. | Copilot: workflow variables. |
+
+**Not the right component:** Long-running work behind a synchronous response.
+
+**Copilot Credits drivers (low):** Agent flow actions bill at 13 per 100 (0.13 each). They are included when a licensed Microsoft 365 Copilot user's interactive session calls the flow, and charged for autonomous runs. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** On the standard harness, the agent invokes a flow with **When an agent calls the flow**. The flow validates typed inputs, checks the system of record, performs the permitted operation, and uses **Respond to the agent** with a small result such as `status`, `caseId` and `message`. Configure a real-time response; the documented action limit is 100 seconds.

@@ -59,6 +59,23 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, with an optional HR event trigger and connectors to HR and learning systems. Microsoft Copilot harness memory could hold a new hire's preferences, but the HR system remains authoritative for role and start date.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Trigger](../COMPONENTS.md#triggers-and-autonomous-agents): HR system event | Starts the plan for a new hire. *(Optional.)* | Copilot: workflow trigger. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Entra ID | Identifies the hire in an authenticated conversation. | All harnesses. |
+| [Knowledge](../COMPONENTS.md#knowledge-sources): SharePoint onboarding guidance | Answers questions from current guidance. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): HR system and LMS connectors | Read role and start date; enroll required training. | All harnesses. |
+| [Memory](../COMPONENTS.md#memory): New-hire preferences (Copilot harness) | Recalls stated preferences and open questions between sessions. Role and start date always come from HR. *(Optional.)* | Std: none; store progress in the HR system. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Milestone update flow | Marks a milestone complete only when the owning system acknowledges it. | Copilot: workflow. |
+
+**Not the right component:** Collecting identity documents in chat. Use the candidate system.
+
+**Copilot Credits drivers (medium):** New hires may not yet hold Microsoft 365 Copilot licenses, so plan for billed answers and agent actions. Event-triggered runs are billed as autonomous, and agent flow actions bill at 13 per 100. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Components and flow
 
 1. An HR-system event or authenticated conversation identifies the hire. Retrieve the approved start date, role and team from the HR information system. Use a stable hire identifier to create or locate the onboarding plan.

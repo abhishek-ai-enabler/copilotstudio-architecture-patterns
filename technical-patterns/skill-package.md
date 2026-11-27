@@ -50,6 +50,22 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Microsoft Copilot harness or Customer Conversation harness. The standard harness has no skills. Use a topic or prompt tool.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [Skill](../COMPONENTS.md#skills): Versioned skill folder | Contains `SKILL.md` with optional scripts, references and assets. | Std: topic or prompt. |
+| [Instructions](../COMPONENTS.md#instructions): Global behavior only | Stays short because detail lives in the skill. | All harnesses. |
+| [Connector tool](../COMPONENTS.md#connector-tools): Authorized report tool | The consuming agent's connection controls data access. | All harnesses. |
+| [Evaluation](../COMPONENTS.md#evaluation): Representative review test | Run after each skill version. | All harnesses. |
+| [Memory](../COMPONENTS.md#memory): Per-user memory | Holds a user's preferences, not the shared procedure. Put shared rules in the skill. *(Optional.)* | Std: none. |
+
+**Not the right component:** Credentials or permission grants in a skill.
+
+**Copilot Credits drivers (medium):** Progressive loading keeps the skill body out of context until relevant, which is cheaper than long instructions. Large reference files still add tokens when loaded. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** On the Microsoft Copilot harness, keep global behavior in the agent instructions. Package task-specific guidance and vetted resources as a named skill with a precise description. When the request matches, the agent loads the procedure and uses its available tools. Version the skill and check its result against a representative service review.

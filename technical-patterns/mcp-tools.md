@@ -48,6 +48,21 @@ sequenceDiagram
     end
 ```
 
+## Copilot Studio components
+
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Any harness. On the Microsoft Copilot harness, a pre-tool-use hook can block calls outside the approved scope.
+
+| Component | Use in this pattern | Harness alternative |
+| --- | --- | --- |
+| [MCP server](../COMPONENTS.md#mcp-servers): Approved MCP server | Advertises tools that the agent discovers. | All harnesses. |
+| [Environments and data policies](../COMPONENTS.md#environments-and-data-policies): Enabled-tool scope and DLP | Approves which tools the agent may invoke. | All harnesses. |
+| [Authentication](../COMPONENTS.md#authentication-and-tool-credentials): Connection identity | The server validates the caller and arguments. | All harnesses. |
+| [Hook](../COMPONENTS.md#hooks-preview): Pre tool use | Blocks a call that breaks policy. *(Optional.)* | Copilot only. |
+
+**Not the right component:** Assuming everything the server advertises is approved.
+
+**Copilot Credits drivers (low):** MCP tool calls are agent actions on the standard harness and usage-based on the others. Large tool catalogs and results enlarge context, so enable only needed tools. See [Copilot Credits guidance](../COPILOT-CREDITS.md).
+
 ## Design notes
 
 **Flow:** An approved Model Context Protocol (MCP) server advertises tool definitions. Copilot Studio connects using a supported configuration and discovers tools; the agent invokes the relevant one with structured arguments. The server validates the operation, caller and arguments, calls the underlying system, and returns a bounded result.
