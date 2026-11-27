@@ -22,6 +22,7 @@ flowchart TB
     A -->|"Product and location<br/>inputs"| T
     T -->|"Authenticated<br/>availability request"| S
     S -->|"Quantity and snapshot<br/>time"| T
+    T -->|"Validated result or<br/>failure"| A
 ```
 
 **Review decision:** Treat the direct REST tool as a standard-harness preview prototype. Decide whether reuse, release controls and support requirements justify a connector before moving to production.
@@ -40,11 +41,12 @@ sequenceDiagram
     A->>T: Select approved read operation
     T->>S: Submit scoped request
     alt Expected schema and authorized record
-        S-->>T: Return quantity and snapshot time
-        A-->>U: Present test availability
+      S-->>T: Return quantity and snapshot time
+      T-->>A: Return validated result
+      A-->>U: Present test availability
     else Schema mismatch or denial
-        T-->>A: Return failure, not inventory data
-        A-->>U: Withhold unverified quantity
+      T-->>A: Return failure, not inventory data
+      A-->>U: Withhold unverified quantity
     end
 ```
 

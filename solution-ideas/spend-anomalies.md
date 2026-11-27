@@ -30,6 +30,8 @@ flowchart TB
     A -->|"Scoped data question"| D
     D -->|"Retrieve detection<br/>evidence"| K
     T -->|"Assign finding for<br/>review"| H
+    A -->|"Evidence summary with<br/>source keys"| H
+    H -->|"Dismissal or escalation"| F
 ```
 
 **Review decision:** Approve anomaly detection as a read-and-investigate path. Freezing a payment is a separate finance decision, not a side effect of a high detector score.
@@ -45,15 +47,18 @@ sequenceDiagram
     participant F as Alert flow
     participant H as Investigator
     participant A as Investigation agent
+    participant D as Fabric data agent
     E->>K: Supply current batch via Fabric
     K->>F: Emit versioned detector finding
     alt Finding not already notified
-        F->>H: Send restricted alert with<br/>transaction keys
-        H->>A: Request supporting evidence
-        A-->>H: Return scoped source records via<br/>data agent
-        H->>F: Record dismissal or escalation
+      F->>H: Send restricted alert with<br/>transaction keys
+      H->>A: Request supporting evidence
+      A->>D: Ask scoped data question
+      D-->>A: Return permitted source records
+      A-->>H: Summarize evidence with source keys
+      H->>F: Record dismissal or escalation
     else Replayed finding
-        F->>F: Match prior investigation instead of<br/>notifying twice
+      F->>F: Match prior investigation instead of<br/>notifying twice
     end
 ```
 

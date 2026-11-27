@@ -25,6 +25,8 @@ flowchart TB
     A -->|"Request scoped account<br/>data"| I
     I -->|"Resolve verified<br/>traveler"| D
     I -->|"Read owned itinerary or<br/>balance"| S
+    I -->|"Scoped account result"| A
+    A -->|"Cited guidance or<br/>verified account data"| U
 ```
 
 **Review decision:** Decide exactly where a public conversation becomes a private lookup. A booking reference helps locate a record but cannot establish ownership.
@@ -41,18 +43,19 @@ sequenceDiagram
     participant S as Booking service
     U->>A: Ask about a trip
     alt Public fare or destination question
-        A->>K: Find applicable current document
-        K-->>A: Return source and effective date
-        A-->>U: Cite applicable guidance
+      A->>K: Find applicable current document
+      K-->>A: Return source and effective date
+      A-->>U: Cite applicable guidance
     else Personal balance request
-        A->>U: Require verified traveler identity
-        A->>S: Query authorized booking
-        alt Live balance available
-            S-->>A: Return balance, currency and time
-            A-->>U: Show verified balance
-        else Backend unavailable
-            A-->>U: Withhold amount and offer<br/>representative
-        end
+      A->>U: Require verified traveler identity
+      U->>A: Complete sign-in
+      A->>S: Query authorized booking
+      alt Live balance available
+        S-->>A: Return balance, currency and time
+        A-->>U: Show verified balance
+      else Backend unavailable
+        A-->>U: Withhold amount and offer<br/>representative
+      end
     end
 ```
 

@@ -20,7 +20,7 @@ flowchart TB
     end
     U -->|"Business question"| A
     A -->|"Generate and execute<br/>scoped query"| M
-    M -->|"Same approved measures"| R
+    M -.->|"Same approved measures<br/>for spot checks"| R
     A -->|"Fabric-generated answer"| U
 ```
 

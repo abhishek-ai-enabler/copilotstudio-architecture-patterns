@@ -43,11 +43,12 @@ sequenceDiagram
     O->>R: Provide mandatory pass cases and<br/>fixtures
     R->>A: Run requests with scoped test<br/>personas
     A->>B: Attempt permitted or prohibited<br/>actions
+    A-->>R: Return answers and tool traces
     B-->>R: Return receipts or observed absence<br/>of writes
     alt Facts, authorization and actions match expectations
-        R-->>O: Report candidate evidence for<br/>release
+      R-->>O: Report candidate evidence for<br/>release
     else Disclosure or unauthorized write
-        R-->>O: Block release and identify failing<br/>case
+      R-->>O: Block release and identify failing<br/>case
     end
 ```
 

@@ -29,6 +29,9 @@ flowchart TB
     F -->|"Exception or approval<br/>required"| H
     F -->|"Authorized refund only"| R
     R -->|"Post and obtain receipt"| L
+    H -->|"Recorded decision"| F
+    F -->|"Outcome and receipt"| D
+    L -->|"Refund reference"| R
 ```
 
 **Review decision:** Both agents must share one refund identity check and one case key. An uncertain desktop result must be reconciled in the ledger before another payment attempt.
@@ -47,20 +50,21 @@ sequenceDiagram
     A->>F: Submit ticket and case key
     F->>F: Verify eligibility and existing<br/>outcome
     opt Exception requires approval
-        F->>H: Request review of specific refund
-        H-->>F: Return recorded decision
+      F->>H: Request review of specific refund
+      H-->>F: Return recorded decision
     end
     alt Approved and not previously paid
-        F->>R: Issue refund
-        R->>L: Submit to ticket system
-        alt Receipt available
-            L-->>R: Return refund reference
-            R-->>F: Record confirmed payout
-        else Desktop disconnected
-            F->>L: Reconcile prior submission before<br/>retry
-        end
+      F->>R: Issue refund
+      R->>L: Submit to ticket system
+      alt Receipt available
+        L-->>R: Return refund reference
+        R-->>F: Record confirmed payout
+        F-->>A: Return refund reference for<br/>requester
+      else Desktop disconnected
+        F->>F: Mark unknown and reconcile ledger<br/>before any retry
+      end
     else Ineligible, declined or already paid
-        F-->>A: Return existing status without a<br/>payout
+      F-->>A: Return existing status without a<br/>payout
     end
 ```
 

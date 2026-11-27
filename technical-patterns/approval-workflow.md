@@ -24,6 +24,7 @@ flowchart TB
     A -->|"Draft reason and source<br/>fields"| W
     W -->|"Request decision from<br/>assigned reviewer"| H
     W -->|"Only post approved<br/>version"| S
+    H -->|"Recorded decision"| W
 ```
 
 **Review decision:** Only a recorded decision for the exact version and amount may release posting. The AI step prepares evidence; it does not select its own approver or authorize the transaction.

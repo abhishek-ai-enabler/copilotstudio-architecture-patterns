@@ -27,6 +27,7 @@ flowchart TB
     A -->|"Authorized appointment<br/>lookup"| D
     A -->|"Confirmed scheduling<br/>request"| F
     A -->|"Clinical request for a<br/>person"| H
+    A -->|"Answer, confirmation or<br/>referral status"| P
 ```
 
 **Review decision:** Approve the portal for administrative requests only. Personal appointment access requires verified patient or proxy authority; clinical requests go to a staffed pathway.
@@ -43,17 +44,18 @@ sequenceDiagram
     participant H as Provider team
     U->>A: Request help
     alt Administrative change with verified authority
-        A->>U: Show proposed appointment change
-        U->>A: Confirm selection
-        A->>F: Submit approved change
-        alt Scheduling confirms
-            F-->>A: Return booking reference
-            A-->>U: Show confirmation
-        else Outcome unknown
-            A-->>U: Show pending status and staffed<br/>contact
-        end
+      A->>U: Show proposed appointment change
+      U->>A: Confirm selection
+      A->>F: Submit approved change
+      alt Scheduling confirms
+        F-->>A: Return booking reference
+        A-->>U: Show confirmation
+      else Outcome unknown
+        A-->>U: Show pending status and staffed<br/>contact
+      end
     else Clinical request
-        A->>H: Refer through established provider<br/>pathway
+      A->>H: Refer through established provider<br/>pathway
+      A-->>U: Confirm referral without clinical<br/>advice
     end
 ```
 

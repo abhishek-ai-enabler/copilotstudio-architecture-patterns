@@ -24,6 +24,8 @@ flowchart TB
     C -->|"Validated ID and scoped<br/>connection"| S
     S -->|"Enforce access and read<br/>state"| D
     S -->|"Return status and<br/>timestamp"| C
+    C -->|"Mapped allowed fields"| A
+    A -->|"Verified status"| U
 ```
 
 **Review decision:** Approve specific business operations and scopes, not broad API reach. A shipment status question should have no route to a write unless a separate change is explicitly authorized.

@@ -24,6 +24,7 @@ flowchart TB
     API -->|"Invoke matching topic"| A
     A -->|"Asynchronous<br/>recommendation via API"| C
     U -->|"Normal validated form<br/>save"| D
+    C -->|"Suggestion for review,<br/>not saved"| U
 ```
 
 **Review decision:** Keep the preview API off the form's critical path. A suggestion can be applied only to the same record and input version, and only by the user.

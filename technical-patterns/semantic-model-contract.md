@@ -40,11 +40,13 @@ sequenceDiagram
     participant R as Reference report
     O->>M: Revise measure definition
     A->>M: Query fixture period with consumer<br/>identity
+    M-->>A: Return figures and blanks
     R->>M: Query same period, filters and<br/>identity
+    M-->>R: Return figures and blanks
     alt Both outputs match reviewed expectation
-        O->>O: Approve measure contract
+      O->>O: Approve measure contract
     else Figures or missing-value behavior differ
-        O->>O: Withhold affected comparison and<br/>reconcile definition
+      O->>O: Withhold affected comparison and<br/>reconcile definition
     end
 ```
 

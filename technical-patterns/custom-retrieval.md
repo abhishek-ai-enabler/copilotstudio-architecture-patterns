@@ -20,8 +20,9 @@ flowchart TB
     U -->|"Scoped question"| T
     T -->|"HTTP request or flow"| S
     S -->|"Authorize and rank<br/>matching records"| D
-    S -->|"Ranked permitted<br/>content, titles and<br/>links"| G
+    S -->|"Ranked permitted<br/>excerpts, titles and<br/>links"| T
     G -->|"Grounded answer with<br/>citations"| U
+    T -->|"Custom-data table;<br/>first three records<br/>used"| G
 ```
 
 **Review decision:** The search service must filter results before the agent sees them. A protected citation URL does not prevent disclosure of an unauthorized excerpt.

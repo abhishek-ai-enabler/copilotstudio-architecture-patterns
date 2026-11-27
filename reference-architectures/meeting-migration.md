@@ -26,6 +26,7 @@ flowchart TB
     F -->|"Convert eligible event<br/>in place"| G
     F -->|"Record outcome per<br/>event"| D
     D -->|"Progress and unresolved<br/>items"| A
+    A -->|"Preview, progress and<br/>exceptions"| U
 ```
 
 **Review decision:** Approval is per organizer, meeting and previewed version. A timeout is a reason to check the original event, not to create a replacement invitation.
@@ -40,22 +41,28 @@ sequenceDiagram
     participant A as Agent
     participant F as Migration flow
     participant G as Calendar via Graph
+    participant D as Migration history
     U->>A: Preview my eligible meetings
     A->>F: Collect organizer's scoped events
     F-->>A: Return preview and versions
     A-->>U: Display attendees, rooms and<br/>recurrence
     U->>A: Confirm selected meetings
     A->>F: Submit selected IDs and versions
-    alt Eligible and unchanged
+    loop For each selected meeting
+      alt Eligible and unchanged
         F->>G: Update existing event
         alt Conversion confirmed
-            G-->>F: Return authoritative event state
+          G-->>F: Return authoritative event state
         else Update response times out
-            F->>G: Read existing event before retrying
+          F->>G: Read existing event before retrying
         end
-    else Changed since preview
-        F-->>A: Skip and request a new preview
+      else Changed since preview
+        F->>F: Skip and require a new preview
+      end
+      F->>D: Record outcome for this event
     end
+    F-->>A: Return migrated, skipped and<br/>unresolved meetings
+    A-->>U: Show per-meeting outcome
 ```
 
 ## Components and flow

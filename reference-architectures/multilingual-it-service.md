@@ -27,6 +27,7 @@ flowchart TB
     A -->|"Employee-scoped lookup<br/>or update"| I
     A -->|"Unresolved request and<br/>summary"| B
     B -->|"Translated live<br/>conversation"| H
+    A -->|"Answer or receipt in<br/>employee language"| U
 ```
 
 **Review decision:** Approve incident updates only if ITSM can identify the employee and enforce ownership at its own boundary, including when a service connection is used.

@@ -22,6 +22,7 @@ flowchart TB
     P -->|"Explicit course task,<br/>scoped context"| C
     C -->|"Query with authorized<br/>connection"| L
     C -->|"Result, denial or<br/>unavailable status"| P
+    P -->|"Availability or<br/>unresolved status"| U
 ```
 
 **Review decision:** Choose a connected agent when the specialist needs an independent owner or release cycle. Agree on the delegated task and whether any conversation history may cross that boundary.

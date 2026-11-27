@@ -36,17 +36,22 @@ sequenceDiagram
     autonumber
     participant U as Reviewer
     participant A as Reasoning loop
+    participant S as Comparison skill
     participant X as Report A
     participant Y as Report B
     U->>A: Explain a discrepancy
-    A->>X: Read measure, time window and<br/>filters
-    X-->>A: Return authoritative metadata
-    A->>Y: Inspect comparable scope
-    Y-->>A: Return definition or denial
+    A->>S: Load comparison procedure
+    S-->>A: Return steps and stop conditions
+    loop Until evidence explains the gap or budget is exhausted
+      A->>X: Read measure, time window and<br/>filters
+      X-->>A: Return authoritative metadata
+      A->>Y: Inspect comparable scope
+      Y-->>A: Return definition or denial
+    end
     alt Difference supported by evidence
-        A-->>U: Identify mismatched period or<br/>definition
+      A-->>U: Identify mismatched period or<br/>definition with sources
     else No new evidence or budget exhausted
-        A-->>U: Stop with verified facts and missing<br/>evidence
+      A-->>U: Stop with verified facts and missing<br/>evidence
     end
 ```
 

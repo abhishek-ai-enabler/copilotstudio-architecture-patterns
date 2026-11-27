@@ -24,12 +24,15 @@ flowchart TB
     U -->|"Search criteria"| A
     A -->|"Allowed listings"| D
     U -->|"Select listing and<br/>request hold"| C
-    C -->|"Create checkout session<br/>for held price"| P
+    C -->|"Request checkout for<br/>held price"| P
     U -->|"Pay on hosted page"| T
     T -->|"Return to portal after<br/>checkout"| U
     T -->|"Signed payment<br/>notification"| P
     P -->|"Record settlement"| S
     S -->|"Reconcile reservation<br/>status"| D
+    A -->|"Matching listing cards"| U
+    C -->|"Recheck and place<br/>time-limited hold"| D
+    P -->|"Create hosted session"| T
 ```
 
 **Review decision:** Approve chat for discovery, not settlement. A verified payment notification and a reconciled reservation, not the browser redirect, establish a completed booking.
@@ -41,21 +44,27 @@ sequenceDiagram
     accTitle: Rental discovery with a separate reservation and payment path - technical flow
     autonumber
     participant U as Customer
-    participant C as Checkout
-    participant T as Stripe
-    participant P as Payments API
+    participant C as Checkout and hold
     participant D as Reservation store
+    participant P as Payments API
+    participant T as Stripe
     U->>C: Request selected listing
-    C->>D: Acquire time-limited hold
+    C->>D: Recheck availability and acquire<br/>time-limited hold
     alt Inventory held
-        C->>T: Create hosted session via Payments<br/>API
-        C-->>U: Return hosted checkout link
-        U->>T: Complete payment on provider page
-        T->>P: Deliver payment event
-        P->>P: Verify signature and deduplicate<br/>event
-        P->>D: Reconcile settlement with held<br/>reservation
+      D-->>C: Return hold and server-side price
+      C->>P: Request checkout for held price
+      P->>T: Create hosted checkout session
+      T-->>P: Return session URL
+      P-->>C: Return checkout link
+      C-->>U: Redirect to hosted checkout
+      U->>T: Complete payment on provider page
+      T-->>U: Return to portal, pending<br/>confirmation
+      T->>P: Deliver signed payment event
+      P->>P: Verify signature and deduplicate<br/>event
+      P->>D: Record settlement and confirm<br/>reservation
     else Another customer owns the hold
-        C-->>U: Report unavailable without starting<br/>payment
+      D-->>C: Return unavailable
+      C-->>U: Report unavailable without starting<br/>payment
     end
 ```
 

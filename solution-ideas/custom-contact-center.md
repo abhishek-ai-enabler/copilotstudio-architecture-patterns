@@ -31,6 +31,8 @@ flowchart TB
     A -->|"Employee-scoped<br/>retrieval only"| I
     A -->|"Verified customer<br/>lookup"| D
     Q -->|"Human takeover"| H
+    A -->|"Approved replies"| B
+    Q -->|"Bot or representative<br/>replies"| U
 ```
 
 **Review decision:** Keep queue ownership with the existing contact center. Approve public and staff knowledge paths separately; the adapter must not turn a customer session into an employee session.
@@ -45,15 +47,18 @@ sequenceDiagram
     participant Q as Contact center
     participant B as Adapter
     participant A as Agent
+    participant H as Representative
     U->>Q: Start service conversation
     Q->>B: Route mapped session to bot
     B->>A: Send customer-scoped context
     alt Public question is resolved
-        A-->>B: Return approved guidance
-        B-->>Q: Relay to same customer session
+      A-->>B: Return approved guidance
+      B-->>Q: Relay to same customer session
+      Q-->>U: Show answer
     else Transfer requested or integration fails
-        Q->>Q: Keep original session and route to<br/>staffed queue
-        Q->>B: Stop automated replies after<br/>takeover
+      Q->>B: Stop automated replies for this<br/>session
+      Q->>H: Assign original session with<br/>permitted summary
+      H-->>U: Continue in the same session
     end
 ```
 

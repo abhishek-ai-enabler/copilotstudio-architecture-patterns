@@ -27,6 +27,7 @@ flowchart TB
     A -->|"Read permitted contact<br/>history"| D
     D -->|"Consented outreach<br/>audience"| J
     D -->|"Aggregate touchpoints<br/>and enrollments"| R
+    A -->|"Draft for recruiter<br/>review"| U
 ```
 
 **Review decision:** Decide who can link contact addresses to a person and who can see individual touchpoints. Aggregate campaign attribution is not an admissions decision.

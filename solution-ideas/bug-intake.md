@@ -28,6 +28,9 @@ flowchart TB
     A -->|"Validated report fields"| F
     B -->|"Verified update or<br/>status request"| F
     F -->|"Scoped create or update"| D
+    D -->|"Work item ID or status"| F
+    F -->|"Acknowledgment or<br/>status reply"| O
+    O -->|"Email reply"| U
 ```
 
 **Review decision:** A tracking number correlates a reply; it does not authorize access. Keep reporter-supplied observations separate from facts the agent still needs to confirm.
@@ -39,20 +42,25 @@ sequenceDiagram
     accTitle: Separate bug intake from follow-up correspondence - technical flow
     autonumber
     participant U as Reporter
-    participant A as Intake or follow-up
-    participant F as Case mapping
+    participant A as Intake or follow-up agent
+    participant F as Flow and case mapping
     participant D as Azure DevOps
     U->>A: Email report or reply
     A->>F: Resolve message and tracking<br/>identifiers
+    F-->>A: Return existing mapping or none
     alt New message with no prior item
-        A->>D: Create work item with observed facts
-        D-->>A: Return work item ID
-        A->>F: Persist message-to-item mapping
-        A-->>U: Acknowledge tracking number
+      A->>F: Submit validated report fields
+      F->>D: Create work item with observed facts
+      D-->>F: Return work item ID
+      F->>F: Persist message-to-item mapping
+      F-->>U: Email acknowledgment with tracking<br/>number
     else Authorized reply on existing item
-        A->>D: Append supplied facts or read<br/>public-safe status
+      A->>F: Submit verified update or status<br/>request
+      F->>D: Append facts or read public-safe<br/>status
+      D-->>F: Return receipt or status
+      F-->>U: Reply with confirmation or<br/>customer-safe status
     else Duplicate delivery or unrelated sender
-        A->>A: Do not create a duplicate or<br/>disclose internal details
+      A->>A: Stop without a duplicate or internal<br/>disclosure
     end
 ```
 

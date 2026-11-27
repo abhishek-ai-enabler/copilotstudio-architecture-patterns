@@ -23,6 +23,7 @@ flowchart TB
     A -->|"Unresolved issue or<br/>explicit request"| T
     T -->|"Transfer session<br/>context"| W
     W -->|"Assign queued session"| H
+    A -->|"Cited answer"| U
 ```
 
 **Review decision:** Approve a live transfer only when a configured hub and staffed workstream can accept it. Otherwise promise a tracked follow-up, not a connected representative.
@@ -35,15 +36,22 @@ sequenceDiagram
     autonumber
     participant U as Customer
     participant A as Agent
+    participant K as Approved knowledge
     participant W as Dynamics workstream
     participant H as Representative
-    U->>A: Request a person
-    A->>W: Send transfer event and allowed<br/>context
-    alt Representative accepts
+    U->>A: Ask a question
+    A->>K: Retrieve approved answer
+    alt Approved answer found
+      K-->>A: Return cited content
+      A-->>U: Answer with source
+    else Unresolved or person requested
+      A->>W: Send transfer event and allowed<br/>context
+      alt Representative accepts
         W->>H: Assign session and context
         H-->>U: Continue conversation and verify<br/>private requests
-    else Queue closed or transfer fails
+      else Queue closed or transfer fails
         A-->>U: Offer callback or tracked case<br/>instead
+      end
     end
 ```
 

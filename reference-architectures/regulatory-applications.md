@@ -30,6 +30,8 @@ flowchart TB
     F -->|"Verify then assign to<br/>team"| D
     H -->|"Read and assess<br/>assigned case"| D
     H -->|"Maintain private<br/>assessment documents"| I
+    A -->|"Cited public guidance"| P
+    F -->|"Check required evidence"| E
 ```
 
 **Review decision:** Keep public guidance, applicant evidence and internal assessments in separate access scopes. Only server-side verification should move a draft into assessment.
@@ -46,15 +48,17 @@ sequenceDiagram
     participant D as Dataverse
     participant H as Assessor
     U->>P: Submit saved application
-    P->>F: Verify required fields and evidence
+    P->>F: Request verification of fields and<br/>evidence
     F->>D: Read case and type-specific<br/>requirements
+    D-->>F: Return requirements and evidence<br/>status
     alt Verification passes
-        F->>D: Mark submitted and assign team
-        D->>H: Surface assigned application
-        P-->>U: Show submission reference
+      F->>D: Mark submitted and assign team
+      F-->>P: Return submission reference
+      P-->>U: Show submission reference
+      D->>H: Show case in assigned team queue
     else Evidence is incomplete
-        F-->>P: Return missing requirements
-        P-->>U: Keep draft editable
+      F-->>P: Return missing requirements
+      P-->>U: Keep draft editable
     end
 ```
 

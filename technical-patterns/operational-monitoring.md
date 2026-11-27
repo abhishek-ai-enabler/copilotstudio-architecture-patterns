@@ -38,17 +38,17 @@ sequenceDiagram
     autonumber
     participant A as Agent
     participant B as Business system
-    participant T as Monitoring
+    participant T as Analytics and monitoring
     participant H as On-call owner
     A->>B: Submit service request
     A->>T: Emit non-sensitive request and<br/>latency signal
-    B->>T: Supply completion receipt via<br/>reporting path
+    B->>T: Publish task receipt for correlation
     T->>T: Compare outcomes, latency and<br/>consumption
     alt Receipts and telemetry agree
-        T-->>H: Report completed-task rate and cost
+      T-->>H: Report completed-task rate and cost
     else Missing signal or rising failures
-        T->>H: Alert with release, channel and<br/>affected path
-        H->>H: Check backend state and offer<br/>tracked fallback
+      T->>H: Alert with release, channel and<br/>affected path
+      H->>H: Check backend state and offer<br/>tracked fallback
     end
 ```
 

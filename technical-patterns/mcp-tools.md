@@ -19,7 +19,7 @@ flowchart TB
         B["Downstream API"]
     end
     P -->|"Restrict allowed tools"| A
-    M -->|"Publish tool<br/>descriptions"| A
+    M -->|"Tool catalog and<br/>bounded results"| A
     A -->|"Invoke selected tool<br/>with arguments"| M
     M -->|"Validate caller and<br/>scoped operation"| B
     B -->|"Return bounded result"| M

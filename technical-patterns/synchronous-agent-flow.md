@@ -24,6 +24,7 @@ flowchart TB
     F -->|"Validate access and<br/>persist case or job"| S
     F -->|"Set status and case or<br/>job ID"| R
     R -->|"Real-time typed<br/>response"| A
+    A -->|"Case ID, job ID or<br/>status"| U
 ```
 
 **Review decision:** Choose whether the response means completed or accepted. Only a system receipt supports completed; long work needs a durable job reference and status lookup.
@@ -42,14 +43,16 @@ sequenceDiagram
     A->>F: Send fields and stable request key
     F->>S: Check existing request and validate<br/>scope
     alt Case committed within response budget
-        S-->>F: Return case receipt
-        F-->>A: Respond completed with case ID
+      S-->>F: Return case receipt
+      F-->>A: Respond completed with case ID
     else Longer processing needed
-        F->>S: Persist pending job
-        F-->>A: Respond accepted with job ID
+      F->>S: Persist pending job
+      F-->>A: Respond accepted with job ID
     else Write result unknown
-        F->>S: Reconcile by key before replay
+      F->>S: Reconcile by key before replay
+      F-->>A: Respond pending with request key
     end
+    A-->>U: Show case ID, job ID or pending<br/>status
 ```
 
 ## Design notes

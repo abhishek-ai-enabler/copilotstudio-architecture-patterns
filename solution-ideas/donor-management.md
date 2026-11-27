@@ -28,6 +28,8 @@ flowchart TB
     D -->|"Submit case version for<br/>approval"| F
     F -->|"Request financial<br/>decision"| H
     F -->|"Post approved amount"| S
+    H -->|"Recorded decision"| F
+    F -->|"Finance receipt or hold<br/>reason"| D
 ```
 
 **Review decision:** Approve the fundraising-to-finance handoff only when the reviewed amount and decision are traceable to the original form. A draft consent flag is not outreach authorization.
@@ -39,19 +41,22 @@ sequenceDiagram
     accTitle: Donor inquiry intake, approvals and finance reconciliation - technical flow
     autonumber
     participant D as Donor case
-    participant A as Engagement agent
-    participant H as Reviewer
+    participant A as Engagement agent and staff
     participant F as Approval flow
+    participant H as Reviewer
     participant S as Finance
     D->>A: Supply draft fields and source<br/>reference
-    A->>F: Submit checked proposal for review
+    A->>D: Record checked values
+    D->>F: Submit case version for approval
     F->>H: Request approval for this donation<br/>and amount
     alt Reviewer approves
-        H-->>F: Record decision
-        F->>S: Post with donation reference
-        S-->>F: Return receipt for case
+      H-->>F: Record approval for case version
+      F->>S: Post with donation reference
+      S-->>F: Return posting receipt
+      F->>D: Store receipt on donor case
     else Missing evidence or declined
-        F->>D: Record hold or decline without<br/>posting
+      H-->>F: Record hold or decline
+      F->>D: Update case without posting
     end
 ```
 

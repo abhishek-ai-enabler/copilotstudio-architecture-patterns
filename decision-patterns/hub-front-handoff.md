@@ -23,6 +23,8 @@ flowchart TB
     A -->|"Transfer event and<br/>allowed context"| B
     B -->|"Request takeover"| Q
     Q -->|"Assign representative"| H
+    H -->|"Reply in same hub<br/>session"| Q
+    Q -->|"Bot or representative<br/>replies"| U
 ```
 
 **Review decision:** The hub, not the bot, owns the customer session. Verify that takeover ends bot replies and that a queue failure cannot look like successful human acceptance.

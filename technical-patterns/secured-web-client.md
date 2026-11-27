@@ -24,6 +24,8 @@ flowchart TB
     B -->|"Return short-lived<br/>token"| C
     C -->|"Exchange conversation<br/>messages"| L
     L -->|"Deliver to configured<br/>agent"| A
+    L -->|"Conversation token"| B
+    A -->|"Agent replies"| L
 ```
 
 **Review decision:** The short-lived token permits channel use; it does not authenticate a customer to a business API. Keep the long-lived Direct Line secret on the server.
@@ -41,12 +43,14 @@ sequenceDiagram
     U->>B: Request chat token
     B->>B: Check application session
     alt Session is authorized
-        B->>L: Obtain conversation token
-        B-->>U: Return short-lived token only
-        U->>L: Connect with token
-        L->>A: Relay message, user auth remains<br/>separate
+      B->>L: Exchange secret for conversation<br/>token
+      L-->>B: Return short-lived token
+      B-->>U: Return token only, never the secret
+      U->>L: Connect with token
+      L->>A: Relay message, user auth remains<br/>separate
+      A-->>U: Reply through Direct Line
     else Session expired or signed out
-        B-->>U: Refuse issuance and require sign-in
+      B-->>U: Refuse issuance and require sign-in
     end
 ```
 

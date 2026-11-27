@@ -25,6 +25,7 @@ flowchart TB
     Q -->|"Queue assignment"| H
     H -->|"Agent reply"| Q
     B -->|"Relay reply to original<br/>canvas"| A
+    A -->|"Representative replies<br/>in original canvas"| U
 ```
 
 **Review decision:** Keeping the agent canvas means operating a two-way bridge for the human leg. Decide who owns message correlation and recovery when either session disconnects.
@@ -43,12 +44,14 @@ sequenceDiagram
     A->>B: Begin transfer for this conversation
     B->>Q: Open mapped live session
     alt Representative joins
-        Q-->>B: Confirm ownership
-        B-->>A: Mark session live
-        Q->>B: Send human reply with session ID
-        B->>A: Relay once to original customer<br/>canvas
+      Q-->>B: Confirm ownership
+      B-->>A: Mark session live and pause bot<br/>replies
+      Q->>B: Send human reply with session ID
+      B->>A: Relay once to original conversation
+      A-->>U: Show representative reply in same<br/>canvas
     else Either session disconnects
-        B->>A: Mark interrupted and offer<br/>reconnection path
+      B->>A: Mark transfer interrupted
+      A-->>U: Offer reconnection or tracked<br/>follow-up
     end
 ```
 

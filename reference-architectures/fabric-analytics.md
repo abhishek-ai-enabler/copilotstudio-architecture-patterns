@@ -26,6 +26,8 @@ flowchart TB
     C -->|"Analyst identity and<br/>RLS"| M
     M -->|"Same governed measures"| R
     R -->|"Independent<br/>reconciliation"| U
+    C -->|"Permitted rows and<br/>units"| A
+    A -->|"Draft variance table<br/>for review"| U
 ```
 
 **Review decision:** Sign off the numbers against the published report under the same identity and filters. A successful DAX query is not evidence that the chosen measure was correct.

@@ -27,6 +27,8 @@ flowchart TB
     S -->|"Public answer"| K
     S -->|"Only with supported<br/>verification"| T
     S -->|"Escalate via<br/>channel-appropriate<br/>route"| H
+    A -->|"Spoken reply"| V
+    A -->|"Chat reply"| C
 ```
 
 **Review decision:** Approve each private action per modality. A caller who cannot use end-user sign-in must not acquire an employee's access through a shared connection.
@@ -40,15 +42,17 @@ sequenceDiagram
     participant U as Customer
     participant A as Customer Assist Agent
     participant S as Service specialist
+    participant T as Private operation
     participant H as Human service
     U->>A: Request account assistance by voice<br/>or chat
     A->>S: Route with modality and allowed<br/>context
     alt Supported verification succeeds for operation
-        S->>S: Perform authorized lookup
-        S-->>U: Reply using capabilities of current<br/>channel
+      S->>T: Perform authorized lookup
+      T-->>S: Return permitted account fields
+      S-->>U: Reply using capabilities of current<br/>channel
     else Verification unavailable or declined
-        S->>H: Offer approved staffed path
-        S-->>U: Do not disclose private account<br/>details
+      S-->>U: Withhold private details and offer<br/>staffed path
+      S->>H: Escalate through channel-appropriate<br/>route
     end
 ```
 

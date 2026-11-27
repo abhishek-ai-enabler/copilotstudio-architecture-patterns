@@ -24,6 +24,7 @@ flowchart TB
     A -->|"Read-only DAX"| C
     C -->|"Execute as end user"| M
     C -->|"Rows or query error"| A
+    A -->|"Figures, units and<br/>period for review"| U
 ```
 
 **Review decision:** Separate schema guidance from runtime permissions. A skill can repair syntax, but neither a skill nor a retry may widen access or certify a business measure.
@@ -38,18 +39,23 @@ sequenceDiagram
     participant A as Copilot harness
     participant S as DAX skill
     participant C as Power BI query action
+    participant M as Semantic model
     U->>A: Ask for a governed comparison
     A->>S: Load model vocabulary and query<br/>shapes
-    A->>C: Execute scoped DAX
-    alt Repairable syntax error and budget remains
-        C-->>A: Return error
-        A->>C: Correct query and retry under same<br/>identity
-    else Permission denied
-        C-->>A: Return denial
-        A-->>U: Stop without changing credentials
+    S-->>A: Return tested query patterns
+    loop Until rows return, access is denied or retry budget is spent
+      A->>C: Execute read-only DAX
+      C->>M: Run as the end user under RLS
+      M-->>C: Return rows, syntax error or denial
+      C-->>A: Return result
+      opt Repairable syntax error
+        A->>A: Correct query under the same<br/>identity
+      end
     end
-    opt Verified rows available
-        A-->>U: Show figures, units and period for<br/>review
+    alt Verified rows available
+      A-->>U: Show figures, units and period for<br/>review
+    else Permission denied or retries exhausted
+      A-->>U: Stop without changing credentials or<br/>estimating
     end
 ```
 

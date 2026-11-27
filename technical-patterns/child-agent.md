@@ -22,6 +22,7 @@ flowchart TB
     P -->|"Delegate bounded return<br/>task"| C
     C -->|"Owner-scoped asset tool"| I
     C -->|"Return outcome without<br/>rerouting"| P
+    P -->|"Status, receipt or next<br/>step"| U
 ```
 
 **Review decision:** Use a child when one team owns the whole release. A separate set of instructions is useful for routing but is not an independent authorization boundary.
@@ -39,13 +40,19 @@ sequenceDiagram
     U->>P: Ask about returning an asset
     P->>C: Delegate return task
     C->>U: Clarify status lookup versus new<br/>return
+    U->>C: Choose status or confirm new return
     alt Status only
-        C->>I: Read return status for authorized<br/>asset
+      C->>I: Read return status for authorized<br/>asset
+      I-->>C: Return status
+      C-->>P: Return status outcome
     else Confirmed new return
-        C->>I: Validate ownership and submit return
+      C->>I: Validate ownership and submit return
+      I-->>C: Return receipt or denial
+      C-->>P: Return receipt or denial
     else Still ambiguous
-        C-->>P: Return unresolved without writing
+      C-->>P: Return unresolved without writing
     end
+    P-->>U: Present outcome
 ```
 
 ## Design notes

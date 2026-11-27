@@ -44,12 +44,13 @@ sequenceDiagram
     participant X as Derived store
     D->>F: Notify with transcript key
     F->>D: Read permitted record
+    D-->>F: Return transcript and capture<br/>metadata
     F->>A: Submit minimized content
     A-->>F: Return classification and summary
     alt Complete record and valid schema
-        F->>X: Upsert attributes by transcript and<br/>version
+      F->>X: Upsert attributes by transcript and<br/>version
     else Incomplete or invalid output
-        F->>F: Set aside for review, exclude from<br/>classified counts
+      F->>F: Set aside for review, exclude from<br/>classified counts
     end
 ```
 

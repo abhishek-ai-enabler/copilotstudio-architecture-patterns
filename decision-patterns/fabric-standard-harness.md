@@ -24,6 +24,7 @@ flowchart TB
     A -->|"Construct DAX EVALUATE"| C
     C -->|"Query with user<br/>connection"| M
     A -->|"Format returned rows"| U
+    C -->|"Permitted rows or<br/>explicit error"| A
 ```
 
 **Review decision:** The standard harness writes DAX itself. Choose it only if the schema fits its instructions and the team can handle invalid queries without assuming automatic correction.

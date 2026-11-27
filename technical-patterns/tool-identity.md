@@ -24,6 +24,8 @@ flowchart TB
     C -->|"Request connection if<br/>needed"| I
     C -->|"Present authorized user<br/>connection"| S
     S -->|"Return permitted fields<br/>via tool"| A
+    I -->|"Sign-in or consent card"| U
+    A -->|"Permitted case list"| U
 ```
 
 **Review decision:** Agent sign-in and downstream authorization are different checks. Approve a private tool only if the service receives the intended identity and enforces record access.
@@ -41,14 +43,16 @@ sequenceDiagram
     U->>A: Show my cases
     A->>C: Resolve service connection for this<br/>user
     opt No valid connection
-        C->>U: Present sign-in or consent card
+      C->>U: Present sign-in or consent card
+      U->>C: Sign in, consent or decline
     end
     alt User connection valid
-        C->>S: Query cases with user authority
-        S-->>C: Return permitted records only
-        C-->>A: Return scoped result
+      C->>S: Query cases with user authority
+      S-->>C: Return permitted records only
+      C-->>A: Return scoped result
+      A-->>U: Show permitted cases
     else Consent declined or revoked
-        A-->>U: Stop, do not use author credentials
+      A-->>U: Stop, do not use author credentials
     end
 ```
 

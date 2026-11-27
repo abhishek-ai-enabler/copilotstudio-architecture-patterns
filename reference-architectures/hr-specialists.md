@@ -29,6 +29,8 @@ flowchart TB
     P -->|"Retrieve authorized<br/>article"| K
     T -->|"Scoped connector or<br/>flow"| H
     L -->|"Read or assign learning"| LMS
+    T -->|"Receipt, denial or<br/>unavailable status"| A
+    A -->|"Outcome in the same<br/>channel"| U
 ```
 
 **Review decision:** Choose a specialist boundary that matches the permission boundary. Being routed to a manager specialist does not establish a manager-to-employee relationship.
@@ -46,14 +48,19 @@ sequenceDiagram
     U->>A: Change a direct report's HR record
     A->>T: Delegate target and requested<br/>operation
     T->>H: Check current reporting relationship<br/>and authority
-    alt Manager is authorized and confirms change
-        T->>H: Submit validated change
-        H-->>T: Return system receipt
-        T-->>A: Return confirmed outcome
-        A-->>U: Show receipt
+    H-->>T: Return relationship and permitted<br/>operations
+    alt Manager is authorized
+      T-->>A: Return exact change for confirmation
+      A->>U: Confirm the proposed change
+      U->>A: Approve change
+      A->>T: Proceed with confirmed change
+      T->>H: Submit validated change
+      H-->>T: Return system receipt
+      T-->>A: Return confirmed outcome
+      A-->>U: Show receipt
     else Outside scope or HCM unavailable
-        T-->>A: Return denial or unavailable status
-        A-->>U: Report no confirmed change
+      T-->>A: Return denial or unavailable status
+      A-->>U: Report no confirmed change
     end
 ```
 

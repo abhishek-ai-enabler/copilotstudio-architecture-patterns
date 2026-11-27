@@ -27,6 +27,7 @@ flowchart TB
     A -->|"Enroll authorized hire<br/>in course"| L
     A -->|"Record acknowledgment<br/>or blocker"| M
     H -->|"Review assigned<br/>milestones"| M
+    A -->|"Checklist and next<br/>steps"| U
 ```
 
 **Review decision:** Make the HR system authoritative for role and start date, and the LMS authoritative for enrollment. A learning-plan draft must not mark a milestone complete.
@@ -40,17 +41,21 @@ sequenceDiagram
     participant R as HR system
     participant A as Onboarding agent
     participant L as LMS
+    participant M as Milestone tracker
     participant H as Manager
     R->>A: Send hire ID and current role
     A->>A: Resolve existing plan and verify<br/>identity mapping
     A->>L: Check enrollment for hire and course
     alt Course not yet assigned
-        A->>L: Request enrollment
-        L-->>A: Return enrollment receipt
+      L-->>A: Return no enrollment
+      A->>L: Request enrollment
+      L-->>A: Return enrollment receipt
+      A->>M: Record milestone complete
     else Already enrolled
-        L-->>A: Return existing enrollment
+      L-->>A: Return existing enrollment
     else LMS unavailable
-        A->>H: Flag this milestone pending with an<br/>owner
+      A->>M: Mark milestone pending with an owner
+      M-->>H: Surface blocker for follow-up
     end
 ```
 

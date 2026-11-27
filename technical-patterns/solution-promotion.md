@@ -23,8 +23,9 @@ flowchart TB
     D -->|"Version solution and<br/>dependencies"| G
     G -->|"Import candidate with<br/>test bindings"| T
     T -->|"Supply evaluation and<br/>channel results"| H
-    H -->|"Approve same artifact<br/>for promotion"| P
+    H -->|"Approve promotion"| P
     C -->|"Bind authorized<br/>production connections"| P
+    G -->|"Deploy same versioned<br/>artifact"| P
 ```
 
 **Review decision:** Approve the artifact and its destination bindings. Promoting identical agent content does not prove that the production connection points to the correct data.
@@ -40,12 +41,13 @@ sequenceDiagram
     participant H as Release approver
     participant P as Production
     D->>T: Import versioned candidate with test<br/>settings
-    T->>H: Return evaluation and channel<br/>evidence
+    T-->>H: Return evaluation and channel<br/>evidence
     alt Candidate passes and target bindings verified
-        H->>P: Approve promotion of tested version
-        P->>P: Bind connections and smoke-test<br/>permitted and denied actions
+      H->>P: Approve promotion of tested version
+      P->>P: Bind connections and smoke-test<br/>permitted and denied actions
+      P-->>H: Report smoke-test outcome
     else Missing dependency or wrong workspace
-        H->>D: Block release and return binding<br/>problem
+      H->>D: Block release and return binding<br/>problem
     end
 ```
 

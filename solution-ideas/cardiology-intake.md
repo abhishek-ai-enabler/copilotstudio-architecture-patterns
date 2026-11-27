@@ -31,6 +31,7 @@ flowchart TB
     D -->|"Case in staffed review<br/>queue"| H
     H -->|"Recorded scheduling<br/>authorization"| F
     F -->|"Book authorized<br/>appointment"| B
+    F -->|"Booking reference to<br/>front desk"| U
 ```
 
 **Review decision:** Approve scheduling only on a recorded clinician decision for the verified case. A completed upload or successful extraction must never release the booking step.
@@ -49,11 +50,13 @@ sequenceDiagram
     U->>D: Attach paperwork to verified case
     D->>H: Assign case with original and<br/>optional draft
     alt Clinician records scheduling authorization
-        H->>F: Release administrative scheduling<br/>instruction
-        F->>B: Reserve authorized appointment
-        B-->>F: Return booking reference
+      H->>F: Release administrative scheduling<br/>request
+      F->>B: Reserve authorized appointment
+      B-->>F: Return booking reference
+      F-->>U: Notify intake staff to confirm with<br/>patient
     else Review incomplete or identity uncertain
-        D->>H: Retain assigned case for staffed<br/>follow-up
+      H->>D: Record follow-up needed, no booking
+      D-->>U: Route case to staffed follow-up
     end
 ```
 

@@ -23,6 +23,7 @@ flowchart TB
     A -->|"Load only for matching<br/>task"| S
     A -->|"Request report data"| T
     T -->|"Check caller and record<br/>scope"| R
+    T -->|"Authorized source<br/>fields"| A
 ```
 
 **Review decision:** Approve a skill as reusable procedure, not as a credential bundle. Its instructions cannot grant the consuming agent access to the data needed to execute it.
@@ -39,12 +40,13 @@ sequenceDiagram
     participant T as Report tool
     U->>A: Draft a service review
     A->>S: Load matching procedure
+    S-->>A: Return procedure and examples
     A->>T: Read authorized reporting data
     alt Required data and tool are available
-        T-->>A: Return source fields
-        A-->>U: Format review for human sign-off
+      T-->>A: Return source fields
+      A-->>U: Format review for human sign-off
     else Tool missing or access denied
-        A-->>U: Identify unavailable input rather<br/>than inventing it
+      A-->>U: Identify unavailable input rather<br/>than inventing it
     end
 ```
 
