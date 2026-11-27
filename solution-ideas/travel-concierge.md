@@ -2,6 +2,60 @@
 
 **Class:** Microsoft solution idea. **Intent:** Answer “what does my fare include?” and “what balance remains?” in one website conversation without treating a knowledge document as a booking ledger.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Travel concierge with public guidance and private booking lookup - architecture
+    accDescr: Decide exactly where a public conversation becomes a private lookup. A booking reference helps locate a record but cannot establish ownership.
+    subgraph group0["Travel website"]
+        U["Traveler"]
+        A["Copilot Studio<br/>concierge"]
+    end
+    subgraph group2["Public information"]
+        K["Travel and fare<br/>documents"]
+    end
+    subgraph group3["Private booking systems"]
+        I["Authenticated lookup"]
+        D["Dataverse customer<br/>mapping"]
+        S["SQL reservations and<br/>transactions"]
+    end
+    U -->|"Travel or account<br/>question"| A
+    A -->|"Retrieve applicable<br/>guidance"| K
+    A -->|"Request scoped account<br/>data"| I
+    I -->|"Resolve verified<br/>traveler"| D
+    I -->|"Read owned itinerary or<br/>balance"| S
+```
+
+**Review decision:** Decide exactly where a public conversation becomes a private lookup. A booking reference helps locate a record but cannot establish ownership.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Travel concierge with public guidance and private booking lookup - technical flow
+    autonumber
+    participant U as Traveler
+    participant A as Concierge
+    participant K as Knowledge
+    participant S as Booking service
+    U->>A: Ask about a trip
+    alt Public fare or destination question
+        A->>K: Find applicable current document
+        K-->>A: Return source and effective date
+        A-->>U: Cite applicable guidance
+    else Personal balance request
+        A->>U: Require verified traveler identity
+        A->>S: Query authorized booking
+        alt Live balance available
+            S-->>A: Return balance, currency and time
+            A-->>U: Show verified balance
+        else Backend unavailable
+            A-->>U: Withhold amount and offer<br/>representative
+        end
+    end
+```
+
 ## Components and flow
 
 1. Copilot Studio clarifies the destination, operator or fare type. Retrieve the applicable travel, airport or rescheduling document and show its source and effective date.

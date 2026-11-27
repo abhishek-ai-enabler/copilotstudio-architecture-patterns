@@ -2,6 +2,61 @@
 
 **Class:** Microsoft reference architecture. **Intent:** Give employees and managers one front door in Teams or Microsoft Copilot without putting policy search, personal records and manager-only operations behind one unrestricted tool.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Route HR requests to domain-specific agents - architecture
+    accDescr: Choose a specialist boundary that matches the permission boundary. Being routed to a manager specialist does not establish a manager-to-employee relationship.
+    subgraph group0["Employee channel"]
+        U["Employee or manager"]
+        A["Copilot Studio HR<br/>orchestrator"]
+    end
+    subgraph group2["Domain specialists"]
+        P["Policy agent"]
+        T["Personal, leave and<br/>manager agents"]
+        L["Learning agent"]
+    end
+    subgraph group5["Systems of record"]
+        K["Indexed ITSM guidance"]
+        H["HCM"]
+        LMS["Learning system"]
+    end
+    U -->|"Entra-authenticated<br/>request"| A
+    A -->|"Policy question"| P
+    A -->|"Employee or manager<br/>transaction"| T
+    A -->|"Learning task"| L
+    P -->|"Retrieve authorized<br/>article"| K
+    T -->|"Scoped connector or<br/>flow"| H
+    L -->|"Read or assign learning"| LMS
+```
+
+**Review decision:** Choose a specialist boundary that matches the permission boundary. Being routed to a manager specialist does not establish a manager-to-employee relationship.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Route HR requests to domain-specific agents - technical flow
+    autonumber
+    participant U as Manager
+    participant A as Orchestrator
+    participant T as HR specialist
+    participant H as HCM
+    U->>A: Change a direct report's HR record
+    A->>T: Delegate target and requested<br/>operation
+    T->>H: Check current reporting relationship<br/>and authority
+    alt Manager is authorized and confirms change
+        T->>H: Submit validated change
+        H-->>T: Return system receipt
+        T-->>A: Return confirmed outcome
+        A-->>U: Show receipt
+    else Outside scope or HCM unavailable
+        T-->>A: Return denial or unavailable status
+        A-->>U: Report no confirmed change
+    end
+```
+
 ## Components and flow
 
 1. Entra ID signs in the user. A Copilot Studio orchestrator distinguishes personal data, time off, manager actions, learning and HR policy. It asks which task the user wants if a request crosses domains.

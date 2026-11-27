@@ -2,6 +2,62 @@
 
 **Class:** Microsoft reference architecture. **Intent:** Move conferencing details to Teams without making employees recreate their invitations or giving a migration operator standing access to every calendar.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Preview and migrate an organizer's meetings in place - architecture
+    accDescr: Approval is per organizer, meeting and previewed version. A timeout is a reason to check the original event, not to create a replacement invitation.
+    subgraph group0["Organizer channel"]
+        U["Organizer in Teams"]
+        A["Copilot Studio"]
+    end
+    subgraph group2["Migration automation"]
+        F["Power Automate"]
+        D["Dataverse migration<br/>history"]
+    end
+    subgraph group4["Calendar authorities"]
+        L["Legacy conferencing<br/>system"]
+        G["Microsoft Graph<br/>calendar and meetings"]
+    end
+    U -->|"Select and confirm<br/>preview"| A
+    A -->|"Delegate approved scope"| F
+    F -->|"Read source meeting<br/>details"| L
+    F -->|"Convert eligible event<br/>in place"| G
+    F -->|"Record outcome per<br/>event"| D
+    D -->|"Progress and unresolved<br/>items"| A
+```
+
+**Review decision:** Approval is per organizer, meeting and previewed version. A timeout is a reason to check the original event, not to create a replacement invitation.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Preview and migrate an organizer's meetings in place - technical flow
+    autonumber
+    participant U as Organizer
+    participant A as Agent
+    participant F as Migration flow
+    participant G as Calendar via Graph
+    U->>A: Preview my eligible meetings
+    A->>F: Collect organizer's scoped events
+    F-->>A: Return preview and versions
+    A-->>U: Display attendees, rooms and<br/>recurrence
+    U->>A: Confirm selected meetings
+    A->>F: Submit selected IDs and versions
+    alt Eligible and unchanged
+        F->>G: Update existing event
+        alt Conversion confirmed
+            G-->>F: Return authoritative event state
+        else Update response times out
+            F->>G: Read existing event before retrying
+        end
+    else Changed since preview
+        F-->>A: Skip and request a new preview
+    end
+```
+
 ## Components and flow
 
 1. An organizer signs into the Copilot Studio agent in Teams. Delegated access lets the migration automation inspect eligible meetings. Show the proposed changes, including recurring series and room bookings, before requesting a selection.

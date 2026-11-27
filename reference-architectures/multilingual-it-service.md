@@ -2,6 +2,61 @@
 
 **Class:** Microsoft reference architecture. **Intent:** Give employees one Teams entry point for IT guidance, catalog lookup and incident management without granting them access to anyone else's tickets.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Multilingual IT self-service across identity providers - architecture
+    accDescr: Approve incident updates only if ITSM can identify the employee and enforce ownership at its own boundary, including when a service connection is used.
+    subgraph group0["Employee channel"]
+        U["Teams employee"]
+        ID["Entra ID"]
+    end
+    subgraph group2["Self-service"]
+        A["Copilot Studio IT agent"]
+        K["SharePoint IT guides"]
+        B["Optional live-chat<br/>bridge"]
+    end
+    subgraph group5["Service desk"]
+        I["ITSM catalog and<br/>incidents"]
+        H["Desk analyst"]
+    end
+    ID -->|"Verified employee<br/>context"| A
+    U -->|"Local-language request"| A
+    A -->|"Find approved procedure"| K
+    A -->|"Employee-scoped lookup<br/>or update"| I
+    A -->|"Unresolved request and<br/>summary"| B
+    B -->|"Translated live<br/>conversation"| H
+```
+
+**Review decision:** Approve incident updates only if ITSM can identify the employee and enforce ownership at its own boundary, including when a service connection is used.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Multilingual IT self-service across identity providers - technical flow
+    autonumber
+    participant U as Employee
+    participant A as IT agent
+    participant I as ITSM
+    participant H as Service desk
+    U->>A: Add a note to my incident
+    A->>U: Confirm ticket and description in<br/>employee language
+    U->>A: Confirm the requested change
+    A->>I: Submit verified employee ID and<br/>ticket ID
+    alt Employee owns incident
+        I-->>A: Return update receipt
+        A-->>U: Confirm with unchanged incident ID
+    else Employee has no access
+        I-->>A: Deny without exposing ticket data
+        A-->>U: Explain that the update was not made
+        opt Employee requests help
+            A->>H: Request staffed handoff via<br/>configured bridge
+        end
+    end
+```
+
 ## Components and flow
 
 1. Entra ID identifies the employee in Teams. Copilot Studio detects the conversation language and distinguishes “how do I request a laptop?” from “where is my request?”

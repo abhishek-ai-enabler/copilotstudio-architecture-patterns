@@ -2,6 +2,54 @@
 
 **Class:** Synthesized technical pattern. **Intent:** Let several agents consume a tool catalog maintained by the API owner rather than maintaining a separate description in every agent.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Discover centrally managed tools from an MCP server - architecture
+    accDescr: The server can change its catalog without an agent release. Approve what the agent may invoke independently of what the server advertises.
+    subgraph group0["Agent runtime"]
+        A["Copilot Studio"]
+        P["Approved server and<br/>tool scope"]
+    end
+    subgraph group2["MCP service"]
+        M["MCP server"]
+    end
+    subgraph group3["Business system"]
+        B["Downstream API"]
+    end
+    P -->|"Restrict allowed tools"| A
+    M -->|"Publish tool<br/>descriptions"| A
+    A -->|"Invoke selected tool<br/>with arguments"| M
+    M -->|"Validate caller and<br/>scoped operation"| B
+    B -->|"Return bounded result"| M
+```
+
+**Review decision:** The server can change its catalog without an agent release. Approve what the agent may invoke independently of what the server advertises.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Discover centrally managed tools from an MCP server - technical flow
+    autonumber
+    participant A as Agent
+    participant M as MCP server
+    participant B as Domain API
+    A->>M: Discover available definitions
+    M-->>A: Return current tool catalog
+    alt Tool is approved and compatible
+        A->>M: Invoke with validated arguments
+        M->>B: Enforce caller scope and run<br/>operation
+        B-->>M: Return service result
+        M-->>A: Return bounded tool output
+    else New, incompatible or unavailable tool
+        A->>A: Keep affected capability unavailable
+    end
+```
+
+## Design notes
+
 **Flow:** An approved Model Context Protocol (MCP) server advertises tool definitions. Copilot Studio connects using a supported configuration and discovers tools; the agent invokes the relevant one with structured arguments. The server validates the operation, caller and arguments, calls the underlying system, and returns a bounded result.
 
 **Choose it when** tools evolve together or are consumed by multiple agents or clients. A single supported connector usually costs less to operate. Check which tools, resources, authentication modes and transport the selected harness actually supports.

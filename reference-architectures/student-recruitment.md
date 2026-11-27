@@ -2,6 +2,57 @@
 
 **Class:** Microsoft reference architecture. **Intent:** Help recruiters follow up on expressed interests and measure which outreach leads to enrollment, even when a student changes email address.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Link recruitment conversations and touchpoints to enrollment - architecture
+    accDescr: Decide who can link contact addresses to a person and who can see individual touchpoints. Aggregate campaign attribution is not an admissions decision.
+    subgraph group0["Ingestion"]
+        S["Student information<br/>system"]
+        T["Forms and event<br/>registrations"]
+    end
+    subgraph group2["Recruitment data"]
+        D["Dataverse people and<br/>touchpoints"]
+        J["Customer Insights -<br/>Journeys"]
+    end
+    subgraph group4["Staff and reporting"]
+        A["Copilot Studio staff<br/>agent"]
+        U["Recruiter"]
+        R["Power BI funnel"]
+    end
+    S -->|"Scheduled enrollment<br/>dataflow"| D
+    T -->|"Timestamped engagement<br/>via flows"| D
+    U -->|"Request follow-up draft"| A
+    A -->|"Read permitted contact<br/>history"| D
+    D -->|"Consented outreach<br/>audience"| J
+    D -->|"Aggregate touchpoints<br/>and enrollments"| R
+```
+
+**Review decision:** Decide who can link contact addresses to a person and who can see individual touchpoints. Aggregate campaign attribution is not an admissions decision.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Link recruitment conversations and touchpoints to enrollment - technical flow
+    autonumber
+    participant S as Student system
+    participant D as Dataverse intake
+    participant H as Recruitment steward
+    participant J as Journeys
+    S->>D: Import enrollment and contact<br/>identifiers
+    alt Match is unambiguous
+        D->>D: Link enrollment to one person
+        opt Current consent permits outreach
+            D->>J: Supply eligible contact and program
+        end
+    else Personal and institutional addresses conflict
+        D->>H: Request identity review
+        H->>D: Resolve before counting or<br/>contacting
+    end
+```
+
 ## Components and flow
 
 1. Scheduled dataflows import programs and enrollments from the student information system. In Dataverse, distinguish a person from their contact addresses, and a promoted program from the academic programs it represents.

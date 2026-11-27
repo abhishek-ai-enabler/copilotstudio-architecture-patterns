@@ -2,6 +2,51 @@
 
 **Class:** Microsoft solution idea. **Intent:** Let customers try self-service without making them start over when a representative is needed.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Resolve customer questions or transfer them into a Dynamics workstream - architecture
+    accDescr: Approve a live transfer only when a configured hub and staffed workstream can accept it. Otherwise promise a tracked follow-up, not a connected representative.
+    subgraph group0["Self-service"]
+        U["Customer"]
+        A["Copilot Studio"]
+        K["Approved SharePoint and<br/>Dataverse knowledge"]
+    end
+    subgraph group3["Engagement hub"]
+        T["Escalate topic and<br/>transfer node"]
+        W["Dynamics 365 workstream"]
+        H["Representative"]
+    end
+    U -->|"Question or request for<br/>a person"| A
+    A -->|"Retrieve approved<br/>answer"| K
+    A -->|"Unresolved issue or<br/>explicit request"| T
+    T -->|"Transfer session<br/>context"| W
+    W -->|"Assign queued session"| H
+```
+
+**Review decision:** Approve a live transfer only when a configured hub and staffed workstream can accept it. Otherwise promise a tracked follow-up, not a connected representative.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Resolve customer questions or transfer them into a Dynamics workstream - technical flow
+    autonumber
+    participant U as Customer
+    participant A as Agent
+    participant W as Dynamics workstream
+    participant H as Representative
+    U->>A: Request a person
+    A->>W: Send transfer event and allowed<br/>context
+    alt Representative accepts
+        W->>H: Assign session and context
+        H-->>U: Continue conversation and verify<br/>private requests
+    else Queue closed or transfer fails
+        A-->>U: Offer callback or tracked case<br/>instead
+    end
+```
+
 ## Components and flow
 
 1. Copilot Studio separates product guidance from case-specific requests. Use approved SharePoint/Dataverse knowledge for a cited answer, or collect enough information for a follow-up ticket.

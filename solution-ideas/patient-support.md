@@ -2,6 +2,61 @@
 
 **Class:** Microsoft solution idea. **Intent:** Help patients find service information, manage appointments and reach a staffed team. This design deliberately leaves clinical questions and decisions to qualified clinicians.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    accTitle: Patient portal for administrative support - architecture
+    accDescr: Approve the portal for administrative requests only. Personal appointment access requires verified patient or proxy authority; clinical requests go to a staffed pathway.
+    subgraph group0["Patient access"]
+        U["Patient or authorized<br/>proxy"]
+        P["Power Pages"]
+        A["Copilot Studio"]
+    end
+    subgraph group3["Administrative services"]
+        K["Approved service<br/>information"]
+        D["Dataverse appointments"]
+        F["Scheduling flow"]
+    end
+    subgraph group6["Provider team"]
+        H["Staffed clinical<br/>pathway"]
+    end
+    U -->|"Portal access"| P
+    P -->|"Administrative question"| A
+    A -->|"Public service guidance"| K
+    A -->|"Authorized appointment<br/>lookup"| D
+    A -->|"Confirmed scheduling<br/>request"| F
+    A -->|"Clinical request for a<br/>person"| H
+```
+
+**Review decision:** Approve the portal for administrative requests only. Personal appointment access requires verified patient or proxy authority; clinical requests go to a staffed pathway.
+
+## Technical flow
+
+```mermaid
+sequenceDiagram
+    accTitle: Patient portal for administrative support - technical flow
+    autonumber
+    participant U as Portal user
+    participant A as Patient support
+    participant F as Scheduling flow
+    participant H as Provider team
+    U->>A: Request help
+    alt Administrative change with verified authority
+        A->>U: Show proposed appointment change
+        U->>A: Confirm selection
+        A->>F: Submit approved change
+        alt Scheduling confirms
+            F-->>A: Return booking reference
+            A-->>U: Show confirmation
+        else Outcome unknown
+            A-->>U: Show pending status and staffed<br/>contact
+        end
+    else Clinical request
+        A->>H: Refer through established provider<br/>pathway
+    end
+```
+
 ## Components and flow
 
 1. A Copilot Studio agent in Power Pages answers general questions from approved patient-service information. For a personal appointment, the portal authenticates the patient or verifies an authorized proxy.
