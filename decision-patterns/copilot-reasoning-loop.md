@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Microsoft Copilot harness: reason, act and inspect results](../assets/flows/copilot-reasoning-loop.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Microsoft Copilot harness: reason, act and inspect results - technical flow
@@ -54,6 +59,8 @@ sequenceDiagram
       A-->>U: Stop with verified facts and missing<br/>evidence
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

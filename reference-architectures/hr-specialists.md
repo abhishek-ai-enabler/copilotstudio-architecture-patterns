@@ -37,6 +37,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Route HR requests to domain-specific agents](../assets/flows/hr-specialists.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Route HR requests to domain-specific agents - technical flow
@@ -63,6 +68,8 @@ sequenceDiagram
       A-->>U: Report no confirmed change
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

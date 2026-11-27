@@ -32,6 +32,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Promote one tested solution with environment-specific bindings](../assets/flows/solution-promotion.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Promote one tested solution with environment-specific bindings - technical flow
@@ -50,6 +55,8 @@ sequenceDiagram
       H->>D: Block release and return binding<br/>problem
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

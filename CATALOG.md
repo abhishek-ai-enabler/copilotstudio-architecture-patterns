@@ -1,6 +1,6 @@
 # Copilot Studio architecture catalog
 
-**Coverage as of 2026-11-27.** The baseline is the [Microsoft Learn Copilot Studio architecture index](https://learn.microsoft.com/en-us/power-platform/architecture/products/copilot-studio), updated November 26. The tables map sources to **60 separate pattern files**. Start with a scenario if you know the business problem, or with a decision if you are choosing between implementations.
+**Coverage as of 2026-11-27.** The baseline is the [Microsoft Learn Copilot Studio architecture index](https://learn.microsoft.com/en-us/power-platform/architecture/products/copilot-studio), updated November 26. The tables map sources to **62 separate pattern files**. Start with a scenario if you know the business problem, or use the [solution validator](review/README.md) to review a design against these patterns.
 
 | What the source represents | Files | Coverage rule |
 | --- | ---: | --- |
@@ -8,7 +8,7 @@
 | [Microsoft solution ideas](#microsoft-solution-ideas) | 11 | Every entry under **Solution ideas**. These are starting points, not validated deployments. |
 | [Microsoft decision-guide patterns](#fabric-integration-options) | 4 | Every numbered option in the baseline's **Key concepts** guide on Fabric. |
 | [Microsoft implementation-guide patterns](#orchestration-and-handoff-options) | 5 | Three orchestration modes and two handoff topologies named in the linked implementation guidance. |
-| [Synthesized technical patterns](#synthesized-technical-patterns) | 31 | Selected reusable designs derived from product documentation and public samples; **not** Microsoft reference architectures. |
+| [Synthesized technical patterns](#synthesized-technical-patterns) | 33 | Selected reusable designs derived from product documentation and public samples; **not** Microsoft reference architectures. |
 
 Classification describes the **source**, not Microsoft's endorsement of the wording or design additions here. Each file is an original design note with a flow, selection criteria, trust boundary, failure case and sources. The first 24 files are exhaustive **for the named baseline sections and date**; the rest extend coverage, not the completeness claim. Lifecycle overviews are navigation resources, not additional reference architectures. No entry implies that a feature is generally available, licensed or supported in every channel.
 
@@ -90,6 +90,7 @@ These files are catalog designs, not additional Microsoft reference architecture
 | Composition | [Child agents](https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-child-agent) | [One specialist inside the parent](technical-patterns/child-agent.md) |
 | Composition | [Connect Copilot Studio agents](https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-copilot-studio-agent) | [Independently published specialist](technical-patterns/connected-agent.md) |
 | Composition / Foundry | [Connect a Microsoft Foundry agent](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/add-agent-foundry) | [Delegate a release compatibility assessment](technical-patterns/foundry-agent-specialist.md) |
+| Composition / A2A | [Connect an Agent2Agent specialist](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/add-agent-to-agent) | [Delegate a bounded task across agent frameworks](technical-patterns/remote-a2a-specialist.md) |
 | Composition | [Skills overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-overview) | [Reusable procedure as a skill](technical-patterns/skill-package.md) |
 | Identity | [Tool authentication](https://learn.microsoft.com/en-us/microsoft-copilot-studio/configure-enduser-authentication) | [Carry end-user authority to the tool](technical-patterns/tool-identity.md) |
 | Integration | [Integration strategies](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/integrations) | [Narrow connector action](technical-patterns/connector-action.md) |
@@ -100,6 +101,7 @@ These files are catalog designs, not additional Microsoft reference architecture
 | Automation | [Agent flow tool contract](https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-flow-create) | [Synchronous flow with a typed result](technical-patterns/synchronous-agent-flow.md) |
 | Automation | [Event triggers](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-triggers-about) | [Event-driven agent worker](technical-patterns/event-worker.md) |
 | Automation | [AI-powered automations](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/ai-powered-automation) | [Workflow-owned approval](technical-patterns/approval-workflow.md) |
+| Transaction recovery | [Asynchronous Request-Reply and idempotency](https://learn.microsoft.com/en-us/azure/architecture/patterns/asynchronous-request-reply) | [Reconcile an uncertain write before retrying](technical-patterns/write-reconciliation.md) |
 | Channel | [Web and Direct Line security](https://learn.microsoft.com/en-us/microsoft-copilot-studio/configure-web-security) | [Secured custom web client](technical-patterns/secured-web-client.md) |
 | Channel | [Customer Conversation harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview-customer-conversation) | [Distinct paths for voice and chat](technical-patterns/customer-voice-chat.md) |
 | Governance | [Zoned governance](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/sec-gov-phase2) | [Risk-based environment controls](technical-patterns/zoned-governance.md) |

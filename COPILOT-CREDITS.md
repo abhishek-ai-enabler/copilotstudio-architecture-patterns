@@ -176,6 +176,7 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Assisted and email-driven refunds on a shared legacy workflow](solution-ideas/ticket-refunds.md) | Std | High | Autonomous email runs; computer use if adopted |
 | [Design distinct voice and chat paths for one customer service](technical-patterns/customer-voice-chat.md) | CC | High | Conversation modality and complexity |
 | [Delegate release compatibility to a Foundry agent](technical-patterns/foundry-agent-specialist.md) | Copilot | High | Delegation and result tokens; Foundry model and Search billed separately |
+| [Delegate to a remote A2A specialist](technical-patterns/remote-a2a-specialist.md) | Copilot | High | Routing and returned context; remote operator costs are separate |
 | [Fabric 4: Query the model from the Microsoft Copilot harness](decision-patterns/fabric-copilot-harness.md) | Copilot | High | Reasoning-loop tokens and query retries |
 | [Match supplier acknowledgments to SAP purchase orders](reference-architectures/sap-order-acknowledgments.md) | Std | High | Autonomous volume, document pages and agent hops |
 | [Microsoft Copilot harness: reason, act and inspect results](decision-patterns/copilot-reasoning-loop.md) | Copilot | High | Reasoning-loop tokens, tool results and evaluations |
@@ -214,6 +215,7 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Standard harness: generative orchestration over topics, tools and knowledge](decision-patterns/generative-planning.md) | Std | Medium | Several planned steps per combined request |
 | [Travel concierge with public guidance and private booking lookup](solution-ideas/travel-concierge.md) | Std | Medium | Public answers and lookups |
 | [Prepare a private meeting brief with Work IQ](technical-patterns/work-iq-context.md) | Copilot | Medium | Work IQ reads, message context, model and runtime usage |
+| [Reconcile an uncertain write before retrying](technical-patterns/write-reconciliation.md) | Std | Medium | Bounded submit/status tool actions; background recovery billed separately |
 | [Trace an affected order through a Fabric IQ ontology](technical-patterns/fabric-iq-ontology.md) | Std | Medium | Ontology tool calls and grounded answer; separate Fabric capacity |
 | [Verify a grant deadline with Microsoft Web IQ](technical-patterns/web-iq-research.md) | Std | Medium | Topic, search tool and answer; separate Web IQ API usage |
 | [Carry the user's authority to a downstream tool](technical-patterns/tool-identity.md) | Any | Low | No added consumption |

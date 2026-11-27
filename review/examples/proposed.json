@@ -1,0 +1,15 @@
+{
+  "version": 1, "solution": "Illustrative public-manual assistant", "stage": "proposed",
+  "owner": "Manual publishing team", "scope": "Answer from current public manuals only. No account data, tool writes or order placement.",
+  "patterns": ["technical-patterns/search-index-lifecycle.md"], "unmapped_reason": "",
+  "risks": {"retrieval": true, "writes": false, "external": false, "autonomous": false, "consequential": false, "custom_model": false},
+  "checks": {
+    "fit": {"status":"addressed","basis":"design","owner":"Service owner","reference":"example:ADR-01","finding":"Compare with keyword search. Proceed only if correct revision retrieval improves in the agreed pilot."},
+    "architecture": {"status":"addressed","basis":"design","owner":"Platform architect","reference":"example:ADR-02","finding":"Standard harness with a private Search connection; all published documents share one public audience."},
+    "identity": {"status":"addressed","basis":"design","owner":"Publisher","reference":"example:trust-map","finding":"Only approved publishers can write to the index. Test exclusion of an unpublished draft."},
+    "quality": {"status":"addressed","basis":"design","owner":"QA lead","reference":"example:eval-plan","finding":"Require zero withdrawn references and at least 95 percent supported answers on the frozen manual fixtures."},
+    "operations": {"status":"addressed","basis":"design","owner":"On-call lead","reference":"example:runbook","finding":"Track citation success and index lag. Suspend the source when withdrawals cannot be verified."},
+    "cost": {"status":"addressed","basis":"design","owner":"Service owner","reference":"example:cost-model","finding":"Track Studio credits per supported answer and Search capacity including idle and rebuild hours. Alert at 80 percent of budget."},
+    "grounding": {"status":"addressed","basis":"design","owner":"Content lead","reference":"example:release-manifest","finding":"Every chunk carries its manual revision and URL. Empty or superseded evidence produces no answer."}
+  }
+}

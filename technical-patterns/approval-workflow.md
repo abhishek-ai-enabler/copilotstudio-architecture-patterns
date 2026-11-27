@@ -31,6 +31,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Let a workflow own approvals and an agent own the draft](../assets/flows/approval-workflow.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Let a workflow own approvals and an agent own the draft - technical flow
@@ -50,6 +55,8 @@ sequenceDiagram
         W->>W: Hold posting and record reason
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

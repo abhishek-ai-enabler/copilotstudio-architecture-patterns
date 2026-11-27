@@ -32,6 +32,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Gate changes on expected answers and observable actions](../assets/flows/evaluation-gate.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Gate changes on expected answers and observable actions - technical flow
@@ -51,6 +56,8 @@ sequenceDiagram
       R-->>O: Block release and identify failing<br/>case
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

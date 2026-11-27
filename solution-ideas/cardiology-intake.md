@@ -38,6 +38,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Clinician-reviewed cardiology intake and scheduling](../assets/flows/cardiology-intake.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Clinician-reviewed cardiology intake and scheduling - technical flow
@@ -59,6 +64,8 @@ sequenceDiagram
       D-->>U: Route case to staffed follow-up
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

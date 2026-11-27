@@ -29,6 +29,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Match environment controls to agent risk](../assets/flows/zoned-governance.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Match environment controls to agent risk - technical flow
@@ -46,6 +51,8 @@ sequenceDiagram
         O->>G: Revise design rather than moving to<br/>weaker zone
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

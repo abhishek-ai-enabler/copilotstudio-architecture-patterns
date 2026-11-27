@@ -28,6 +28,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Fabric 1: Publish a Fabric data agent directly](../assets/flows/fabric-direct.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Fabric 1: Publish a Fabric data agent directly - technical flow
@@ -44,6 +49,8 @@ sequenceDiagram
         A-->>U: Identify the gap without estimating<br/>a figure
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

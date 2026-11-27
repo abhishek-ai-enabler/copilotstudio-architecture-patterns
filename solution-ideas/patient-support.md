@@ -27,12 +27,18 @@ flowchart TB
     A -->|"Authorized appointment<br/>lookup"| D
     A -->|"Confirmed scheduling<br/>request"| F
     A -->|"Clinical request for a<br/>person"| H
+    H -->|"Accepted referral or<br/>unavailable"| A
     A -->|"Answer, confirmation or<br/>referral status"| P
 ```
 
 **Review decision:** Approve the portal for administrative requests only. Personal appointment access requires verified patient or proxy authority; clinical requests go to a staffed pathway.
 
 ## Technical flow
+
+![Technical sequence: Patient portal for administrative support](../assets/flows/patient-support.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -55,9 +61,16 @@ sequenceDiagram
       end
     else Clinical request
       A->>H: Refer through established provider<br/>pathway
-      A-->>U: Confirm referral without clinical<br/>advice
+      alt Staffed pathway accepts
+        H-->>A: Return acceptance
+        A-->>U: Report accepted referral without clinical advice
+      else No acceptance
+        A-->>U: State referral not confirmed and show staffed contact
+      end
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 
@@ -86,6 +99,6 @@ sequenceDiagram
 
 **Trust boundary:** Enforce patient/proxy access on the appointment lookup, not just at portal sign-in. Keep sensitive details out of reminders, telemetry and dashboards.
 
-**Failure handling and acceptance:** On a scheduling timeout, show a pending reference and a staffed contact, not a confirmed appointment. Test a revoked proxy and a failed notification independently of booking success.
+**Failure handling and acceptance:** On a scheduling timeout, show a pending reference and a staffed contact, not a confirmed appointment. Likewise, distinguish offering the staffed pathway from a referral accepted by that service. If acceptance is unknown, say so and show the provider's direct contact route. Test an unavailable destination, a revoked proxy and a failed notification independently of booking success.
 
 **Source:** [Microsoft Learn: Healthcare Patient Support Agent](https://learn.microsoft.com/en-us/power-platform/architecture/solution-ideas/agent-healthcare-patient-support).

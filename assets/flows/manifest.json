@@ -1,0 +1,250 @@
+{
+  "conversation-transcripts": {
+    "input": "0c71ca58ff87251386efc90e0d94ec97381442fea8639f2afd31f82b8efa223a",
+    "png": "174728d4d4911e40720ec982380934a3a2f18ec94322e5622cbce82a5bc22b9a"
+  },
+  "fabric-analytics": {
+    "input": "76380bc0c585059380d8cdeb93364c345cb5c349919aed848e0a4d7366226b08",
+    "png": "4316d29b3175a25fcca550bd765893a01350669fe4c7d7da7d2fd5321fd8a075"
+  },
+  "hr-specialists": {
+    "input": "7dde6483804308b9f465483e7b00a55d91a9f6ed21a7217b8424ce5e11be8025",
+    "png": "1484c48dab02671ea136ab25b76d8013916eabb70723ecd09f27f2ec39521b3f"
+  },
+  "meeting-migration": {
+    "input": "74ce07a306f0ccf5a0af1333436134f94c91bb1f3ab563347a6382e0df8af9ba",
+    "png": "a52212c68e1840f387e36149fee5daf4dc45821453e3e1232843d5179f504e2b"
+  },
+  "model-driven-form": {
+    "input": "cf7277bc5a036cf1f74d7a19d281e5a6c4a3b8d2bfa37b1b66cd8bebe4cf721e",
+    "png": "7b02b30a82bdb8679d532c42f096d80d5e08e6cb4f1eaf3cf8d244f53af98f75"
+  },
+  "multilingual-it-service": {
+    "input": "babd03b62974444f45d8c8c433ca0644dbf984508d2e9ecf82dfb1a2e78e0abe",
+    "png": "0d057e992467a6da3e38013943a89ffa76d72f6004c49614ed94a22a60535db0"
+  },
+  "regulatory-applications": {
+    "input": "446eaca327bda0f02d4931d1a3beba3f2558dc12a7fc555f6f89f934f5051b23",
+    "png": "ccdbaaf4236e5da4094084cfda21e8d982987dfa76db718339baab14e2e803bd"
+  },
+  "sap-order-acknowledgments": {
+    "input": "df2d2e7946f16d3a20919914181671b9f16f29b9a043a4a44175fad6adf65ccc",
+    "png": "9013a8093c24d5cbf76226f33583394976cb3e83944f285c92f87be04a0ba598"
+  },
+  "student-recruitment": {
+    "input": "5903d91a1cbf4da1713cf56c39084fe33a855a2165bac65a25861098407ff444",
+    "png": "7d6203eff59b1ec85801309cf61c490c15772b5c654573e531526df7d5e59677"
+  },
+  "bug-intake": {
+    "input": "5a3e8aa06fcb343a443b1f852aedbac5187c4cac82f58cd0f86027e00db37366",
+    "png": "91791c53054702e4eb87157e7f8063e3836584eabfd2d968226d54322d9243f3"
+  },
+  "cardiology-intake": {
+    "input": "73ee90e1c3277c52dd509fda42ba046d6d24d9a543a1dd226c279fd74b230d6b",
+    "png": "63f0ffe9e0f60011cb6ddcc65c701dbf414d5bcbce589c852b907eee5f654091"
+  },
+  "custom-contact-center": {
+    "input": "aa0cea5c8dfababca4248d3ed14b431176b9a72871cc7d0309ab4adbd9b78ac1",
+    "png": "e7c8421f5bc85760d3db922b71f7d9297d8adfd8af42aeddefdbe89c37e280c1"
+  },
+  "customer-support": {
+    "input": "f45a880cdfbfc74976f473f8a86b580c6ef05f1eb8ad0a861a1dfeec726e862a",
+    "png": "1e86792664a01f6ad92c324110669ed196be217b5b3ed3ff7e9b4f70dada96fd"
+  },
+  "donor-management": {
+    "input": "d33994dc3f124dd1be15a844ac48199b36306e0a608a5d3cd454b296bddc109d",
+    "png": "01c04c7f86d2bc43368f540c8ce25794ab4a3f25dfb8551daf579f97afb834c7"
+  },
+  "new-hire-onboarding": {
+    "input": "544d19e42f9cd106c6bfb749dc3b663aeaa80f07d496b16f348552e624dfa43c",
+    "png": "7708a7e390b3c7ecbd915b36e1147729de190d905e14b9b3a5da61b387d42a3b"
+  },
+  "patient-support": {
+    "input": "27de2edb5a2d9fd9bbcf802efea88e8b1d13f71c1dd3761799bdda251f9e1e26",
+    "png": "feb22f716e66bdc3f145e156ef05f3e8ea01f3c31879460f4d01a097e1890322"
+  },
+  "rental-search-checkout": {
+    "input": "d507bb90af06093455f690bfa1608295de84439ada2405e5e70b07eb788fd9b5",
+    "png": "bd4b702987cec44a381f23fa1f911609e33b12e401f0ce618d4ed367b7fa1e69"
+  },
+  "spend-anomalies": {
+    "input": "dcdb481d424d908f1fdf1db0274a8578bb8dcb2301bd6b9f9f64dd1dd1c0eac3",
+    "png": "0a826c5b7e5d984aa0220a2c2cbac976e5059380dc532f83d2ee990eb969d998"
+  },
+  "ticket-refunds": {
+    "input": "8927ae9f4d1b4a2eb4560e9fbc77dbcbc16eb01124e29ed124fb8b99924f302d",
+    "png": "51917c6fa59cc1fb2a37400fd8d43f39b55d3d0d6be7a07f92af23c660db9801"
+  },
+  "travel-concierge": {
+    "input": "893e1f1b97aa3d3bcecafdf10932c4b78a7f785ff2997e4f1b59af788d83bba8",
+    "png": "28064ec8820973eb4842b10423a51c695189df1b163e8752a0e1a3505cf733ae"
+  },
+  "bot-front-handoff": {
+    "input": "4a3c54fe15250cc771a47aadedb4839955f7e75c2f53372d9045dbdeb0e1ed01",
+    "png": "158375d70863ce2bb0b0a38f8f8a95f680ef64edac9cab36a5980a0699a64b6a"
+  },
+  "classic-topics": {
+    "input": "f97b070f2ff80c7b0170b8cdb3340520313c9508aa423249d14fafc5786ff682",
+    "png": "027ac8085805f77b547e884d848295b055f207ad723f1d8ec95450885c044334"
+  },
+  "copilot-reasoning-loop": {
+    "input": "533af7d2ca6fbea09665640ccf1b4c8cad5d49e5800d8483a80339386e79d771",
+    "png": "2ca86b5cfa6a041cc27a763271d4d1c406292621ae40c655f8868d35c75ee0ce"
+  },
+  "fabric-connected": {
+    "input": "c4fdac0834cc56a667bfb547ce5ce32b61f5bdea49fd182945f7c1b0b1cc075c",
+    "png": "443b54ef28203fc002f7b1b8092da9aa9948ee60864d33114f35e4d5841f7289"
+  },
+  "fabric-copilot-harness": {
+    "input": "b9dd8b8ddc32f8d9f3c2d742ca6e9c14dc3e638b936567ae8c964c8612fd6a08",
+    "png": "75d74b89760a8ae8e6a9827aba3ba73a88527ed678e772eea8148eb361bba973"
+  },
+  "fabric-direct": {
+    "input": "ed5fa2eb49017c0514960b65a966d1c94afc3beee3914afe5fc69c3c98df22ad",
+    "png": "98f591a36e8d0a50f4bfcb8c2e79c687ae371f94c38112e917ae95d23cadfd70"
+  },
+  "fabric-standard-harness": {
+    "input": "6d5dc47bd2f7cc48abff71abfea45e2b219e539ec454b0ca2829263006cbc9d0",
+    "png": "0d9127fd23770a7b804fe6e97374fe77648a44cb887710443a63ab67ccc1c956"
+  },
+  "generative-planning": {
+    "input": "daf3a0c650600ea44561ca48d57260c3e2e278efe26545f055fbec36746dde9f",
+    "png": "0820c7e1c787d22694f1b6ce4e03e4640d28e0892a668838d5676a8cc8297d06"
+  },
+  "hub-front-handoff": {
+    "input": "12d2e465a7cc4f19fb8992141e7a8979d00b3a4bdcfa8780a63561a35aaf2927",
+    "png": "87dcbb96c006eee1acda6ac5878b250961f80c5e26068ae2beb2c34e3a6f4577"
+  },
+  "apim-rest-to-mcp": {
+    "input": "859bd7e95d13d995ab700c1667f0f5c636b3da098fd397fe510a5001b8988644",
+    "png": "34f53ddd140165d25b07648add6b5f2dc6f0976bd14d125ed4f3b5ae8d87708e"
+  },
+  "approval-workflow": {
+    "input": "96b690bfe241816bde3df855e39f2c437c8ee639f6f0fc665c6b53642ed5de02",
+    "png": "c9ca37ea81ac48cf92ab57d54677d76edb1632df3eb22eea4c4cbcfb707497e8"
+  },
+  "azure-search-hybrid-rag": {
+    "input": "c59427822dfc38f11149750eae2bda0b3031083a5ff40b2c8b7f5d8f1cec1e53",
+    "png": "2b9c00fe3e5b0d0b6a26f61b63cfc0b6c5f5f37389c88d0e260d24959b7f39bf"
+  },
+  "change-window-evidence": {
+    "input": "8cac6a3bce168f2794e595cd816916a5198582b1807f7e55f853c2e4f5f423d1",
+    "png": "8f80115aa3f49f1c1faefb7793af0202b6b0141d079fe88422d8d27e8d9edce0"
+  },
+  "child-agent": {
+    "input": "81ce7f79694d3c3bd3366581bf708fa23ce58067e2b969cc50a343f6e6d52cbb",
+    "png": "ca5755aecc5635c0c18249535a204ff1631a4770ba82364da3950138dd24e3a7"
+  },
+  "connected-agent": {
+    "input": "76cb642580df0953247b3dc4a9db294a16a6d5b217f8986307452609cae13c7a",
+    "png": "0d59efc686cbc499edc3426351a9e9404d191e2d6ad41931396df999071e4449"
+  },
+  "connector-action": {
+    "input": "3e55db6e4cdbda6955ed37f975204bfc000328b67b22aed091cbbe9e7b4f9327",
+    "png": "868502a45a8c916f37a793841fb0a9576b785e81fc8f1b30ced19963dcd98bca"
+  },
+  "custom-retrieval": {
+    "input": "cb03468ff7c93acdbb8b97b31121df020b5adc52704cb3c180f2392078a47ce0",
+    "png": "1296e8790002c084537543cffa240baa0551ce2dd57c34142e009424f57e912f"
+  },
+  "customer-voice-chat": {
+    "input": "57484bb0acb262209c1167335df8f6ac745f80bbce3d7a7fea661dd508d65109",
+    "png": "609e39953fe8fdd1ae611141afa7a5046c1c387e526c308be541969a029d06be"
+  },
+  "direct-rest-tool": {
+    "input": "f60d28297ea4f5b0e02a94e82626dc6d78973b86764c539823c7e072d13c9736",
+    "png": "dbbfe37a6477b263c9cafef9d4c9a4a47f9a8c3ca18df1bc68729ea0f2c42804"
+  },
+  "evaluation-gate": {
+    "input": "0e56c6d57e1b19a5db925e168298c878c07c7109c7f3ab0665b42a97821f7c29",
+    "png": "37bbbf08003c6a2adc187534cd3c27614f44d52a9bd5a18839aca1faf076c39d"
+  },
+  "event-worker": {
+    "input": "ff54ab0946e4b01dd40a0306c3a07e59bf9dca4e2a4a6c4e186b07761b3cab1a",
+    "png": "0278deb035a74c250eb7b4a862d3a3828f72b8dc577d67092f8bff3e3d4da8da"
+  },
+  "fabric-iq-ontology": {
+    "input": "26b58b842413f6f9273e50d3a66dd08cf4712a4dd7a0558a0a37d50e5f4fbb46",
+    "png": "b96227919e6ba249bdb17af889fd2ea2e54841e52de30ac810c839921666778a"
+  },
+  "foundry-agent-specialist": {
+    "input": "57df4705a93ce6f5a51d54505d8486790bc268d9c70593f0887d80264be6fad7",
+    "png": "32ca6ae11e27e809bc99be9d50a7041916265e81a2dcec4a5aece69e4cd5f493"
+  },
+  "foundry-iq-knowledge-base": {
+    "input": "7102058e7f264f40dc7c8c49e5b6cc7ceec9778569a903cd15d37125e8f94557",
+    "png": "47f20f88eaeefd37359dfc50a0cd2f5244d8ffb519f56cb13b6df81e7e191f9c"
+  },
+  "m365-retrieval-api": {
+    "input": "97801fe9b2cb1b2340890f3a3251d77cd6cba3112fd2ad1f38efe990a32fbabf",
+    "png": "0316a9ead024578cd678a8993ae24d01269ace8a446f1499a01ffd6fb56dba9a"
+  },
+  "mcp-tools": {
+    "input": "0ecf2cea1ba506da3cfb84c418b4c48c109818473257dc965063f27549138162",
+    "png": "a7c832f9f8f9991bf87a978651420a6915cf2bd2564f4e7e16811e86d76b5bce"
+  },
+  "operational-monitoring": {
+    "input": "9823391d01afd48de6f81375a566c2cf7331205227dee6db7adc8b7e9a48027f",
+    "png": "7a4f3716bc7b4bbe2e24b1a45ebe6baf2f273e9233d228a0b8e3ef103beec189"
+  },
+  "partner-iq-provider": {
+    "input": "f54e54e8b8b6e6d968b4778929baf5aa3fb95993e5eb26e7ab2ece47877cc2ea",
+    "png": "bf309655396219f89ef92da1667f9f20ea576cd58a7cbb1dd7038411f59de218"
+  },
+  "public-knowledge": {
+    "input": "3c2eaa46cab90a1e4b921611656d349127c291e9666d6b6c4083855afaa28c75",
+    "png": "d8ffdcc99dfd8b94fa75f40bcfd263423e6e45d9bc6820883318401c0fc9ed17"
+  },
+  "remote-a2a-specialist": {
+    "input": "0b00e94246e8c0c6bd2000de7e4f9aac45d0f936b90f78a0436d6dda9a80b28c",
+    "png": "ac3ae657b41e3b317c6b8f7df2913bbceba2b71ff290c37b9a0c9935d9ae9eda"
+  },
+  "search-index-lifecycle": {
+    "input": "94f31cb40380c10673e2685c02cb2270044dc7ba49d4f7e39420a736af1ded78",
+    "png": "1fa2c9cb652457480f71f564b89d479b1d8364d82277a502677f8aaef7388bc7"
+  },
+  "secured-web-client": {
+    "input": "0578216334f30c202d3ecc0b7194a030f93216249b72a3699d1aa45c17baa7c2",
+    "png": "7329156b8a19f4d23db4bc275fd1df3e528c89e32311b613c4a808dc9bf0c259"
+  },
+  "semantic-model-contract": {
+    "input": "797ceba8d43e69a0f0def4354625cb17ba03347b2cbbfb0129072b0e2c85435d",
+    "png": "d6565c1fbf6a1a91c1227e4def54d6dc5b12ba46e58405e64fc76a2cd0ee448f"
+  },
+  "sharepoint-grounding": {
+    "input": "ddc97dcc3ec6afdd86f0f3600aaf93908c11339b2d4a97e4821790ca3cb2c8e3",
+    "png": "0b1a26dc62f3e0039722c418029f518dea1a2ea61976eef28900f20433dbe07a"
+  },
+  "skill-package": {
+    "input": "379ec2ab7f73640f7bbb0e22f9d860f03b589d710b928670c25b68d19a3e2372",
+    "png": "055bf71bb9258fd5396ee87dd9bf5822b24f82081a9afcc07589b9651d208b4d"
+  },
+  "solution-promotion": {
+    "input": "ac7e78438e4fae460c66046a6f14b7b1c213dd746af4266b7d080f57e05e985f",
+    "png": "cf06c1b11a07681ef7f614861930e535467feba306ec7a14977aeae21f859ee7"
+  },
+  "synchronous-agent-flow": {
+    "input": "1ce7c1e2f35f777f71e3a18d37f0dc3a013202a1133610c7cce4f2e7990c5ef0",
+    "png": "7be45e42a616008ccc81b4c0ebdd3c7ffb56b889991c0ebb4432aa4249cda466"
+  },
+  "tool-identity": {
+    "input": "35b0f185740504920d156c31c275398f76a8cfca619227e96bf2f5e84c05026e",
+    "png": "c9329b3141bc12af36a84758416a2d73f0914c8a686f2cfb0ecc9b73cc7dad8e"
+  },
+  "web-iq-research": {
+    "input": "5d82370f0e4bb0bef536eed643683a2985d8b1cc875b61d1bf483441f3f39874",
+    "png": "47f408da983495847b733710e5ecbcd546998b26a6dab6ff7b599af489599813"
+  },
+  "work-iq-context": {
+    "input": "214441288944547bc10ad35381dff701c8ea1f0b045ef0e72991c9366e25dabc",
+    "png": "274c88b156e95dbd712b3180dd789396d83bedd2ff19bc0525a6213ee073bc83"
+  },
+  "write-reconciliation": {
+    "input": "1809027226dc82bde72d56a07e4aa29dbb555da73c674d0a26b43fbddcd39ab0",
+    "png": "8fbda9f1015ccc5a104c551c4add7659ccfd01634aa0597b6faceb72ed2c3f00"
+  },
+  "zoned-governance": {
+    "input": "bf6961d7eda267426c630024fe4584df1e0830dc441e91ba24fa35530b8d430e",
+    "png": "3cafe459cc39b4190af81ecfd7f90186e51751b83a4fc816d56a490e6d663386"
+  }
+}

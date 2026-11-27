@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Share a governed metric contract between agents and reports](../assets/flows/semantic-model-contract.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Share a governed metric contract between agents and reports - technical flow
@@ -49,6 +54,8 @@ sequenceDiagram
       O->>O: Withhold affected comparison and<br/>reconcile definition
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

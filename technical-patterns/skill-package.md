@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Package reusable procedures as skills](../assets/flows/skill-package.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Package reusable procedures as skills - technical flow
@@ -49,6 +54,8 @@ sequenceDiagram
       A-->>U: Identify unavailable input rather<br/>than inventing it
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

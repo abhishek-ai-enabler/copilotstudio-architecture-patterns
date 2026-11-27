@@ -29,6 +29,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Discover centrally managed tools from an MCP server](../assets/flows/mcp-tools.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Discover centrally managed tools from an MCP server - technical flow
@@ -47,6 +52,8 @@ sequenceDiagram
         A->>A: Keep affected capability unavailable
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

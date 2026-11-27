@@ -24,7 +24,8 @@ flowchart TB
     end
     E -->|"Batch or eventstream<br/>ingestion"| L
     L -->|"Transaction inputs and<br/>policy rules"| K
-    K -->|"New detection with<br/>evidence keys"| F
+    F -->|"Scheduled KQL query via<br/>Azure Data Explorer action"| K
+    K -->|"Return findings with<br/>evidence keys"| F
     F -->|"Alert or investigation<br/>task"| T
     H -->|"Follow-up question"| A
     A -->|"Scoped data question"| D
@@ -38,6 +39,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Detect spend anomalies in Fabric and investigate them in chat](../assets/flows/spend-anomalies.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Detect spend anomalies in Fabric and investigate them in chat - technical flow
@@ -49,7 +55,8 @@ sequenceDiagram
     participant A as Investigation agent
     participant D as Fabric data agent
     E->>K: Supply current batch via Fabric
-    K->>F: Emit versioned detector finding
+    F->>K: Query current findings via Azure Data Explorer action
+    K-->>F: Return versioned findings and evidence keys
     alt Finding not already notified
       F->>H: Send restricted alert with<br/>transaction keys
       H->>A: Request supporting evidence
@@ -62,13 +69,15 @@ sequenceDiagram
     end
 ```
 
+</details>
+
 ## Copilot Studio components
 
 **Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness: a scheduled agent flow sends alerts; a separate investigation agent uses the [documented Fabric connection (preview)](../decision-patterns/fabric-connected.md). A Copilot-harness workflow can replace the alert flow without moving the investigator to that harness.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
-| [Agent flow](../COMPONENTS.md#agent-flows): Scheduled detection retrieval | Retrieves new detections, posts restricted Teams alerts and optionally creates Planner tasks. | Copilot: scheduled workflow. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Scheduled detection run | Calls Eventhouse through the Azure Data Explorer action, reads the findings, posts restricted Teams alerts and optionally creates Planner tasks. | Copilot: scheduled workflow. |
 | [Connected agent](../COMPONENTS.md#connected-agents): Fabric data agent (preview) | Queries the Lakehouse and Eventhouse for evidence behind an alert. | Keep the standard investigation agent unless the target harness documents this Fabric connection. |
 | [Connector tool](../COMPONENTS.md#connector-tools): Teams and Planner | Delivers alerts and investigation tasks. | All harnesses. |
 | [Human gate](../COMPONENTS.md#human-in-the-loop-gates): Investigator decision | Classifies, dismisses or escalates the alert. A payment hold is a separate finance operation. | Copilot: approvals node. |
@@ -80,7 +89,7 @@ sequenceDiagram
 ## Components and flow
 
 1. Batch pipelines or eventstreams bring ERP invoices, vendors and policy reference data into Fabric. Store transactions in a Lakehouse; run versioned KQL detection functions in Eventhouse for duplicate, unusual-activity or threshold checks.
-2. An agent flow retrieves new detections, posts a restricted Teams alert and optionally creates a Planner investigation task. Persist the detector version and the transaction keys behind each alert.
+2. The scheduled agent flow uses the Azure Data Explorer action to run the KQL checks and retrieve findings from Eventhouse. It posts a restricted Teams alert and optionally creates a Planner investigation task. Persist the detector version and the transaction keys behind each alert.
 3. An investigator asks the Copilot Studio agent for evidence. A Fabric data agent queries the Lakehouse/Eventhouse; the investigator classifies, dismisses or escalates. Keep a payment hold as a separate, authorized finance operation.
 
 **When to choose it:** Use when repeated, testable detectors narrow a large transaction population. A scheduled exception report is simpler if investigators never need follow-up queries. Calibrate for false positives, not just alert volume.

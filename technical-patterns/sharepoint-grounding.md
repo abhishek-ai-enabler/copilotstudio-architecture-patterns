@@ -27,6 +27,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Permission-trimmed answers from SharePoint](../assets/flows/sharepoint-grounding.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Permission-trimmed answers from SharePoint - technical flow
@@ -43,6 +48,8 @@ sequenceDiagram
         A-->>U: Offer policy owner without revealing<br/>restricted titles
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

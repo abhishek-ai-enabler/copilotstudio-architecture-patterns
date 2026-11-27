@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Public self-service from a bounded website corpus](../assets/flows/public-knowledge.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Public self-service from a bounded website corpus - technical flow
@@ -51,6 +56,8 @@ sequenceDiagram
     end
 ```
 
+</details>
+
 ## Copilot Studio components
 
 **Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, generative orchestration on a public website. Both harnesses support public website knowledge; start with standard for short cited answers and benchmark the Copilot harness only if the task needs iterative reasoning.
@@ -71,7 +78,7 @@ sequenceDiagram
 
 **Choose it when** information is intended for everyone and is publicly indexed. A static FAQ is preferable when wording must match a disclosure exactly. Public website retrieval is not a real-time inventory, price or eligibility check.
 
-**Trust boundary:** Treat every response as public. Do not connect internal documents or privileged actions as fallbacks. Review what the selected URL includes, especially user-generated content, and keep personal information out of public search queries.
+**Trust boundary:** The configured URL limits which public site supplies answers, not what is sent to Bing. The [website knowledge guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-public-website) says the query can incorporate the full question and earlier conversation context. Keep account intake in a separate authenticated experience; don't resume public search with private details in the conversation. Review the indexed scope for user-generated content.
 
 **Failure handling:** If a page is not indexed, stale or contradicted by a newer notice, link to the authoritative service page rather than resolving the conflict from memory. Test an unindexed page and an account-specific question in the anonymous channel.
 

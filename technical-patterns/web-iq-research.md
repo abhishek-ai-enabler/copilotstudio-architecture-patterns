@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Verify a grant deadline against public notices with Microsoft Web IQ](../assets/flows/web-iq-research.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Check the issuing notice, not just the search date
@@ -54,6 +59,8 @@ sequenceDiagram
         A-->>U: Ask for the public program code
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

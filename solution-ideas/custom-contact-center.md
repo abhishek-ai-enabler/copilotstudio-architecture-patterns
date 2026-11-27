@@ -15,20 +15,25 @@ flowchart TB
     end
     subgraph group3["Agent integration"]
         B["Session adapter"]
-        A["Copilot Studio"]
+        A["Customer-facing Studio agent"]
         E["Employee portal"]
+    end
+    subgraph staff["Staff access only"]
+        X["Employee-assist Studio agent"]
+        I["Staff-only search"]
     end
     subgraph group6["Data scopes"]
         K["Public service guidance"]
-        I["Staff-only search"]
         D["Customer database"]
     end
     U -->|"Contact request"| Q
     Q -->|"Mapped customer session"| B
     B -->|"Permitted context"| A
-    E -->|"Authenticated staff<br/>session"| A
+    E -->|"Authenticated staff session"| X
     A -->|"Customer-facing<br/>retrieval"| K
-    A -->|"Employee-scoped<br/>retrieval only"| I
+    X -->|"Employee-scoped retrieval"| I
+    I -->|"Permitted staff passages"| X
+    X -->|"Staff-only answer"| E
     A -->|"Verified customer<br/>lookup"| D
     Q -->|"Human takeover"| H
     A -->|"Approved replies"| B
@@ -38,6 +43,11 @@ flowchart TB
 **Review decision:** Keep queue ownership with the existing contact center. Approve public and staff knowledge paths separately; the adapter must not turn a customer session into an employee session.
 
 ## Technical flow
+
+![Technical sequence: Add Copilot Studio to an existing third-party contact center](../assets/flows/custom-contact-center.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -61,6 +71,8 @@ sequenceDiagram
       H-->>U: Continue in the same session
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

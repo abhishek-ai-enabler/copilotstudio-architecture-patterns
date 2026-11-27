@@ -32,6 +32,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Monitor completed tasks, tool health and consumption together](../assets/flows/operational-monitoring.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Monitor completed tasks, tool health and consumption together - technical flow
@@ -51,6 +56,8 @@ sequenceDiagram
       H->>H: Check backend state and offer<br/>tracked fallback
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

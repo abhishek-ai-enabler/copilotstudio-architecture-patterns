@@ -32,6 +32,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Handoff 2: Copilot Studio in front (Bot-in-the-Loop)](../assets/flows/bot-front-handoff.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Handoff 2: Copilot Studio in front (Bot-in-the-Loop) - technical flow
@@ -54,6 +59,8 @@ sequenceDiagram
       A-->>U: Offer reconnection or tracked<br/>follow-up
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Resolve customer questions or transfer them into a Dynamics workstream](../assets/flows/customer-support.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Resolve customer questions or transfer them into a Dynamics workstream - technical flow
@@ -54,6 +59,8 @@ sequenceDiagram
       end
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

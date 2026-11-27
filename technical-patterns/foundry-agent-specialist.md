@@ -33,6 +33,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Delegate release compatibility questions to a Foundry agent](../assets/flows/foundry-agent-specialist.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: One delegated assessment with an evidence check
@@ -54,6 +59,8 @@ sequenceDiagram
         P-->>U: Offer release engineering review
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

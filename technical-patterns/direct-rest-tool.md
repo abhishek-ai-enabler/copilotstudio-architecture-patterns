@@ -29,6 +29,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Prototype an agent-local REST tool from OpenAPI](../assets/flows/direct-rest-tool.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Prototype an agent-local REST tool from OpenAPI - technical flow
@@ -49,6 +54,8 @@ sequenceDiagram
       A-->>U: Withhold unverified quantity
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

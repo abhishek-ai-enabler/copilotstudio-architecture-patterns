@@ -1,8 +1,14 @@
 # Copilot Studio architecture patterns
 
-Use this catalog to design a Microsoft Copilot Studio agent and explain the design at architecture review. Its **60 entries** cover decisions such as where to retrieve evidence, when to delegate to a specialist agent, and which steps a workflow or a person must control. These are illustrated design notes, not deployable templates. No tenant access is needed to read them.
+Use this catalog to design a Microsoft Copilot Studio agent or review an existing AI solution. Its **62 entries** cover decisions such as where to retrieve evidence, when to delegate to a specialist agent, and which steps a workflow or a person must control. These are illustrated design notes, not deployable templates. No tenant access is needed.
 
-**[Browse all 60 entries](CATALOG.md)** · **[Choose a retrieval or integration pattern](#choose-between-rag-iq-and-an-api)** · **[Compare components](COMPONENTS.md#pattern-component-matrix)** · **[Estimate Copilot Credits](COPILOT-CREDITS.md#5-estimate-measure-then-multiply)**
+**[Validate a solution](review/README.md)** · **[Browse all 62 entries](CATALOG.md)** · **[Choose a retrieval or integration pattern](#choose-between-rag-iq-and-an-api)** · **[Compare components](COMPONENTS.md#pattern-component-matrix)** · **[Estimate Copilot Credits](COPILOT-CREDITS.md#5-estimate-measure-then-multiply)**
+
+## Take a solution to architecture review
+
+Start with the [review guide and evidence packet](review/README.md). For a **proposed** solution, describe the controls and acceptance tests. For an **existing** solution, include observed results from the deployed version. The local validator identifies missing evidence, failed controls and the patterns that help address them. It does not award approval or need access to your tenant.
+
+Try `python3 tools/validate_solution.py review/examples/existing-blocked.json`. The example is deliberately blocked: replaying a timed-out request created two orders. Compare its finding with [reconcile an uncertain write](technical-patterns/write-reconciliation.md). The business system's receipt, not a successful chat turn, closes the review question.
 
 ## Start with the decision you need to make
 
@@ -36,7 +42,7 @@ Start with the claim the agent needs to make. **Retrieval-augmented generation (
 2. **Developer:** Follow the [technical flow](reference-architectures/sap-order-acknowledgments.md#technical-flow) and [component mapping](reference-architectures/sap-order-acknowledgments.md#copilot-studio-components). A Dataverse-triggered cloud flow starts the agent. The agent extracts and compares the lines; SAP supplies the authoritative order and the confirmation receipt.
 3. **Reviewer:** Ask what happens if SAP accepts the write but its reply never arrives. The design records a pending outcome and looks up the existing confirmation before any replay. That gives the team a concrete acceptance test: delivering the same acknowledgment twice must not confirm the order twice.
 
-Every entry follows this reading order: an **architecture diagram** shows responsibilities, a **numbered sequence** shows what crosses each boundary, and **design notes** explain when to choose the pattern, when not to, and how to handle failure.
+Every entry follows this reading order: an **architecture diagram** shows responsibilities, a **numbered sequence** shows what crosses each boundary, and **design notes** explain when to choose the pattern, when not to, and how to handle failure. Each technical sequence includes platform labels and [official architecture icons](assets/platforms/README.md) where applicable. Open the text version below the image for the editable sequence.
 
 ## Choose components and estimate cost
 
@@ -52,6 +58,8 @@ The [Copilot Credits guide](COPILOT-CREDITS.md) separates standard-harness event
 | [Microsoft solution ideas](CATALOG.md#microsoft-solution-ideas) | 11 | Scenario starting points, including onboarding, customer support and clinician-reviewed intake |
 | [Microsoft decision-guide patterns](CATALOG.md#fabric-integration-options) | 4 | The four Fabric integration options |
 | [Microsoft implementation-guide patterns](CATALOG.md#orchestration-and-handoff-options) | 5 | Three orchestration modes and two handoff designs |
-| [Synthesized technical patterns](CATALOG.md#synthesized-technical-patterns) | 31 | Reusable designs for RAG, IQ, APIs and MCP, tool identity, approvals, governance and operations |
+| [Synthesized technical patterns](CATALOG.md#synthesized-technical-patterns) | 33 | Reusable designs for RAG, IQ, APIs and MCP, tool identity, approvals, reconciliation, governance and operations |
 
 Coverage is dated **November 27, 2026**, against the [Microsoft Learn Copilot Studio architecture index](https://learn.microsoft.com/en-us/power-platform/architecture/products/copilot-studio). The [catalog](CATALOG.md) maps each entry to its sources. The synthesized patterns are not Microsoft reference architectures. Before approving a design, check the linked product documentation for current preview status, channel support and licensing.
+
+See the [dated coverage review](REVIEW-2026-11-27.md) for what was verified and the [implementation and test plan](review/verification-plan.md) for how to repeat those checks.

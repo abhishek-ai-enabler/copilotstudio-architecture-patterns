@@ -32,6 +32,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Carry the user's authority to a downstream tool](../assets/flows/tool-identity.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Carry the user's authority to a downstream tool - technical flow
@@ -55,6 +60,8 @@ sequenceDiagram
       A-->>U: Stop, do not use author credentials
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

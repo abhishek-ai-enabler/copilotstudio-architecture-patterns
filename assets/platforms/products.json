@@ -1,0 +1,167 @@
+{
+  "aib": {
+    "member": "Power Platform/AIBuilder_scalable.svg",
+    "name": "AI Builder",
+    "pack": "power",
+    "sha256": "09354060aae6bfd903f3ff8246e90fce8514f4c56c603e676931fd99d338cfa8"
+  },
+  "apim": {
+    "member": "Azure_Public_Service_Icons/Icons/integration/10042-icon-service-API-Management-Services.svg",
+    "name": "API Management",
+    "pack": "azure",
+    "sha256": "cf794288575f2f7b080c50aa8319d42b02a2f2ae5351e4712c574353fc801f9a"
+  },
+  "apps": {
+    "member": "Power Platform/PowerApps_scalable.svg",
+    "name": "Power Apps",
+    "pack": "power",
+    "sha256": "c357907ad0a2d24a6d8c82b23fe4d2aaa4a4524076991f74770fc043a4cc455a"
+  },
+  "arg": {
+    "name": "Azure Resource Graph"
+  },
+  "automate": {
+    "member": "Power Platform/PowerAutomate_scalable.svg",
+    "name": "Power Automate",
+    "pack": "power",
+    "sha256": "2025db7bb3feec49d75681934b8561fb958cf11bdf0e2acf6e2b28db5c755e8d"
+  },
+  "blob": {
+    "member": "Azure_Public_Service_Icons/Icons/storage/10086-icon-service-Storage-Accounts.svg",
+    "name": "Azure Storage",
+    "pack": "azure",
+    "sha256": "7190d3bb14ce30ce74bd0af873915830fe821e8c5f6ef6f3149e6f7cfb2aa4f7"
+  },
+  "bookings": {
+    "name": "Microsoft Bookings"
+  },
+  "bot": {
+    "member": "Azure_Public_Service_Icons/Icons/ai + machine learning/10165-icon-service-Bot-Services.svg",
+    "name": "Azure Bot Service",
+    "pack": "azure",
+    "sha256": "df1d3d5d84d2f1fa27ccbbd5198cec7e67834b3cd1d7a58d7e4343f128a55ea8"
+  },
+  "contact": {
+    "member": "Dynamics 365 App Icons/ContactCenter_scalable.svg",
+    "name": "Dynamics 365 Contact Center",
+    "pack": "dynamics",
+    "sha256": "8b1a36486dbcdce1442a9915dbed2140c660205c9916d4603f49e08b40807778"
+  },
+  "customerinsights": {
+    "member": "Dynamics 365 App Icons/CustomerInsights_scalable.svg",
+    "name": "Customer Insights – Journeys",
+    "pack": "dynamics",
+    "sha256": "dbdaedf0ada05ca316e7b42b7d0d5d74ab51da234031f97a23cb8dbec7981bf0"
+  },
+  "dataverse": {
+    "member": "Power Platform/Dataverse_scalable.svg",
+    "name": "Dataverse",
+    "pack": "power",
+    "sha256": "df71c0111148d116515a02c5cb07483caad2bcb779664fa16fd837a4709504ab"
+  },
+  "devops": {
+    "member": "Azure_Public_Service_Icons/Icons/devops/10261-icon-service-Azure-DevOps.svg",
+    "name": "Azure DevOps",
+    "pack": "azure",
+    "sha256": "15b5068ceeb28f0f3cf566aa8cf99619f99d47059d7a91fda0ef47091a71a041"
+  },
+  "eventhouse": {
+    "member": "v6.1.0/package/dist/svg/event_house_48_item.svg",
+    "name": "Fabric Eventhouse",
+    "pack": "fabric",
+    "sha256": "ccf6c4a7770eab8ac39cb9301bb5caec8b29fb5dd12c0bb75e93c810d76823ec"
+  },
+  "fabric": {
+    "member": "v6.1.0/package/dist/svg/fabric_48_color.svg",
+    "name": "Microsoft Fabric",
+    "pack": "fabric",
+    "sha256": "ef80d2edbfc1b045241d2e9550b7930b648d8018e0274116a3df6d6ccf3adbf9"
+  },
+  "fagent": {
+    "member": "v6.1.0/package/dist/svg/data_agent_48_item.svg",
+    "name": "Fabric data agent",
+    "pack": "fabric",
+    "sha256": "cc263e20fdb76f6bcde3a941f926e1cee6a07cee4407ed6374857b3354e60ab6"
+  },
+  "foundryagent": {
+    "member": "Azure_Public_Service_Icons/Icons/ai + machine learning/038470523-icon-service-Foundry-Agent-Service.svg",
+    "name": "Foundry Agent Service",
+    "pack": "azure",
+    "sha256": "aedb65eeb06c1d4f3d57568edd2e8e7205065589ae8ceba4513a2fd21b4053ca"
+  },
+  "foundryiq": {
+    "member": "Azure_Public_Service_Icons/Icons/ai + machine learning/038470497-icon-service-Azure-AI-Foundry-IQ.svg",
+    "name": "Foundry IQ",
+    "pack": "azure",
+    "sha256": "245e33416ecc1c745bfff6f72ebf1ffa04cfee1cdd0c1b1b8970d0844409c9c7"
+  },
+  "graph": {
+    "name": "Microsoft Graph"
+  },
+  "insights": {
+    "member": "Azure_Public_Service_Icons/Icons/devops/00012-icon-service-Application-Insights.svg",
+    "name": "Application Insights",
+    "pack": "azure",
+    "sha256": "36c73dea8b1598fbfff84890a2b409600f1339eec8c1bf1a896439e9da8f9dca"
+  },
+  "jira": {
+    "name": "Jira Cloud"
+  },
+  "model": {
+    "member": "v6.1.0/package/dist/svg/semantic_model_48_item.svg",
+    "name": "Fabric semantic model",
+    "pack": "fabric",
+    "sha256": "c0317bc92fea437d374b71788b037705f61983cd59573808ce933f3d03e14abb"
+  },
+  "pages": {
+    "member": "Power Platform/PowerPages_scalable.svg",
+    "name": "Power Pages",
+    "pack": "power",
+    "sha256": "7fdc8facba1b64c4e30fbed3d331ecab78746d0d29c29bae593b18788e870631"
+  },
+  "pbi": {
+    "member": "v6.1.0/package/dist/svg/power_bi_48_color.svg",
+    "name": "Power BI",
+    "pack": "fabric",
+    "sha256": "264abad01f50acaffb697b3ede22215b7d87f387c1af92f0a0b14117d2c2e4f1"
+  },
+  "power": {
+    "member": "Power Platform/PowerPlatform_scalable.svg",
+    "name": "Power Platform",
+    "pack": "power",
+    "sha256": "c58871d6adac53a51512341e65055d0ec12f29948a001666c11dc7b5bb5fe142"
+  },
+  "sap": {
+    "name": "SAP"
+  },
+  "search": {
+    "member": "Azure_Public_Service_Icons/Icons/ai + machine learning/10044-icon-service-Cognitive-Search.svg",
+    "name": "Azure AI Search",
+    "pack": "azure",
+    "sha256": "f7af1213ce089236593835cb5564d6d3f01358cba6488fe562aa8bbc8adc3b38"
+  },
+  "sharepoint": {
+    "name": "SharePoint"
+  },
+  "sql": {
+    "member": "Azure_Public_Service_Icons/Icons/databases/02390-icon-service-Azure-SQL.svg",
+    "name": "Azure SQL",
+    "pack": "azure",
+    "sha256": "c2c81766a697920a115ad8532642bccaab257d1d3db7388aa35fdbb9a6db8be0"
+  },
+  "stripe": {
+    "name": "Stripe"
+  },
+  "studio": {
+    "member": "CopilotStudio_scalable.svg",
+    "name": "Copilot Studio",
+    "pack": "power",
+    "sha256": "c614fa6b9b7d33048c6c4efcdd508e5b7818d296cbd1cd7d8848bb2dd1be4fd0"
+  },
+  "webiq": {
+    "name": "Microsoft Web IQ"
+  },
+  "workiq": {
+    "name": "Work IQ"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "version": 1, "solution": "Illustrative replacement-order service", "stage": "existing",
+  "owner": "Order operations", "scope": "Agent submits an approved replacement and reports the recorded order status.",
+  "patterns": ["technical-patterns/write-reconciliation.md"], "unmapped_reason": "",
+  "risks": {"retrieval": false, "writes": true, "external": false, "autonomous": false, "consequential": true, "custom_model": false},
+  "checks": {
+    "receipt": {"status":"failed","basis":"observed","owner":"Order operations","reference":"example:replay-test-17","finding":"A timeout after commit created a second order on replay. Disable automatic resubmission until the receipt lookup is verified."},
+    "runtime": {"status":"open","basis":"design","owner":"On-call lead","reference":"example:incident-17","finding":"Collect deployed version and last week's duplicate-rate measurements before the operational review."}
+  }
+}

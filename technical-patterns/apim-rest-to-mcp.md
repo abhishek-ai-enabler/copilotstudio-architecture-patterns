@@ -20,6 +20,11 @@ flowchart LR
 
 ## Technical flow
 
+![Technical sequence: Publish selected API operations as MCP tools through Azure API Management](../assets/flows/apim-rest-to-mcp.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Discover the approved tools and read one shipment
@@ -39,6 +44,8 @@ sequenceDiagram
         G-->>A: Denial or retry guidance without a backend call
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

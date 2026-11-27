@@ -34,6 +34,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Answer cross-source questions with a Foundry IQ knowledge base](../assets/flows/foundry-iq-knowledge-base.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Retrieve a policy and a form without widening access
@@ -61,6 +66,8 @@ sequenceDiagram
         A-->>U: Do not infer fare eligibility from a form
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

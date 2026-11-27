@@ -1,0 +1,88 @@
+import json
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+from tools.validate_solution import OBSERVED, ROOT, RULES, review
+
+
+class SolutionReview(unittest.TestCase):
+    def setUp(self):
+        self.packet = json.loads((ROOT / "review/examples/proposed.json").read_text())
+
+    def test_proposed_does_not_claim_approval(self):
+        self.assertEqual(review(self.packet)["outcome"], "ready-for-human-review")
+
+    def test_risks_require_explicit_booleans(self):
+        for bad in (None, 0, "false"):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                self.packet["risks"]["writes"] = bad
+                review(self.packet)
+        del self.packet["risks"]["writes"]
+        with self.assertRaises(ValueError):
+            review(self.packet)
+
+    def test_each_new_boundary_requires_its_evidence(self):
+        for gate, (risk, _, _) in RULES.items():
+            if risk not in self.packet["risks"]:
+                continue
+            with self.subTest(risk=risk):
+                self.packet["risks"][risk] = True
+                self.packet["checks"].pop(gate, None)
+                self.assertIn(gate, {f["gate"] for f in review(self.packet)["findings"]})
+
+    def test_existing_design_only_is_insufficient(self):
+        self.packet["stage"] = "existing"
+        result = review(self.packet)
+        self.assertEqual(result["outcome"], "incomplete")
+        self.assertIn("runtime", {f["gate"] for f in result["findings"]})
+        for g in result["required"]:
+            self.packet["checks"][g] = dict(self.packet["checks"]["fit"], basis="observed" if g in OBSERVED else "design")
+        self.assertEqual(review(self.packet)["outcome"], "ready-for-human-review")
+
+    def test_existing_failure_beats_incomplete(self):
+        p = json.loads((ROOT / "review/examples/existing-blocked.json").read_text())
+        self.assertEqual(review(p)["outcome"], "blocked")
+
+    def test_selected_pattern_cannot_deny_intrinsic_risk(self):
+        self.packet["risks"]["retrieval"] = False
+        with self.assertRaisesRegex(ValueError, "requires risks.retrieval"):
+            review(self.packet)
+
+    def test_unmapped_architecture_needs_explanation(self):
+        self.packet["patterns"] = []
+        with self.assertRaises(ValueError):
+            review(self.packet)
+        self.packet["unmapped_reason"] = "Edge inference; see private provider design review."
+        self.assertEqual(review(self.packet)["outcome"], "ready-for-human-review")
+
+    def test_unknown_paths_or_gates_are_invalid(self):
+        self.packet["checks"]["wrong"] = {}
+        with self.assertRaises(ValueError):
+            review(self.packet)
+        del self.packet["checks"]["wrong"]
+        self.packet["patterns"] = ["../outside.md"]
+        with self.assertRaises(ValueError):
+            review(self.packet)
+
+    def test_blank_reference_is_not_evidence(self):
+        self.packet["checks"]["fit"]["reference"] = "   "
+        self.assertEqual(review(self.packet)["outcome"], "incomplete")
+
+    def test_cli_contract(self):
+        command = [sys.executable, str(ROOT / "tools/validate_solution.py")]
+        for stage in ("existing", "proposed"):
+            p = subprocess.run(command + ["--init", stage], capture_output=True)
+            self.assertEqual(p.returncode, 0)
+            self.assertEqual(json.loads(p.stdout)["stage"], stage)
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "packet.json"
+            for value, code in [('{"version":1,"version":2}', 2), ("[", 2),
+                                (json.dumps(self.packet), 0),
+                                ((ROOT / "review/examples/existing-blocked.json").read_text(), 1)]:
+                path.write_text(value)
+                p = subprocess.run(command + [str(path)], capture_output=True)
+                self.assertEqual(p.returncode, code)
+                self.assertIn("outcome", json.loads(p.stdout or p.stderr))

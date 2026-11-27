@@ -31,6 +31,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Request an agent recommendation from a model-driven form](../assets/flows/model-driven-form.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Request an agent recommendation from a model-driven form - technical flow
@@ -51,6 +56,8 @@ sequenceDiagram
         C->>C: Discard stale result and keep form<br/>usable
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

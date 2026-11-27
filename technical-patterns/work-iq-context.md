@@ -28,6 +28,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Prepare a private meeting brief with Work IQ](../assets/flows/work-iq-context.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Resolve the occurrence before reading related mail
@@ -50,6 +55,8 @@ sequenceDiagram
         A-->>U: Ask for a date or stop without searching more mailboxes
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

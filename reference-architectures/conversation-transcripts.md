@@ -34,6 +34,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Extract service-quality signals from conversation transcripts](../assets/flows/conversation-transcripts.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Extract service-quality signals from conversation transcripts - technical flow
@@ -53,6 +58,8 @@ sequenceDiagram
       F->>F: Set aside for review, exclude from<br/>classified counts
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

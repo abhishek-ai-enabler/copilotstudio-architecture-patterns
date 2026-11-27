@@ -37,6 +37,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Separate bug intake from follow-up correspondence](../assets/flows/bug-intake.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Separate bug intake from follow-up correspondence - technical flow
@@ -63,6 +68,8 @@ sequenceDiagram
       A->>A: Stop without a duplicate or internal<br/>disclosure
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

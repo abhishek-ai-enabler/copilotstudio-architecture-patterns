@@ -1,0 +1,64 @@
+# Reviewed lifeline-to-platform map. "-" = human, generic service or unbranded role.
+# Use an exact product ID from assets/platforms/products.json, never an inferred vendor.
+apim-rest-to-mcp A:studio G:apim B:-
+approval-workflow W:studio A:studio H:- S:-
+azure-search-hybrid-rag U:- T:studio B:- S:search
+bot-front-handoff U:- A:studio B:bot Q:-
+bug-intake U:- A:studio F:automate D:devops
+cardiology-intake U:- D:dataverse H:- F:automate B:bookings
+change-window-evidence U:- A:studio B:- R:arg G:graph
+child-agent U:- P:studio C:studio I:-
+classic-topics U:- R:studio T:studio B:-
+connected-agent U:- P:studio C:studio L:-
+connector-action U:- A:studio C:power S:-
+conversation-transcripts D:dataverse F:automate A:aib X:dataverse
+copilot-reasoning-loop U:- A:studio S:studio X:- Y:-
+custom-contact-center U:- Q:- B:- A:studio H:-
+custom-retrieval U:- T:studio S:- G:studio
+customer-support U:- A:studio K:sharepoint W:contact H:-
+customer-voice-chat U:- A:studio S:studio T:- H:-
+direct-rest-tool U:- A:studio T:studio S:-
+donor-management D:dataverse A:studio F:automate H:- S:sap
+evaluation-gate O:- R:studio A:studio B:-
+event-worker E:- A:studio D:- W:-
+fabric-analytics U:- A:studio C:pbi M:model
+fabric-connected U:- A:studio F:fagent M:model
+fabric-copilot-harness U:- A:studio S:studio C:pbi M:model
+fabric-direct U:- A:fagent M:model
+fabric-iq-ontology P:- A:studio F:fabric D:fabric
+fabric-standard-harness U:- A:studio C:pbi M:model
+foundry-agent-specialist U:- P:studio F:foundryagent S:search
+foundry-iq-knowledge-base U:- A:studio K:foundryiq P:sharepoint F:search
+generative-planning U:- A:studio K:studio R:-
+hr-specialists U:- A:studio T:studio H:-
+hub-front-handoff U:- Q:- B:- A:studio H:-
+m365-retrieval-api U:- A:studio B:- G:graph
+mcp-tools A:studio M:- B:-
+meeting-migration U:- A:studio F:studio G:graph D:dataverse
+model-driven-form U:- C:apps A:studio D:dataverse
+multilingual-it-service U:- A:studio I:- H:-
+new-hire-onboarding R:- A:studio L:- M:- H:-
+operational-monitoring A:studio B:- T:insights H:-
+partner-iq-provider U:- A:studio C:power J:jira
+patient-support U:- A:studio F:automate H:-
+public-knowledge U:- A:studio B:studio
+regulatory-applications U:- P:pages F:automate D:dataverse H:-
+remote-a2a-specialist U:- A:studio R:- S:-
+rental-search-checkout U:- C:- D:dataverse P:- T:stripe S:sql
+sap-order-acknowledgments F:automate D:dataverse A:studio M:studio P:sap H:-
+search-index-lifecycle P:- S:blob X:search A:studio U:-
+secured-web-client U:- B:- L:bot A:studio
+semantic-model-contract O:- M:model A:studio R:pbi
+sharepoint-grounding U:- A:studio S:sharepoint
+skill-package U:- A:studio S:studio T:-
+solution-promotion D:- T:power H:- P:power
+spend-anomalies E:- K:eventhouse F:studio H:- A:studio D:fagent
+student-recruitment S:- D:dataverse H:- J:customerinsights
+synchronous-agent-flow U:- A:studio F:studio S:-
+ticket-refunds A:studio F:automate H:- R:automate L:-
+tool-identity U:- A:studio C:power S:-
+travel-concierge U:- A:studio K:studio S:-
+web-iq-research U:- A:studio G:- W:webiq
+work-iq-context U:- A:studio W:workiq
+write-reconciliation U:- A:studio B:- S:-
+zoned-governance O:- G:- E:power

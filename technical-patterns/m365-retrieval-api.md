@@ -30,6 +30,11 @@ flowchart LR
 
 ## Technical flow
 
+![Technical sequence: Retrieve cited Microsoft 365 text without copying the library](../assets/flows/m365-retrieval-api.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Retrieve passages before composing the comparison
@@ -52,6 +57,8 @@ sequenceDiagram
         A-->>U: Leave the comparison unresolved
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

@@ -34,6 +34,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Multilingual IT self-service across identity providers](../assets/flows/multilingual-it-service.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Multilingual IT self-service across identity providers - technical flow
@@ -57,6 +62,8 @@ sequenceDiagram
         end
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

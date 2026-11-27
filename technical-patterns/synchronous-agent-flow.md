@@ -31,6 +31,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Return a typed result from an agent flow](../assets/flows/synchronous-agent-flow.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Return a typed result from an agent flow - technical flow
@@ -41,28 +46,34 @@ sequenceDiagram
     participant S as Case or job store
     U->>A: Submit confirmed request
     A->>F: Send fields and stable request key
-    F->>S: Check existing request and validate<br/>scope
-    alt Case committed within response budget
-      S-->>F: Return case receipt
-      F-->>A: Respond completed with case ID
-    else Longer processing needed
-      F->>S: Persist pending job
-      F-->>A: Respond accepted with job ID
-    else Write result unknown
-      F->>S: Reconcile by key before replay
-      F-->>A: Respond pending with request key
+    F->>S: Verify scope and look up this request key
+    S-->>F: Authorized existing, new, or denied
+    alt Existing authorized request
+      F-->>A: Return stored outcome without a duplicate write
+    else New and authorized
+      F->>S: Conditionally create one case or persist a long-running job
+      alt Store confirms commit
+        S-->>F: Return case receipt or durable job ID
+        F-->>A: Report completed case or accepted job
+      else Commit uncertain
+        F-->>A: Report pending by key, not completed
+      end
+    else Unauthorized
+      F-->>A: Deny without exposing case details
     end
-    A-->>U: Show case ID, job ID or pending<br/>status
+    A-->>U: Show only the verified outcome or denial
 ```
+
+</details>
 
 ## Copilot Studio components
 
-**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness agent flow. On the Microsoft Copilot harness, use a workflow with the same trigger and response nodes. Connector actions run with the invoking user's connections.
+**Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness agent flow in a solution in the agent's environment. For user-scoped operations, check each connector's run-only connection settings; calling the flow from an authenticated topic does not itself delegate the user's identity. On the Microsoft Copilot harness, [add a workflow as an agent tool](https://learn.microsoft.com/en-us/microsoft-copilot-studio/workflows-experience/flow-agent).
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
 | [Agent flow](../COMPONENTS.md#agent-flows): When an agent calls the flow | Typed inputs. | Copilot: workflow. |
-| [Agent flow](../COMPONENTS.md#agent-flows): Respond to the agent | Returns `status`, `caseId` and `message` within 100 seconds. | Copilot: workflow. |
+| [Agent flow](../COMPONENTS.md#agent-flows): Respond to the agent | Return `status`, `reference` and `message` within 100 seconds. The reference identifies the committed case, accepted job or pending request according to `status`. | Copilot: workflow. |
 | [Connector tool](../COMPONENTS.md#connector-tools): System-of-record actions | Validate, then create the case. | All harnesses. |
 | [Variables](../COMPONENTS.md#variables-and-conversation-state): Typed outputs | Keep the conversation's view of the operation explicit. | Copilot: workflow variables. |
 
@@ -72,7 +83,7 @@ sequenceDiagram
 
 ## Design notes
 
-**Flow:** On the standard harness, the agent invokes a flow with **When an agent calls the flow**. The flow validates typed inputs, checks the system of record, performs the permitted operation, and uses **Respond to the agent** with a small result such as `status`, `caseId` and `message`. Configure a real-time response; the documented action limit is 100 seconds.
+**Flow:** On the standard harness, the agent invokes a flow with **When an agent calls the flow**. The flow validates typed inputs and checks the system of record. For a new authorized request it creates the case once; for a duplicate it returns the existing outcome. Use **Respond to the agent** with the same typed result on every branch and **Asynchronous response** off.
 
 **Choose it when** execution order must be fixed and a result can be returned within the turn. For longer processing, persist a job and respond with an *accepted* receipt, not a completion claim. Run later steps after the response or in a separate worker; provide status lookup.
 

@@ -36,6 +36,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Ground a support answer in one hybrid search index](../assets/flows/azure-search-hybrid-rag.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: A brokered hybrid lookup for an entitled reader
@@ -62,6 +67,8 @@ sequenceDiagram
         T-->>U: No verified answer
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

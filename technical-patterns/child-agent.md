@@ -29,6 +29,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Group one specialist task inside a parent agent](../assets/flows/child-agent.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Group one specialist task inside a parent agent - technical flow
@@ -54,6 +59,8 @@ sequenceDiagram
     end
     P-->>U: Present outcome
 ```
+
+</details>
 
 ## Copilot Studio components
 

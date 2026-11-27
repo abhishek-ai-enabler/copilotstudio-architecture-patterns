@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Use partner-held Jira evidence in a release review](../assets/flows/partner-iq-provider.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Read one blocker without inheriting release authority
@@ -49,6 +54,8 @@ sequenceDiagram
         A-->>U: Mark blocker unverified and retain the review hold
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

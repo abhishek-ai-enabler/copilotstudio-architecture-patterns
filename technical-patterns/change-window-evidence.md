@@ -24,6 +24,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Combine policy evidence, Microsoft Graph and Azure inventory in a change brief](../assets/flows/change-window-evidence.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Reconcile policy, inventory scope and time before drafting
@@ -47,6 +52,8 @@ sequenceDiagram
         A-->>U: Identify the missing check without declaring a safe window
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

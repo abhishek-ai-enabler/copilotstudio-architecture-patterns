@@ -33,6 +33,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Travel concierge with public guidance and private booking lookup](../assets/flows/travel-concierge.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Travel concierge with public guidance and private booking lookup - technical flow
@@ -58,6 +63,8 @@ sequenceDiagram
       end
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

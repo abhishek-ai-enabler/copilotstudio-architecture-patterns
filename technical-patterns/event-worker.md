@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Start a bounded agent task from a business event](../assets/flows/event-worker.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Start a bounded agent task from a business event - technical flow
@@ -49,6 +54,8 @@ sequenceDiagram
         A->>D: Mark for review and reconciliation
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

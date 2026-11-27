@@ -26,6 +26,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Keep a native Azure AI Search knowledge source current](../assets/flows/search-index-lifecycle.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Validate an updated revision before accepting its answers
@@ -49,6 +54,8 @@ sequenceDiagram
         P->>A: Suspend affected knowledge source pending repair
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

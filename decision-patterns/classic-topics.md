@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Standard harness: classic topic routing](../assets/flows/classic-topics.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Standard harness: classic topic routing - technical flow
@@ -53,13 +58,15 @@ sequenceDiagram
     end
 ```
 
+</details>
+
 ## Copilot Studio components
 
 **Recommended build ([harness](../COMPONENTS.md#the-harness-is-the-first-decision)):** Standard harness, classic orchestration. The Microsoft Copilot harness replaces intent-triggered topics. Use a workflow tool for the fixed sequence and hooks for system events.
 
 | Component | Use in this pattern | Harness alternative |
 | --- | --- | --- |
-| [Orchestration](../COMPONENTS.md#orchestration-modes): Classic | Matches trigger phrases to exactly one topic. | Std: generative orchestration selects topics by description. |
+| [Orchestration](../COMPONENTS.md#orchestration-modes): Classic | Matches trigger phrases to a topic. If several topics match closely, the [Multiple Topics Matched system topic](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-system-topics#multiple-topics-matched) can ask the user to choose. | Std: generative orchestration selects topics by description. |
 | [Topics](../COMPONENTS.md#topics-and-system-topics): Badge replacement topic; Fallback system topic | Owns the ordered transaction and the no-match path. | Copilot: workflow tool; hooks for system events. |
 | [Topic nodes](../COMPONENTS.md#topic-nodes): Question, Condition, Message, Tool | Collect and validate fields, show a confirmation, then call the badge operation explicitly. | Copilot: workflow nodes behind **When an agent calls the flow**. |
 | [Agent flow](../COMPONENTS.md#agent-flows): Badge replacement flow | Executes the replacement with server-side checks and returns a receipt. | Copilot: workflow. |

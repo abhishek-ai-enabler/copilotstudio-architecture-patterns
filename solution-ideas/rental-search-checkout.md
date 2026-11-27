@@ -28,8 +28,8 @@ flowchart TB
     U -->|"Pay on hosted page"| T
     T -->|"Return to portal after<br/>checkout"| U
     T -->|"Signed payment<br/>notification"| P
-    P -->|"Record settlement"| S
-    S -->|"Reconcile reservation<br/>status"| D
+    P -->|"Record verified payment state"| S
+    P -->|"Reconcile paid amount and valid hold"| D
     A -->|"Matching listing cards"| U
     C -->|"Recheck and place<br/>time-limited hold"| D
     P -->|"Create hosted session"| T
@@ -38,6 +38,11 @@ flowchart TB
 **Review decision:** Approve chat for discovery, not settlement. A verified payment notification and a reconciled reservation, not the browser redirect, establish a completed booking.
 
 ## Technical flow
+
+![Technical sequence: Rental discovery with a separate reservation and payment path](../assets/flows/rental-search-checkout.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -48,6 +53,7 @@ sequenceDiagram
     participant D as Reservation store
     participant P as Payments API
     participant T as Stripe
+    participant S as Payment ledger
     U->>C: Request selected listing
     C->>D: Recheck availability and acquire<br/>time-limited hold
     alt Inventory held
@@ -61,12 +67,22 @@ sequenceDiagram
       T-->>U: Return to portal, pending<br/>confirmation
       T->>P: Deliver signed payment event
       P->>P: Verify signature and deduplicate<br/>event
-      P->>D: Record settlement and confirm<br/>reservation
+      P->>T: Retrieve checkout session and payment status
+      T-->>P: Session, amount and payment state
+      P->>S: Record verified state against the hold
+      alt Paid and ledger commit confirmed
+        P->>D: Conditionally confirm the matching unexpired hold
+        D-->>P: Booking receipt or conflict for reconciliation
+      else Payment pending or recording uncertain
+        P->>P: Keep booking unconfirmed and reconcile by ID
+      end
     else Another customer owns the hold
       D-->>C: Return unavailable
       C-->>U: Report unavailable without starting<br/>payment
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 
@@ -93,6 +109,6 @@ sequenceDiagram
 
 **Trust boundary:** Publish only customer-visible listing fields; bind the hold to the authenticated customer and price it server-side. Restrict payment/refund operations separately from listing edits.
 
-**Failure handling and acceptance:** Deduplicate webhook deliveries by provider event ID. Expire unpaid holds; route a late successful payment for reconciliation rather than double-booking. Test two customers selecting the final available unit.
+**Failure handling and acceptance:** Verify the webhook signature, then check the Checkout Session's `payment_status` before fulfilling a paid booking. With delayed payment methods, Checkout can complete while the payment is still pending. Deduplicate deliveries by event ID and ensure each session can confirm its reservation only once. Route a payment that succeeds after hold expiry to reconciliation. Test that case and two customers selecting the last unit. See [Stripe's Checkout fulfillment contract](https://docs.stripe.com/checkout/fulfillment).
 
 **Source:** [Microsoft Learn: Property rental portal with AI-driven search and payment processing](https://learn.microsoft.com/en-us/power-platform/architecture/solution-ideas/agent-rental-portal).

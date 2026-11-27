@@ -31,6 +31,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Handoff 1: Engagement hub in front (Bot-as-an-Agent)](../assets/flows/hub-front-handoff.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Handoff 1: Engagement hub in front (Bot-as-an-Agent) - technical flow
@@ -52,6 +57,8 @@ sequenceDiagram
         Q-->>U: Offer tracked follow-up or staffed<br/>hours
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

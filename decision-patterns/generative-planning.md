@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Standard harness: generative orchestration over topics, tools and knowledge](../assets/flows/generative-planning.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Standard harness: generative orchestration over topics, tools and knowledge - technical flow
@@ -51,6 +56,8 @@ sequenceDiagram
         A-->>U: Show policy and identify unresolved<br/>lookup
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

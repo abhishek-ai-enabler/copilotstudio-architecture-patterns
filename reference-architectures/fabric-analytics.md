@@ -34,6 +34,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Analyst-reviewed reporting over a Fabric semantic model](../assets/flows/fabric-analytics.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Analyst-reviewed reporting over a Fabric semantic model - technical flow
@@ -55,6 +60,8 @@ sequenceDiagram
         A-->>U: Mark variance unavailable, not zero
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

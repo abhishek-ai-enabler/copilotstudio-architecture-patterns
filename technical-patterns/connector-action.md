@@ -32,6 +32,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Expose a narrow business operation through a connector](../assets/flows/connector-action.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Expose a narrow business operation through a connector - technical flow
@@ -52,6 +57,8 @@ sequenceDiagram
         A-->>U: Report lookup unavailable, no change<br/>requested
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

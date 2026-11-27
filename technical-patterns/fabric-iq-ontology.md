@@ -30,6 +30,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Trace an affected order through a Fabric IQ ontology](../assets/flows/fabric-iq-ontology.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Trace only evidenced shipment links
@@ -49,6 +54,8 @@ sequenceDiagram
         A-->>P: Report that the impact could not be verified
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

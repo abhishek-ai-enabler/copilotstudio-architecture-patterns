@@ -38,6 +38,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Assisted and email-driven refunds on a shared legacy workflow](../assets/flows/ticket-refunds.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Assisted and email-driven refunds on a shared legacy workflow - technical flow
@@ -67,6 +72,8 @@ sequenceDiagram
       F-->>A: Return existing status without a<br/>payout
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

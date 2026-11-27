@@ -42,6 +42,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Match supplier acknowledgments to SAP purchase orders](../assets/flows/sap-order-acknowledgments.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Match supplier acknowledgments to SAP purchase orders - technical flow
@@ -76,6 +81,8 @@ sequenceDiagram
         A->>H: Send differences for review, no SAP<br/>write
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

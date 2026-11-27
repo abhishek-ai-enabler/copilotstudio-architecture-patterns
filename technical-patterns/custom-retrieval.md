@@ -29,6 +29,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Bring authorized search results to a generative answers node](../assets/flows/custom-retrieval.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Bring authorized search results to a generative answers node - technical flow
@@ -48,6 +53,8 @@ sequenceDiagram
         T-->>U: Decline to answer without broader<br/>fallback
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

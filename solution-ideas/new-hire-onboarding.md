@@ -34,6 +34,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Coordinate new-hire tasks across HR and learning systems](../assets/flows/new-hire-onboarding.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Coordinate new-hire tasks across HR and learning systems - technical flow
@@ -58,6 +63,8 @@ sequenceDiagram
       M-->>H: Surface blocker for follow-up
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

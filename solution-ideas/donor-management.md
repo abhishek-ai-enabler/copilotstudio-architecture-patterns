@@ -36,6 +36,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Donor inquiry intake, approvals and finance reconciliation](../assets/flows/donor-management.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Donor inquiry intake, approvals and finance reconciliation - technical flow
@@ -59,6 +64,8 @@ sequenceDiagram
       F->>D: Update case without posting
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

@@ -36,6 +36,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Design distinct voice and chat paths for one customer service](../assets/flows/customer-voice-chat.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Design distinct voice and chat paths for one customer service - technical flow
@@ -57,6 +62,8 @@ sequenceDiagram
       S->>H: Escalate through channel-appropriate<br/>route
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

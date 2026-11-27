@@ -34,6 +34,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Link recruitment conversations and touchpoints to enrollment](../assets/flows/student-recruitment.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Link recruitment conversations and touchpoints to enrollment - technical flow
@@ -53,6 +58,8 @@ sequenceDiagram
         H->>D: Resolve before counting or<br/>contacting
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

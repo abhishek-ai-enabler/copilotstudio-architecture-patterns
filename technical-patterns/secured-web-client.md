@@ -32,6 +32,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Embed a web client without exposing channel credentials](../assets/flows/secured-web-client.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Embed a web client without exposing channel credentials - technical flow
@@ -53,6 +58,8 @@ sequenceDiagram
       B-->>U: Refuse issuance and require sign-in
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

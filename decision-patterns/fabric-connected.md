@@ -29,6 +29,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Fabric 2: Delegate analytics to a connected Fabric data agent](../assets/flows/fabric-connected.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Fabric 2: Delegate analytics to a connected Fabric data agent - technical flow
@@ -50,6 +55,8 @@ sequenceDiagram
         A-->>U: Show explicit gap, do not calculate<br/>variance
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

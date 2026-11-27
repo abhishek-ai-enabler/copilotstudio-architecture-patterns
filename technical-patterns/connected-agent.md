@@ -29,6 +29,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Delegate to an independently published specialist](../assets/flows/connected-agent.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Delegate to an independently published specialist - technical flow
@@ -48,6 +53,8 @@ sequenceDiagram
         P-->>U: Report unresolved lookup without<br/>wider access
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 

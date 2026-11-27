@@ -430,6 +430,7 @@ Harness: **Std** = standard, **Copilot** = Microsoft Copilot, **CC** = Customer 
 | [Discover centrally managed tools from an MCP server](technical-patterns/mcp-tools.md) | Any | ○ |  | ● |  |  |  |  |  |  |
 | [Monitor completed tasks, tool health and consumption together](technical-patterns/operational-monitoring.md) | Any |  |  |  |  |  |  |  |  |  |
 | [Use partner-held Jira evidence in a release review](technical-patterns/partner-iq-provider.md) | Std | ● |  | ● |  |  |  |  |  | ● |
+| [Delegate to a remote A2A specialist](technical-patterns/remote-a2a-specialist.md) | Copilot |  |  |  |  |  |  |  | ● |  |
 | [Public self-service from a bounded website corpus](technical-patterns/public-knowledge.md) | Std | ● | ● |  |  |  |  |  |  |  |
 | [Keep a native Azure AI Search knowledge source current](technical-patterns/search-index-lifecycle.md) | Std |  | ● |  |  |  |  |  |  |  |
 | [Embed a web client without exposing channel credentials](technical-patterns/secured-web-client.md) | Std |  |  | ● |  |  |  |  |  |  |
@@ -441,6 +442,7 @@ Harness: **Std** = standard, **Copilot** = Microsoft Copilot, **CC** = Customer 
 | [Carry the user's authority to a downstream tool](technical-patterns/tool-identity.md) | Any |  |  | ● | ● |  |  |  |  |  |
 | [Verify a grant deadline with Microsoft Web IQ](technical-patterns/web-iq-research.md) | Std | ● |  | ● |  |  |  |  |  | ● |
 | [Prepare a private meeting brief with Work IQ](technical-patterns/work-iq-context.md) | Copilot |  |  | ● |  |  |  |  |  |  |
+| [Reconcile an uncertain write before retrying](technical-patterns/write-reconciliation.md) | Std |  |  | ● |  |  |  |  |  | ● |
 | [Match environment controls to agent risk](technical-patterns/zoned-governance.md) | Any |  |  |  |  |  |  |  |  |  |
 
 <!-- component-matrix:end -->

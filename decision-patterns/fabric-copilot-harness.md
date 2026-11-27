@@ -31,6 +31,11 @@ flowchart TB
 
 ## Technical flow
 
+![Technical sequence: Fabric 4: Query the model from the Microsoft Copilot harness](../assets/flows/fabric-copilot-harness.png)
+
+<details>
+<summary>Text and editable Mermaid sequence</summary>
+
 ```mermaid
 sequenceDiagram
     accTitle: Fabric 4: Query the model from the Microsoft Copilot harness - technical flow
@@ -58,6 +63,8 @@ sequenceDiagram
       A-->>U: Stop without changing credentials or<br/>estimating
     end
 ```
+
+</details>
 
 ## Copilot Studio components
 
