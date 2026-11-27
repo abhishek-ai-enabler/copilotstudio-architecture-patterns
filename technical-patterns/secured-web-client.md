@@ -1,0 +1,13 @@
+# Embed a web client without exposing channel credentials
+
+**Class:** Synthesized technical pattern. **Intent:** Put a standard-harness agent in an existing authenticated web application without treating possession of a channel credential as customer identity.
+
+**Flow:** The application signs in the user. For a secured Direct Line channel, a server-side component authorizes the session and obtains a short-lived channel token. The browser uses that token to exchange messages through the chat canvas. Configure agent sign-in and downstream tool connections separately; a custom canvas may also need to handle connection-card popups and continuation.
+
+**Choose it when** the application needs a tailored interface or context that a native client cannot supply. A supported built-in channel avoids much of the reconnect, accessibility and consent work.
+
+**Trust boundary:** Never ship the Direct Line secret in browser code. Do not equate a channel token, claimed user ID or possession of a conversation ID with permission to read account records. Bind the conversation to the application session on the server.
+
+**Failure handling:** On expiry, refresh or reestablish the authorized conversation. On logout, stop access rather than resuming another user's chat. Test secret rotation, token expiry and back-to-back users on a shared browser.
+
+**Sources:** [Configure web and Direct Line channel security](https://learn.microsoft.com/en-us/microsoft-copilot-studio/configure-web-security) · [Channel and client design](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/channels).

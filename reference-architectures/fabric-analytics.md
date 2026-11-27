@@ -1,0 +1,17 @@
+# Analyst-reviewed reporting over a Fabric semantic model
+
+**Class:** Microsoft reference architecture. **Intent:** Let an analyst ask for a variance in Teams or Microsoft Copilot and get a table they can reconcile to the published Power BI report. The output is a draft, not an approved financial statement.
+
+## Components and flow
+
+1. The Copilot Studio agent resolves the reporting period, measure, comparison and organizational unit. It asks for missing scope rather than silently choosing a calendar or currency.
+2. On the Microsoft Copilot harness, a skill supplies the model schema and tested DAX patterns. The agent calls the Power BI connector's *Run a query against a dataset* action. Governed measures, not the language model, calculate the figures.
+3. The agent formats the returned rows with units, period and comparison basis. Commentary may describe which regions contributed to a change; it should not invent a cause. The analyst checks the result and approves any redistribution.
+
+**When to choose it:** A stable model already powers a report, but analysts repeatedly extract the same comparisons. If definitions still vary by department, resolve that disagreement before adding chat. See [the underlying integration choice](../decision-patterns/fabric-copilot-harness.md) for what the harness adds.
+
+**Trust boundary:** Use the analyst's connector identity. Test row-level security (RLS) using a consumer identity, not a workspace administrator. Permission to see an answer does not grant permission to share it.
+
+**Failure handling and acceptance:** Correct a malformed query within a bounded retry budget. Never retry a denial with broader credentials. Return “comparison unavailable” for a missing prior period, not zero. Reconcile a known period, a missing period and a restricted region against the same report filters.
+
+**Source:** [Microsoft Learn: Copilot Studio analytics agent over a Microsoft Fabric semantic model](https://learn.microsoft.com/en-us/power-platform/architecture/key-concepts/copilot-studio-fabric/copilot-studio-fabric-analytics-agent).
