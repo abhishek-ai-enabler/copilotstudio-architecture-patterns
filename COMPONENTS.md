@@ -169,7 +169,7 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 
 ### MCP servers
 
-- **Availability:** Std, Copilot and CC. Microsoft IQ and Work IQ provide managed MCP servers for Microsoft 365 context.
+- **Availability:** Std, Copilot and CC support MCP, but connection options differ by harness. Do not equate any MCP server with [Work IQ](technical-patterns/work-iq-context.md), the unified Microsoft 365 tool on the Microsoft Copilot harness. [Microsoft IQ](https://learn.microsoft.com/en-us/microsoft-iq/) names a family of capabilities; confirm the integration surface for each one.
 - **Use for:** A tool catalog that its owner maintains centrally and several agents consume.
 - **Avoid:** Assuming that everything the server advertises is approved for this agent. Restrict the enabled tools.
 - **Source:** [Available tools (Microsoft Copilot)](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/tools-available).
@@ -351,7 +351,7 @@ Availability uses **Std** (standard harness), **Copilot** (Microsoft Copilot har
 | Child agent | Connected agent | Copilot composes through connected agents only. |
 | Event trigger | Agent trigger (preview) or workflow trigger and agent node | Autonomous runs consume credits. |
 | Global and user variables | Memory for preferences; system of record for state | Memory is not authority. |
-| Azure AI Search knowledge | Not listed. Use an MCP server or a search tool. | Keep authorization in the search service. |
+| Native Azure AI Search index | Direct index picker not listed. Use a [Foundry IQ tool](technical-patterns/foundry-iq-knowledge-base.md) for a knowledge base, or an authorized search tool for a custom index query. | A knowledge base is not the index picker. Verify which identity reaches each source. |
 | SharePoint, WhatsApp or Dynamics 365 Contact Center channel | Not listed. Stay on Std or use CC for contact centers. | Validate channels first. |
 | Manual authentication | Not listed. Use Entra ID or no authentication. | Re-plan identity. |
 
@@ -412,6 +412,9 @@ Harness: **Std** = standard, **Copilot** = Microsoft Copilot, **CC** = Customer 
 | Pattern | Harness | Topics or hooks | Knowledge | Tools | Flows or workflows | Triggers | Skills | Memory | Agents | Human gate or handoff |
 | --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | [Let a workflow own approvals and an agent own the draft](technical-patterns/approval-workflow.md) | Copilot or Std |  |  | ● | ● |  |  |  |  | ● |
+| [Publish selected REST operations as MCP tools](technical-patterns/apim-rest-to-mcp.md) | Std |  |  | ● |  |  |  |  |  |  |
+| [Ground a support answer in one hybrid search index](technical-patterns/azure-search-hybrid-rag.md) | Std | ● | ○ | ● | ○ |  |  |  |  |  |
+| [Combine policy, Microsoft Graph and Azure inventory](technical-patterns/change-window-evidence.md) | Std | ● | ● | ● |  |  |  |  |  | ● |
 | [Group one specialist task inside a parent agent](technical-patterns/child-agent.md) | Std |  | ● | ● |  |  |  |  | ● |  |
 | [Delegate to an independently published specialist](technical-patterns/connected-agent.md) | Std or Copilot |  |  | ● |  |  |  |  | ● |  |
 | [Expose a narrow business operation through a connector](technical-patterns/connector-action.md) | Any |  |  | ● |  |  |  |  |  |  |
@@ -420,9 +423,15 @@ Harness: **Std** = standard, **Copilot** = Microsoft Copilot, **CC** = Customer 
 | [Prototype an agent-local REST tool from OpenAPI](technical-patterns/direct-rest-tool.md) | Std |  |  | ● |  |  |  |  |  |  |
 | [Gate changes on expected answers and observable actions](technical-patterns/evaluation-gate.md) | Any |  |  |  |  |  |  |  |  |  |
 | [Start a bounded agent task from a business event](technical-patterns/event-worker.md) | Std | ○ |  | ● | ● | ● |  |  |  |  |
+| [Trace an affected order through a Fabric IQ ontology](technical-patterns/fabric-iq-ontology.md) | Std |  |  | ● |  |  |  |  |  |  |
+| [Delegate release compatibility to a Foundry agent](technical-patterns/foundry-agent-specialist.md) | Copilot |  |  | ● |  |  |  |  | ● |  |
+| [Answer cross-source questions with a Foundry IQ knowledge base](technical-patterns/foundry-iq-knowledge-base.md) | Copilot |  |  | ● |  |  |  |  |  |  |
+| [Retrieve cited Microsoft 365 text without copying the library](technical-patterns/m365-retrieval-api.md) | Std |  |  | ● |  |  |  |  |  |  |
 | [Discover centrally managed tools from an MCP server](technical-patterns/mcp-tools.md) | Any | ○ |  | ● |  |  |  |  |  |  |
 | [Monitor completed tasks, tool health and consumption together](technical-patterns/operational-monitoring.md) | Any |  |  |  |  |  |  |  |  |  |
+| [Use partner-held Jira evidence in a release review](technical-patterns/partner-iq-provider.md) | Std | ● |  | ● |  |  |  |  |  | ● |
 | [Public self-service from a bounded website corpus](technical-patterns/public-knowledge.md) | Std | ● | ● |  |  |  |  |  |  |  |
+| [Keep a native Azure AI Search knowledge source current](technical-patterns/search-index-lifecycle.md) | Std |  | ● |  |  |  |  |  |  |  |
 | [Embed a web client without exposing channel credentials](technical-patterns/secured-web-client.md) | Std |  |  | ● |  |  |  |  |  |  |
 | [Share a governed metric contract between agents and reports](technical-patterns/semantic-model-contract.md) | Any |  |  | ● |  |  | ● |  |  |  |
 | [Permission-trimmed answers from SharePoint](technical-patterns/sharepoint-grounding.md) | Std or Copilot | ○ | ● |  |  |  |  |  |  |  |
@@ -430,6 +439,8 @@ Harness: **Std** = standard, **Copilot** = Microsoft Copilot, **CC** = Customer 
 | [Promote one tested solution with environment-specific bindings](technical-patterns/solution-promotion.md) | Any |  |  |  |  |  |  |  |  |  |
 | [Return a typed result from an agent flow](technical-patterns/synchronous-agent-flow.md) | Std |  |  | ● | ● |  |  |  |  |  |
 | [Carry the user's authority to a downstream tool](technical-patterns/tool-identity.md) | Any |  |  | ● | ● |  |  |  |  |  |
+| [Verify a grant deadline with Microsoft Web IQ](technical-patterns/web-iq-research.md) | Std | ● |  | ● |  |  |  |  |  | ● |
+| [Prepare a private meeting brief with Work IQ](technical-patterns/work-iq-context.md) | Copilot |  |  | ● |  |  |  |  |  |  |
 | [Match environment controls to agent risk](technical-patterns/zoned-governance.md) | Any |  |  |  |  |  |  |  |  |  |
 
 <!-- component-matrix:end -->

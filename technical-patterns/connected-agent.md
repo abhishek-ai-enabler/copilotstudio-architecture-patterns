@@ -71,6 +71,8 @@ sequenceDiagram
 
 **Choose it when** release cycles or ownership genuinely differ. Extra hops increase latency, and independent updates can change behavior without a parent release. Prefer a [child agent](child-agent.md) when reuse and separate lifecycle are unnecessary.
 
+If the specialist is maintained in Microsoft Foundry rather than Copilot Studio, use the [Foundry specialist integration](foundry-agent-specialist.md); its publication, identity and billing boundaries differ.
+
 **Trust boundary:** On standard, review the history-sharing setting and disable it unless needed. On the Microsoft Copilot harness, [delegation sends relevant conversation history and may rephrase the request](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/authoring-add-other-agents). A short task description is not a data filter. Confirm which context the specialist receives and whose credentials its tools use; do not allow a second delegation hop on that harness.
 
 **Failure handling:** Agree on responses for unavailable, denied and not found; test them in each calling agent. Re-evaluate the parent when the specialist publishes changes, including changes to the routing description, which the parent maintains locally.

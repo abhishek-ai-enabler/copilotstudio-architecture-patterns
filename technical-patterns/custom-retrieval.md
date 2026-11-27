@@ -71,6 +71,8 @@ sequenceDiagram
 
 **Choose it when** you need to own search quality, freshness or source-specific filtering. For an ordinary SharePoint library use [native grounding](sharepoint-grounding.md) instead: a custom service adds availability, relevance and authorization work.
 
+For an index you operate, compare [hybrid query control](azure-search-hybrid-rag.md) with the [native knowledge ingestion lifecycle](search-index-lifecycle.md). If the content should stay in Microsoft 365, the [Copilot Retrieval API](m365-retrieval-api.md) can return delegated extracts instead.
+
 **Trust boundary:** Filter at retrieval time, before the model or logs see any excerpt. A link that requires sign-in does not protect text already returned to a user. Never grant a broad service identity unrestricted search solely to improve recall.
 
 **Failure handling:** Distinguish no authorized matches from a backend outage internally; avoid revealing inaccessible records to the user. For restricted intents, do not allow a broader agent-level fallback to invent an answer. Test a revoked document and a timeout.

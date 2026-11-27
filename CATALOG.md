@@ -1,6 +1,6 @@
 # Copilot Studio architecture catalog
 
-**Coverage as of 2026-11-27.** The baseline is the [Microsoft Learn Copilot Studio architecture index](https://learn.microsoft.com/en-us/power-platform/architecture/products/copilot-studio), updated November 26. The tables map sources to **49 separate pattern files**. Start with a scenario if you know the business problem, or with a decision if you are choosing between implementations.
+**Coverage as of 2026-11-27.** The baseline is the [Microsoft Learn Copilot Studio architecture index](https://learn.microsoft.com/en-us/power-platform/architecture/products/copilot-studio), updated November 26. The tables map sources to **60 separate pattern files**. Start with a scenario if you know the business problem, or with a decision if you are choosing between implementations.
 
 | What the source represents | Files | Coverage rule |
 | --- | ---: | --- |
@@ -8,7 +8,7 @@
 | [Microsoft solution ideas](#microsoft-solution-ideas) | 11 | Every entry under **Solution ideas**. These are starting points, not validated deployments. |
 | [Microsoft decision-guide patterns](#fabric-integration-options) | 4 | Every numbered option in the baseline's **Key concepts** guide on Fabric. |
 | [Microsoft implementation-guide patterns](#orchestration-and-handoff-options) | 5 | Three orchestration modes and two handoff topologies named in the linked implementation guidance. |
-| [Synthesized technical patterns](#synthesized-technical-patterns) | 20 | Selected reusable designs derived from product documentation and public samples; **not** Microsoft reference architectures. |
+| [Synthesized technical patterns](#synthesized-technical-patterns) | 31 | Selected reusable designs derived from product documentation and public samples; **not** Microsoft reference architectures. |
 
 Classification describes the **source**, not Microsoft's endorsement of the wording or design additions here. Each file is an original design note with a flow, selection criteria, trust boundary, failure case and sources. The first 24 files are exhaustive **for the named baseline sections and date**; the rest extend coverage, not the completeness claim. Lifecycle overviews are navigation resources, not additional reference architectures. No entry implies that a feature is generally available, licensed or supported in every channel.
 
@@ -71,21 +71,32 @@ These are named approaches from **implementation guidance**, not entries in the 
 
 ## Synthesized technical patterns
 
-These files are catalog designs, not additional Microsoft reference architectures. The sources below document the relevant capabilities. Individual files link further reading and public samples where useful; samples illustrate integration shapes, not production guarantees.
+These files are catalog designs, not additional Microsoft reference architectures. The sources below document the relevant capabilities. For a side-by-side selection guide, see [Choose between RAG, IQ and an API](README.md#choose-between-rag-iq-and-an-api). Individual files link further reading and public samples where useful; samples illustrate integration shapes, not production guarantees.
 
 | Area | Primary source | Pattern file |
 | --- | --- | --- |
 | Knowledge | [SharePoint knowledge](https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-sharepoint) | [Permission-trimmed internal answers](technical-patterns/sharepoint-grounding.md) |
 | Knowledge | [Public website knowledge](https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-public-website) | [Bounded public website Q&A](technical-patterns/public-knowledge.md) |
 | Knowledge | [Custom data in generative answers nodes](https://learn.microsoft.com/en-us/microsoft-copilot-studio/nlu-generative-answers-custom-data) | [Custom permission-aware retrieval](technical-patterns/custom-retrieval.md) |
+| RAG / ingestion | [Native Search knowledge and citations](https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-azure-ai-search) | [Keep a published manual index current](technical-patterns/search-index-lifecycle.md) |
+| RAG / query | [Hybrid search and ranking](https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview) | [Combine exact codes and symptom similarity under caller-specific filters](technical-patterns/azure-search-hybrid-rag.md) |
+| RAG / Foundry IQ | [Studio Foundry IQ tool](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/foundry-iq-connect) | [Retrieve cited evidence across a shared knowledge base](technical-patterns/foundry-iq-knowledge-base.md) |
+| RAG / Microsoft 365 | [Copilot Retrieval API](https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/api/ai-services/retrieval/overview) | [Retrieve cited passages without copying the library](technical-patterns/m365-retrieval-api.md) |
 | Analytics | [Prepare a semantic model](https://learn.microsoft.com/en-us/power-platform/architecture/key-concepts/copilot-studio-fabric/semantic-model-ai-agents) | [Shared metric contract](technical-patterns/semantic-model-contract.md) |
+| Work IQ | [Work IQ in Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/add-work-iq) | [Build a private meeting brief from calendar and mail](technical-patterns/work-iq-context.md) |
+| Fabric IQ | [Studio Ontology MCP tool (preview)](https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-fabric-iq-ontology) | [Trace a shipment to affected order lines](technical-patterns/fabric-iq-ontology.md) |
+| Web IQ | [Web Search API](https://learn.microsoft.com/en-us/web-iq/reference/web-search) | [Verify a public grant deadline without disclosing applicant data](technical-patterns/web-iq-research.md) |
+| Partner context | [Microsoft Jira connector](https://learn.microsoft.com/en-us/connectors/jira/) | [Use partner-held evidence in a release review](technical-patterns/partner-iq-provider.md) |
 | Composition | [Child agents](https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-child-agent) | [One specialist inside the parent](technical-patterns/child-agent.md) |
 | Composition | [Connect Copilot Studio agents](https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-copilot-studio-agent) | [Independently published specialist](technical-patterns/connected-agent.md) |
+| Composition / Foundry | [Connect a Microsoft Foundry agent](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/add-agent-foundry) | [Delegate a release compatibility assessment](technical-patterns/foundry-agent-specialist.md) |
 | Composition | [Skills overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-overview) | [Reusable procedure as a skill](technical-patterns/skill-package.md) |
 | Identity | [Tool authentication](https://learn.microsoft.com/en-us/microsoft-copilot-studio/configure-enduser-authentication) | [Carry end-user authority to the tool](technical-patterns/tool-identity.md) |
 | Integration | [Integration strategies](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/integrations) | [Narrow connector action](technical-patterns/connector-action.md) |
 | Integration | [Direct REST tool (preview)](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-rest-api) | [Agent-local OpenAPI prototype](technical-patterns/direct-rest-tool.md) |
 | Integration | [Model Context Protocol](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/extend-with-model-context-protocol) | [Centrally managed MCP tools](technical-patterns/mcp-tools.md) |
+| Integration / MCP | [Expose REST operations through APIM](https://learn.microsoft.com/en-us/azure/api-management/export-rest-mcp-server) | [Publish selected read operations as MCP tools](technical-patterns/apim-rest-to-mcp.md) |
+| Integration / live state | [Graph getSchedule](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule?view=graph-rest-1.0) and [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview) | [Combine policy, free/busy and scoped inventory in a change brief](technical-patterns/change-window-evidence.md) |
 | Automation | [Agent flow tool contract](https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-flow-create) | [Synchronous flow with a typed result](technical-patterns/synchronous-agent-flow.md) |
 | Automation | [Event triggers](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-triggers-about) | [Event-driven agent worker](technical-patterns/event-worker.md) |
 | Automation | [AI-powered automations](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/ai-powered-automation) | [Workflow-owned approval](technical-patterns/approval-workflow.md) |

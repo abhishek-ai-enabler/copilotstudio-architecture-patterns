@@ -159,6 +159,10 @@ Source: [Govern Copilot Credit consumption](https://learn.microsoft.com/en-us/mi
 | Conversation length | Start a new conversation per topic | Context continuity is part of the outcome |
 | Reporting | Batch analysis outside the conversation | Users need interactive, on-demand analysis |
 
+**Budget retrieval and integration on both sides of the tool call.** Measure Studio consumption on the chosen harness; separately measure what the tool invokes. For Search-backed RAG, record index capacity, ingestion and query embeddings, optional ranking, and any knowledge-base planning. For a Foundry specialist, add its model and tools. For Web IQ, Fabric or partner data, check the provider's meter or entitlement; an MCP endpoint does not include that entitlement. APIM adds its own gateway costs. Don't infer Studio action counts from backend HTTP request counts.
+
+For example, the [change-window brief](technical-patterns/change-window-evidence.md) can issue two downstream reads behind one Studio tool. The [manual index](technical-patterns/search-index-lifecycle.md) can incur Azure costs while being rebuilt with **zero** user turns. Include a normal answer, a partial result and a throttled retry in the cost benchmark.
+
 ## Pattern credit profiles
 
 The profile is a relative design indicator for each pattern's recommended build, not a measurement: **Low** means mostly authored or deterministic steps; **Medium** means generative answers, tools or agent flows per request; **High** means autonomous volume, multi-agent hops, reasoning loops, large files or voice; **None** means no Copilot Studio meter is in the request path. Benchmark before you budget.
@@ -171,12 +175,19 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Analyst-reviewed reporting over a Fabric semantic model](reference-architectures/fabric-analytics.md) | Copilot | High | Reasoning tokens, retries and file outputs |
 | [Assisted and email-driven refunds on a shared legacy workflow](solution-ideas/ticket-refunds.md) | Std | High | Autonomous email runs; computer use if adopted |
 | [Design distinct voice and chat paths for one customer service](technical-patterns/customer-voice-chat.md) | CC | High | Conversation modality and complexity |
+| [Delegate release compatibility to a Foundry agent](technical-patterns/foundry-agent-specialist.md) | Copilot | High | Delegation and result tokens; Foundry model and Search billed separately |
 | [Fabric 4: Query the model from the Microsoft Copilot harness](decision-patterns/fabric-copilot-harness.md) | Copilot | High | Reasoning-loop tokens and query retries |
 | [Match supplier acknowledgments to SAP purchase orders](reference-architectures/sap-order-acknowledgments.md) | Std | High | Autonomous volume, document pages and agent hops |
 | [Microsoft Copilot harness: reason, act and inspect results](decision-patterns/copilot-reasoning-loop.md) | Copilot | High | Reasoning-loop tokens, tool results and evaluations |
 | [Separate bug intake from follow-up correspondence](solution-ideas/bug-intake.md) | Std | High | Autonomous run per email |
 | [Start a bounded agent task from a business event](technical-patterns/event-worker.md) | Std | High | Autonomous run per event |
 | [Bring authorized search results to a generative answers node](technical-patterns/custom-retrieval.md) | Std | Medium | Generative answer and retrieval call |
+| [Answer cross-source questions with a Foundry IQ knowledge base](technical-patterns/foundry-iq-knowledge-base.md) | Copilot | Medium | Tool use, evidence tokens and evaluations; separate retrieval costs |
+| [Combine policy, Microsoft Graph and Azure inventory](technical-patterns/change-window-evidence.md) | Std | Medium | Grounded answer and evidence tool; measure downstream reads separately |
+| [Ground a support answer in one hybrid search index](technical-patterns/azure-search-hybrid-rag.md) | Std | Medium | Answer and broker call; separate Search and embedding costs |
+| [Keep a native Azure AI Search knowledge source current](technical-patterns/search-index-lifecycle.md) | Std | Medium | Grounded answers; Azure costs for indexing even without user turns |
+| [Publish selected REST operations as MCP tools](technical-patterns/apim-rest-to-mcp.md) | Std | Medium | Status and code lookup actions plus answer; separate gateway costs |
+| [Retrieve cited Microsoft 365 text without copying the library](technical-patterns/m365-retrieval-api.md) | Std | Medium | Connector action and answer; check Retrieval API entitlement |
 | [Clinician-reviewed cardiology intake and scheduling](solution-ideas/cardiology-intake.md) | Std | Medium | Document pages and intake turns |
 | [Coordinate new-hire tasks across HR and learning systems](solution-ideas/new-hire-onboarding.md) | Std | Medium | Unlicensed new-hire turns and event runs |
 | [Delegate to an independently published specialist](technical-patterns/connected-agent.md) | Std or Copilot | Medium | Two agents per delegated request |
@@ -202,6 +213,9 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Route HR requests to domain-specific agents](reference-architectures/hr-specialists.md) | Std | Medium | Grounded answers and specialist hops |
 | [Standard harness: generative orchestration over topics, tools and knowledge](decision-patterns/generative-planning.md) | Std | Medium | Several planned steps per combined request |
 | [Travel concierge with public guidance and private booking lookup](solution-ideas/travel-concierge.md) | Std | Medium | Public answers and lookups |
+| [Prepare a private meeting brief with Work IQ](technical-patterns/work-iq-context.md) | Copilot | Medium | Work IQ reads, message context, model and runtime usage |
+| [Trace an affected order through a Fabric IQ ontology](technical-patterns/fabric-iq-ontology.md) | Std | Medium | Ontology tool calls and grounded answer; separate Fabric capacity |
+| [Verify a grant deadline with Microsoft Web IQ](technical-patterns/web-iq-research.md) | Std | Medium | Topic, search tool and answer; separate Web IQ API usage |
 | [Carry the user's authority to a downstream tool](technical-patterns/tool-identity.md) | Any | Low | No added consumption |
 | [Discover centrally managed tools from an MCP server](technical-patterns/mcp-tools.md) | Any | Low | Tool calls and catalog size |
 | [Embed a web client without exposing channel credentials](technical-patterns/secured-web-client.md) | Std | Low | No added consumption |
@@ -215,6 +229,7 @@ The profile is a relative design indicator for each pattern's recommended build,
 | [Return a typed result from an agent flow](technical-patterns/synchronous-agent-flow.md) | Std | Low | Agent flow actions |
 | [Share a governed metric contract between agents and reports](technical-patterns/semantic-model-contract.md) | Any | Low | Fewer retries |
 | [Standard harness: classic topic routing](decision-patterns/classic-topics.md) | Std | Low | Classic answers, topic transitions and a short agent flow |
+| [Use partner-held Jira evidence in a release review](technical-patterns/partner-iq-provider.md) | Std | Low | One read and a short topic response; check connector and Jira licensing |
 | [Fabric 1: Publish a Fabric data agent directly](decision-patterns/fabric-direct.md) | Fabric only | None | No Studio agent; budget Fabric capacity and channel licensing separately |
 
 <!-- credit-profile:end -->

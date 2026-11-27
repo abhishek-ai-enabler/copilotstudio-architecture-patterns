@@ -69,6 +69,8 @@ sequenceDiagram
 
 **Choose it when** tools evolve together or are consumed by multiple agents or clients. A single supported connector usually costs less to operate. Check which tools, resources, authentication modes and transport the selected harness actually supports.
 
+On the producer side, an API team can [publish selected REST operations through APIM](apim-rest-to-mcp.md) instead of building a separate MCP server. For an external provider, review the [partner data boundary](partner-iq-provider.md) as well as the MCP contract.
+
 **Trust boundary:** Discovery is not approval. Restrict servers and downstream permissions; review changes in exposed tools and descriptions before broad use. Do not let a read-only agent acquire a write capability just because the server added it.
 
 **Failure handling:** Set timeouts and validate tool output. On incompatible schema or an unavailable server, disable the affected capability rather than falling back to unbounded HTTP. Test a catalog update and verify denied tools stay inaccessible.

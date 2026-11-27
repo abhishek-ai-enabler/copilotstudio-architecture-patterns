@@ -1,8 +1,8 @@
 # Copilot Studio architecture patterns
 
-Use this catalog to design a Microsoft Copilot Studio agent and explain the design at architecture review. Its **49 entries** cover decisions such as when a topic is enough, when to delegate to a specialist agent, and which steps a workflow or a person must control. These are illustrated design notes, not deployable templates. No tenant access is needed to read them.
+Use this catalog to design a Microsoft Copilot Studio agent and explain the design at architecture review. Its **60 entries** cover decisions such as where to retrieve evidence, when to delegate to a specialist agent, and which steps a workflow or a person must control. These are illustrated design notes, not deployable templates. No tenant access is needed to read them.
 
-**[Browse all 49 entries](CATALOG.md)** · **[Compare Copilot Studio components](COMPONENTS.md#pattern-component-matrix)** · **[Estimate Copilot Credits](COPILOT-CREDITS.md#5-estimate-measure-then-multiply)**
+**[Browse all 60 entries](CATALOG.md)** · **[Choose a retrieval or integration pattern](#choose-between-rag-iq-and-an-api)** · **[Compare components](COMPONENTS.md#pattern-component-matrix)** · **[Estimate Copilot Credits](COPILOT-CREDITS.md#5-estimate-measure-then-multiply)**
 
 ## Start with the decision you need to make
 
@@ -13,6 +13,22 @@ Use this catalog to design a Microsoft Copilot Studio agent and explain the desi
 | Transfer a customer to a representative | [Hub-owned handoff](decision-patterns/hub-front-handoff.md) vs. [agent-owned handoff](decision-patterns/bot-front-handoff.md) | Who owns the live session, and how does the customer know whether the queue accepted the transfer? |
 | Automate a transaction that needs approval | [Workflow-owned approval](technical-patterns/approval-workflow.md) | What may the agent draft, and whose recorded decision releases the write? |
 | Decide whether an agent is ready for production | [Evaluation gate](technical-patterns/evaluation-gate.md) and [operational monitoring](technical-patterns/operational-monitoring.md) | What evidence shows that the task succeeded in the business system, not just that the agent replied? |
+
+## Choose between RAG, IQ and an API
+
+Start with the claim the agent needs to make. **Retrieval-augmented generation (RAG)** can explain a rule from cited documents. A live API can report what a system currently records. A specialist agent can interpret evidence for a bounded task. Those contracts are different even when all three are presented to Studio as tools.
+
+| What the answer needs | Designs to compare | Decision for review |
+| --- | --- | --- |
+| Passages from a published manual | [Native Search index lifecycle](technical-patterns/search-index-lifecycle.md) vs. [hybrid retrieval in Azure AI Search](technical-patterns/azure-search-hybrid-rag.md) | Is one corpus safe for the entire audience, or must a service apply per-user filters and tune the query? How quickly must a withdrawn passage disappear? |
+| Text from an employee's Microsoft 365 libraries | [Native SharePoint knowledge](technical-patterns/sharepoint-grounding.md) vs. [Microsoft 365 Copilot Retrieval API](technical-patterns/m365-retrieval-api.md) | Does Studio only need a cited answer, or do several applications need the same permission-trimmed extracts without building another index? |
+| A policy and a form held in different systems | [Foundry IQ knowledge base](technical-patterns/foundry-iq-knowledge-base.md) vs. [connected Microsoft Foundry specialist](technical-patterns/foundry-agent-specialist.md) | Should Studio interpret the returned evidence, or should a separately owned agent deliver a domain conclusion? |
+| Recent employee work or relationships between business entities | [Work IQ context](technical-patterns/work-iq-context.md) vs. [Fabric IQ ontology](technical-patterns/fabric-iq-ontology.md) | Is the authority the signed-in employee's collaboration context, or a governed entity and its relationships? For a financial measure, start with the [Fabric integration options](CATALOG.md#fabric-integration-options). |
+| A current public fact or a partner-held record | [Web IQ research](technical-patterns/web-iq-research.md) vs. [third-party context provider](technical-patterns/partner-iq-provider.md) | Which question is safe to send outside the organization? Who authorizes a partner read, and which source will the user see? |
+| A proposal based on policy **and** live state | [Change-window evidence using Microsoft Graph and Azure Resource Graph](technical-patterns/change-window-evidence.md) | Keep the policy citation, scoped inventory and free/busy observations separate. None is change approval. |
+| The same business operations in several agents | [Publish REST operations as MCP tools with APIM](technical-patterns/apim-rest-to-mcp.md) and [consume a curated MCP catalog](technical-patterns/mcp-tools.md) | Which operations may the gateway publish, and which may this agent invoke? For one stable operation, prefer a [connector tool](technical-patterns/connector-action.md). |
+
+[Microsoft IQ](https://learn.microsoft.com/en-us/microsoft-iq/) groups **Work IQ, Fabric IQ, Foundry IQ and Web IQ**. It is not one interchangeable endpoint. For third-party context, name the provider, supported integration, authentication and terms. When combining sources, send only the minimum question each source needs. In particular, do not forward private conversation history to web search. Keep source, permissions and observation time with each result; if a required source is missing, qualify the answer rather than quietly substituting another.
 
 ## Worked example: reviewing an SAP order acknowledgment
 
@@ -36,6 +52,6 @@ The [Copilot Credits guide](COPILOT-CREDITS.md) separates standard-harness event
 | [Microsoft solution ideas](CATALOG.md#microsoft-solution-ideas) | 11 | Scenario starting points, including onboarding, customer support and clinician-reviewed intake |
 | [Microsoft decision-guide patterns](CATALOG.md#fabric-integration-options) | 4 | The four Fabric integration options |
 | [Microsoft implementation-guide patterns](CATALOG.md#orchestration-and-handoff-options) | 5 | Three orchestration modes and two handoff designs |
-| [Synthesized technical patterns](CATALOG.md#synthesized-technical-patterns) | 20 | Reusable designs for retrieval, tool identity, approvals, governance and operations |
+| [Synthesized technical patterns](CATALOG.md#synthesized-technical-patterns) | 31 | Reusable designs for RAG, IQ, APIs and MCP, tool identity, approvals, governance and operations |
 
 Coverage is dated **November 27, 2026**, against the [Microsoft Learn Copilot Studio architecture index](https://learn.microsoft.com/en-us/power-platform/architecture/products/copilot-studio). The [catalog](CATALOG.md) maps each entry to its sources. The synthesized patterns are not Microsoft reference architectures. Before approving a design, check the linked product documentation for current preview status, channel support and licensing.
